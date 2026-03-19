@@ -14,7 +14,7 @@ description: [PROJECT_NAME] Development Workflow — the COMPLETE operational ma
 >
 > 1. **This workflow** — `PROJECT_WORKFLOW.md` (you are reading it now)
 > 2. **The section index** — `sections/_INDEX.md`. Maps your current phase to the specific section files you MUST read.
-> 3. **The section files listed for your phase** — Read ONLY the files mapped to your current phase. Each file is <2,500 tokens. Do NOT read all section files at once.
+> 3. **The section files listed for your phase** — Read ONLY the files mapped to your current phase. Each file covers one topical concern. Do NOT read all section files at once.
 > 4. **The spec registry** — `implementation_plan.md`. Contains every atomic element extracted from the interview with unique IDs.
 >
 > **Canonical source of truth:** `PROJECT_INTERVIEW.md` remains the canonical source. The section files are verbatim extracts.
@@ -73,7 +73,7 @@ This tells you WHICH section files to read for your current phase.
 
 ### 0c. Read Your Phase's Section Files
 
-Read ONLY the section files mapped to your current phase. Each is <2,500 tokens. Task-scoped reading enables 95%+ detail retention.
+Read ONLY the section files mapped to your current phase. Each covers one topical concern. Task-scoped reading keeps the agent focused on exactly what it needs for the current deliverable.
 
 ### 0d. Check Dependencies
 

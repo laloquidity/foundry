@@ -210,13 +210,13 @@ Execute these phases IN ORDER. Do not skip.
 
 ### Phase C: STRUCTURE
 
-**Goal:** Split the interview into task-scoped chunks that fit in LLM context windows.
+**Goal:** Split the interview into topically scoped chunks for task-scoped reading.
 
 1. **Adapt the extraction script** from `scripts/extract_sections.py` for your project:
    - Update the `SECTIONS` list with your interview's `##` header patterns
    - Update spec IDs and cross-references for your domain
    - Run: `python3 -u extract_sections.py`
-   - Verify: all sections PASS, each under ~2,500 tokens
+   - Verify: all sections PASS, each topically coherent (one concern per section; sections exceeding ~8,000 tokens likely cover multiple topics and should be split further)
 
 2. **Generate section index** — create `sections/_INDEX.md`:
    - List every section file with line range and token count
@@ -228,7 +228,7 @@ Execute these phases IN ORDER. Do not skip.
     -   Update the `SECTIONS` list with your interview's `##` header patterns
     -   Update spec IDs and cross-references for your domain
     -   Run: `python3 -u extract_sections.py`
-    -   Verify: all sections PASS, each under ~2,500 tokens
+    -   Verify: all sections PASS, each topically coherent (one concern per section; split sections exceeding ~8,000 tokens)
 
 2.  **Generate section index** — create `sections/_INDEX.md`:
     -   List every section file with line range and token count
