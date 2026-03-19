@@ -365,7 +365,7 @@ Once the design doc is APPROVED:
    - GOOD: "You didn't say 'small businesses' — you said 'Sarah, the ops manager at a 50-person logistics company.' That specificity is rare."
    - BAD: "You showed great specificity in identifying your target user."
 
-2. **Recommend next step** — proceed to `/start-process` Phase A (deep interview) to capture the full specification. The design doc provides the foundation; the interview adds precision (thresholds, formulas, edge cases, decision rules).
+2. **Recommend next step** — proceed to `/foundry-start` Phase A (deep interview) to capture the full specification. The design doc provides the foundation; the interview adds precision (thresholds, formulas, edge cases, decision rules).
 
 3. **Completion status:**
    - DONE — design doc APPROVED

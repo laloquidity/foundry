@@ -6,7 +6,7 @@
 
 Foundry takes a raw idea and runs it through a rigorous, multi-phase process: product discovery → deep interview → context extraction → detailed roadmap → build with continuous verification. Every phase is automatically prompted. Every decision traces back to a source of truth. Every review fires at the right time.
 
-One command: `/start-process`. The rest handles itself.
+One command: `/foundry-start`. The rest handles itself.
 
 ---
 
@@ -28,7 +28,7 @@ Most AI coding tools start at "write code." Foundry starts at "what should we bu
 ## The Process
 
 ```
-/start-process
+/foundry-start
     │
     ▼
 Phase 0: DISCOVER ─── Product discovery (office hours)
@@ -93,7 +93,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 
 | Workflow | What It Does |
 |:---------|:-------------|
-| `start-process.md` | Entry point — `/start-process` triggers the entire bootstrap |
+| `foundry-start.md` | Entry point — `/foundry-start` triggers the entire bootstrap |
 | `new-idea.md` | `/new-idea` — capture new ideas mid-project with interview rigor |
 
 ### Other
@@ -126,7 +126,7 @@ cd my-project
 ### Run It
 
 1. **Open your AI agent** in the project directory
-2. **Type `/start-process`** — the agent reads `SKILL.md` and begins Phase 0 (product discovery)
+2. **Type `/foundry-start`** — the agent reads `SKILL.md` and begins Phase 0 (product discovery)
 3. **Answer questions** during discovery and interview phases — this is the only manual work
 4. **Approve** at each STOP gate (design doc, interview, roadmap)
 5. **Watch it build** — Phase F executes the roadmap with full review coverage
@@ -148,8 +148,8 @@ my-project/
 ### Compatibility
 
 Foundry works with any AI coding tool that can read markdown files. Tested with:
-- **Cursor** — use `/start-process` in chat
-- **Windsurf** — use `/start-process` in Cascade
+- **Cursor** — use `/foundry-start` in chat
+- **Windsurf** — use `/foundry-start` in Cascade
 - **Claude Code** — reference `SKILL.md` directly
 - **Any LLM** — paste `SKILL.md` as the system prompt, it handles the rest
 

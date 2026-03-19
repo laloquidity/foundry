@@ -282,8 +282,8 @@ Execute these phases IN ORDER. Do not skip.
 
 4.  **Create the `/interview-update` workflow** — copy `templates/interview_update_workflow.md` to `.agents/workflows/interview-update.md` and adapt for your project's paths.
 
-5.  **Wire up `/start-process`** — the bootstrap folder includes `.agents/workflows/start-process.md`. When copying the bootstrap folder to a new workspace, ensure this directory is included so `/start-process` works immediately.
-    -   **Update the `start-process.md` workflow** to begin execution at Phase 0.
+5.  **Wire up `/foundry-start`** — the bootstrap folder includes `.agents/workflows/foundry-start.md`. When copying the bootstrap folder to a new workspace, ensure this directory is included so `/foundry-start` works immediately.
+    -   **Update the `foundry-start.md` workflow** to begin execution at Phase 0.
 
 6.  **Persona review** — have each persona audit the workflow for gaps in their domain.
 
@@ -460,7 +460,7 @@ For additional product surfaces (UI, bots, integrations):
 | `templates/workflow_template.md` | Execution workflow skeleton |
 | `templates/interview_guide.md` | Structured interview question template |
 | `templates/interview_update_workflow.md` | Ready-made `/interview-update` workflow template |
-| `.agents/workflows/start-process.md` | One-command `/start-process` workflow — entry point for the entire bootstrap |
+| `.agents/workflows/foundry-start.md` | One-command `/foundry-start` workflow — entry point for the entire bootstrap |
 | `.agents/workflows/new-idea.md` | `/new-idea` workflow — capture new ideas with interview rigor, then propagate |
 
 ## Key Principles
