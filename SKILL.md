@@ -210,13 +210,14 @@ Execute these phases IN ORDER. Do not skip.
 
 ### Phase C: STRUCTURE
 
-**Goal:** Split the interview into topically scoped chunks for task-scoped reading.
+**Goal:** Split the interview into focused, task-scoped chunks for high-fidelity context loading.
 
 1. **Adapt the extraction script** from `scripts/extract_sections.py` for your project:
    - Update the `SECTIONS` list with your interview's `##` header patterns
    - Update spec IDs and cross-references for your domain
    - Run: `python3 -u extract_sections.py`
-   - Verify: all sections PASS, each topically coherent (one concern per section; sections exceeding ~8,000 tokens likely cover multiple topics and should be split further)
+   - Verify: all sections PASS, each targeting ~2,500 tokens
+   - **Splitting rules:** Split at `##` header boundaries (one topic per section). Never split mid-topic to hit the token target — if a topic needs 3,500 tokens to stay coherent, keep it whole. If a section exceeds ~5,000 tokens, review for natural sub-topic splits at `###` headers.
 
 2. **Generate section index** — create `sections/_INDEX.md`:
    - List every section file with line range and token count
@@ -228,7 +229,7 @@ Execute these phases IN ORDER. Do not skip.
     -   Update the `SECTIONS` list with your interview's `##` header patterns
     -   Update spec IDs and cross-references for your domain
     -   Run: `python3 -u extract_sections.py`
-    -   Verify: all sections PASS, each topically coherent (one concern per section; split sections exceeding ~8,000 tokens)
+    -   Verify: all sections PASS, each targeting ~2,500 tokens (extend to preserve topical coherence; review sections exceeding ~5,000 tokens for sub-topic splits)
 
 2.  **Generate section index** — create `sections/_INDEX.md`:
     -   List every section file with line range and token count

@@ -158,7 +158,7 @@ Foundry works with any AI coding tool that can read markdown files. Tested with:
 ## Key Concepts
 
 ### Context Management
-The interview document splits into topically scoped section files based on header structure. Each build phase reads only the sections relevant to its work, keeping the agent focused on exactly what matters for the current deliverable.
+The interview document splits into focused section files (each targeting ~2,500 tokens, one topic per section). Each build phase reads only the sections relevant to its work. Sections never split mid-topic — if a topic needs more tokens to stay coherent, it stays whole.
 
 ### Smart Review Routing
 Not all reviews run for every phase. A routing table matches change types to appropriate reviews:
