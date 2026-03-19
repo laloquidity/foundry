@@ -1,5 +1,7 @@
 # Foundry
 
+> **Status: v0.1 — Early Release.** The framework is complete and ready to use. We're dogfooding it on real projects now. Feedback and contributions welcome.
+
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
 Foundry takes a raw idea and runs it through a rigorous, multi-phase process: product discovery → deep interview → context extraction → detailed roadmap → build with continuous verification. Every phase is automatically prompted. Every decision traces back to a source of truth. Every review fires at the right time.
@@ -103,25 +105,53 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 
 ---
 
-## Quick Start
+## How To Use
 
-1. **Copy the `bootstrap/` folder** into your new project workspace
-2. **Run `/start-process`** — the agent reads `SKILL.md` and begins Phase 0
-3. **Answer questions** during discovery and interview phases
+### Prerequisites
+- An AI coding IDE that supports slash commands or workflow files (Cursor, Windsurf, Claude Code, Copilot Workspace, or any agent that reads `.md` prompts)
+- Git installed
+- A project idea
+
+### Setup
+
+```bash
+# 1. Clone this repo into your new project
+git clone https://github.com/YOUR_USERNAME/foundry.git my-project
+cd my-project
+
+# 2. Open in your IDE
+# Cursor, Windsurf, VS Code, etc.
+```
+
+### Run It
+
+1. **Open your AI agent** in the project directory
+2. **Type `/start-process`** — the agent reads `SKILL.md` and begins Phase 0 (product discovery)
+3. **Answer questions** during discovery and interview phases — this is the only manual work
 4. **Approve** at each STOP gate (design doc, interview, roadmap)
 5. **Watch it build** — Phase F executes the roadmap with full review coverage
 
+The framework generates these files as it runs:
+
 ```
-my-new-project/
-├── bootstrap/          ← copy this folder
-│   ├── SKILL.md
-│   ├── .agents/workflows/
-│   ├── prompts/
-│   ├── templates/
-│   └── scripts/
+my-project/
+├── DESIGN_DOC.md              ← Phase 0 output (product discovery)
+├── PROJECT_INTERVIEW.md       ← Phase A output (deep specification)
+├── sections/                  ← Phase C output (context-scoped chunks)
+│   └── _INDEX.md
+├── PROJECT_WORKFLOW.md        ← Phase D output (execution manual)
+├── IMPLEMENTATION_ROADMAP.md  ← Phase E output (detailed battle plan)
+├── RETRO_LOG.md               ← Phase F output (learning loop)
+└── src/                       ← Phase F output (your actual code)
 ```
 
-The `/start-process` workflow is auto-discoverable by agents that support the `.agents/workflows/` convention.
+### Compatibility
+
+Foundry works with any AI coding tool that can read markdown files. Tested with:
+- **Cursor** — use `/start-process` in chat
+- **Windsurf** — use `/start-process` in Cascade
+- **Claude Code** — reference `SKILL.md` directly
+- **Any LLM** — paste `SKILL.md` as the system prompt, it handles the rest
 
 ---
 
