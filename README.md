@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.1 — Early Release.** The framework is complete and ready to use. We're dogfooding it on real projects now. Feedback and contributions welcome.
+> **Status: v0.1** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -12,13 +12,13 @@ One command: `/foundry-start`. The rest handles itself.
 
 ## Why Foundry
 
-Most AI coding tools start at "write code." Foundry starts at "what should we build and why?" — then carries that clarity through every line of code, every test, every review.
+Most AI coding tools start at "write code." Foundry starts at "what should I build and why?" and carries that clarity through every line of code, every test, every review.
 
 **The problem with vibe coding:** You get something fast, but it's fragile. No spec, no tests, no systematic review. One person's context, lost when the session ends.
 
 **What Foundry does differently:**
 - **Captures decisions, not just code.** Every architectural choice, threshold, and edge case is recorded in the interview and traced through implementation.
-- **Context never gets lost.** The interview splits into scoped section files. Each build phase reads only what it needs — 95%+ detail retention vs. ~40% when agents read everything at once.
+- **Context never gets lost.** The interview splits into scoped section files (~2,500 tokens each, one topic per section). Each build phase reads only what it needs. Even the best long-context models [retain only ~76% of buried details at 1M tokens](https://www.anthropic.com/news/claude-opus-4-6). Focused, task-scoped sections close that gap.
 - **Reviews fire automatically.** CEO review, engineering review, design review, production review, QA, systematic debugging — all wired into the workflow at the right points. Smart routing skips reviews that don't apply.
 - **The agent proves it understood before coding.** Context checkpoint gates require the agent to answer specific questions from the spec before writing any code.
 - **Learning compounds.** Phase retrospectives feed into a retro log. Later phases benefit from earlier phases' execution experience.
@@ -158,7 +158,7 @@ Foundry works with any AI coding tool that can read markdown files. Tested with:
 ## Key Concepts
 
 ### Context Management
-The interview document splits into focused section files (each targeting ~2,500 tokens, one topic per section). Each build phase reads only the sections relevant to its work. Sections never split mid-topic — if a topic needs more tokens to stay coherent, it stays whole.
+The interview document splits into focused section files (each targeting ~2,500 tokens, one topic per section). Each build phase reads only the sections relevant to its work. Sections never split mid-topic. If a topic needs more tokens to stay coherent, it stays whole. Even Claude Opus 4.6 [scores 76% on MRCR v2 at 1M tokens](https://www.anthropic.com/news/claude-opus-4-6). Focused sections close that gap.
 
 ### Smart Review Routing
 Not all reviews run for every phase. A routing table matches change types to appropriate reviews:
@@ -182,7 +182,7 @@ After each build phase, a structured retro is appended to `RETRO_LOG.md` (what s
 
 ## Methodology Credits
 
-The review methodologies (CEO review, engineering review, design review, production review, QA, debug, ship, document release) are adapted from [GStack](https://github.com/garrytan/gstack) by Garry Tan. Foundry extends these with an end-to-end orchestration framework, context management system, implementation roadmapping, and learning loops.
+The product discovery and review methodologies (CEO review, engineering review, design review, production review, QA, debug, ship, document release) are adapted from [GStack](https://github.com/garrytan/gstack) by Garry Tan. Foundry extends these with an end-to-end orchestration framework, persistent context architecture, implementation roadmapping, and learning loops.
 
 ---
 
