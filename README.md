@@ -39,6 +39,11 @@ Phase A: CAPTURE ──── Deep interview with multi-perspective Advisory Mod
     │                  Seed personas + CEO/eng/design review perspectives
     │                  Output: PROJECT_INTERVIEW.md
     ▼
+Phase A½: SKILLS ──── Discover existing skills/workflows to integrate
+    ▼
+Phase A¾: DESIGN ──── Design consultation (UI projects only)
+    │                  Output: DESIGN.md
+    ▼
 Phase B: SCAFFOLD ─── Generate domain-expert personas
     │
     ▼
