@@ -114,15 +114,17 @@ Before writing ANY code, create an explicit deliverable checklist:
 
 > **Not all reviews are needed for every phase.** Route reviews based on what changed. This prevents CEO review fatigue on infra work and design review noise on backend changes.
 
-| Change Type | CEO Review | Eng Review | Design Review | Design Consultation | Production Review | QA |
-|:------------|:-----------|:-----------|:--------------|:--------------------|:------------------|:---|
-| **New feature (full-stack)** | ✅ | ✅ | ✅ | ✅ (if new UI) | ✅ | ✅ |
-| **Backend/API only** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ | ✅ (diff-aware) |
-| **Frontend/UI only** | ⬚ Skip | ✅ | ✅ | ⬚ Skip (unless new patterns) | ✅ | ✅ |
-| **Infrastructure/DevOps** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ | ⬚ Skip |
-| **Bug fix** | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ✅ | ✅ (regression) |
-| **Architecture change** | ✅ | ✅ | ⬚ Skip | ⬚ Skip | ✅ | ✅ |
-| **Scope change / new requirement** | ✅ | ✅ | ✅ (if UI) | ✅ (if UI) | ⬚ Skip | ⬚ Skip |
+| Change Type | CEO Review | Eng Review | Design Review | Design Consultation | Security (CSO) | Production Review | QA |
+|:------------|:-----------|:-----------|:--------------|:--------------------|:---------------|:------------------|:---|
+| **New feature (full-stack)** | ✅ | ✅ | ✅ | ✅ (if new UI) | ✅ (`--diff`) | ✅ | ✅ |
+| **Backend/API only** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ✅ (diff-aware) |
+| **Frontend/UI only** | ⬚ Skip | ✅ | ✅ | ⬚ Skip (unless new patterns) | ⬚ Skip | ✅ | ✅ |
+| **Infrastructure/DevOps** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ⬚ Skip |
+| **Bug fix** | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ✅ | ✅ (regression) |
+| **Architecture change** | ✅ | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ✅ |
+| **Scope change / new requirement** | ✅ | ✅ | ✅ (if UI) | ✅ (if UI) | ⬚ Skip | ⬚ Skip | ⬚ Skip |
+| **Dependency introduction** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--supply-chain`) | ⬚ Skip | ⬚ Skip |
+| **Final phase (last roadmap phase)** | ✅ | ✅ | ✅ (if UI) | ⬚ Skip | ✅ (full audit) | ✅ | ✅ |
 
 **Persona routing:** If a persona's domain overlaps with the change, that persona participates in sign-off (Step 3c) even if their review type is skipped for the phase.
 
@@ -316,6 +318,44 @@ The QA skill runs in the mode appropriate to the phase:
 
 ---
 
+## Step 3.5: CSO Security Audit (When Routed)
+
+> **Run `prompts/cso.md` after QA passes, before shipping.** Check the review routing table above. Skip this step if CSO is not routed for this phase's change type.
+
+### 3.5a. Determine CSO Mode
+
+Check the `IMPLEMENTATION_ROADMAP.md` Security Classification for this phase:
+- If **touches auth/sessions/tokens, data/PII, or external integrations** → run `--diff`
+- If **introduces new dependencies** → run `--supply-chain`
+- If **this is the final roadmap phase** → run full audit (cumulative, not diff)
+- If **none of the above** → skip CSO for this phase
+
+### 3.5b. Run the Audit
+
+1. Load the phase's section files so the CSO has spec-aware context (trust boundaries, auth model, data classification from the interview)
+2. Run `prompts/cso.md` with the determined mode
+3. Log the result:
+
+```markdown
+🔒 CSO SECURITY AUDIT: Phase [N]
+- Mode: --diff / full / --supply-chain / skipped
+- Findings: [N] (critical: X, high: Y, medium: Z)
+- False positives filtered: [N]
+- Verification: independently verified / self-verified
+```
+
+### 3.5c. Fix-Verify-CSO Remediation Cycle
+
+If findings are **CRITICAL or HIGH**:
+1. Agent fixes the finding (code change + unit test for the fix)
+2. Agent verifies the fix doesn't break existing tests
+3. CSO re-audits the specific finding only (not full re-audit)
+4. Repeat until the finding is resolved or user explicitly accepts risk
+
+**Do NOT proceed to Step 4 (Ship) with unresolved CRITICAL or HIGH security findings.**
+
+---
+
 ## Step 4: Ship (Release)
 
 > **Run `prompts/ship.md` after all verification passes.** This is the final mile.
@@ -418,6 +458,7 @@ If exceeded → document why. Update the roadmap for downstream phases if the ov
 - Deliverables planned: [N] | completed: [N]
 - Complexity budget: [planned] | actual: [actual]
 - QA health score: [score]
+- CSO findings: [N critical, N high, N medium | or "skipped" if not routed]
 - Interface contract: [fulfilled / drifted — describe]
 ```
 
