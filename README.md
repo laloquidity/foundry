@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.1** The framework is complete and ready to use. Feedback and contributions welcome.
+> **Status: v0.2** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -19,7 +19,7 @@ Most AI coding tools start at "write code." Foundry starts at "what should I bui
 **What Foundry does differently:**
 - **Captures decisions, not just code.** Every architectural choice, threshold, and edge case is recorded in the interview and traced through implementation.
 - **Context never gets lost.** The interview splits into scoped section files (~2,500 tokens each, one topic per section). Each build phase reads only what it needs. Even the best long-context models [retain only ~76% of buried details at 1M tokens](https://www.anthropic.com/news/claude-opus-4-6). Focused, task-scoped sections close that gap.
-- **Reviews fire automatically.** CEO review, engineering review, design review, production review, QA, systematic debugging — all wired into the workflow at the right points. Smart routing skips reviews that don't apply.
+- **Reviews fire automatically.** CEO review, engineering review, design review, security audit, production review, QA, systematic debugging — all wired into the workflow at the right points. Smart routing skips reviews that don't apply.
 - **The agent proves it understood before coding.** Context checkpoint gates require the agent to answer specific questions from the spec before writing any code.
 - **Learning compounds.** Phase retrospectives feed into a retro log. Later phases benefit from earlier phases' execution experience.
 
