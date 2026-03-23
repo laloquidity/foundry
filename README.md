@@ -79,6 +79,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | `design_consultation.md` | Design system consultation — typography, color, spacing, motion |
 | `design_review.md` | 80-item visual audit with AI slop detection and A-F scoring |
 | `production_review.md` | Two-pass production bug audit with fix-first heuristic |
+| `cso.md` | CSO security audit: OWASP Top 10, STRIDE, attack surface mapping, zero-noise filtering |
 | `qa.md` | Full QA: test → fix → verify loop, health scoring, regression tests |
 | `debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
 | `ship.md` | Release workflow — sync, test, coverage audit, bisectable commits |
@@ -168,11 +169,11 @@ The interview document splits into focused section files (each targeting ~2,500 
 ### Smart Review Routing
 Not all reviews run for every phase. A routing table matches change types to appropriate reviews:
 
-| Change Type | CEO | Eng | Design | Production | QA |
-|:------------|:----|:----|:-------|:-----------|:---|
-| New feature | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Backend only | Skip | ✅ | Skip | ✅ | ✅ |
-| Bug fix | Skip | Skip | Skip | ✅ | ✅ |
+| Change Type | CEO | Eng | Design | Security | Production | QA |
+|:------------|:----|:----|:-------|:---------|:-----------|:---|
+| New feature | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Backend only | Skip | ✅ | Skip | ✅ | ✅ | ✅ |
+| Bug fix | Skip | Skip | Skip | Skip | ✅ | ✅ |
 
 ### Context Checkpoints
 Before coding each roadmap phase, the agent must answer 3 specific questions from the spec. If it can't answer correctly, it re-reads the source material. This prevents "fake reading."

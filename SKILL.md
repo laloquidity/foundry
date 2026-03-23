@@ -330,8 +330,26 @@ Execute these phases IN ORDER. Do not skip.
     - Eng review: ✅ (new feature)
     - Production review: ✅
     - Design review: ⬚ Skip (backend only)
+    - CSO security audit: ✅ | ⬚ Skip — route based on change type (see below)
     - QA mode: diff-aware
     - Debug: on-demand
+    
+    ### Security Classification
+    - Touches auth/sessions/tokens: [yes/no]
+    - Touches data handling/PII/payments: [yes/no]
+    - Introduces external integrations: [yes/no]
+    - Introduces new dependencies: [yes/no]
+    - CSO mode: [--diff | full | --supply-chain | skip]
+    
+    **CSO routing rules:**
+    | Change Type | CSO Mode |
+    |:------------|:---------|
+    | New feature (touches auth/data/external) | `--diff` |
+    | New feature (no security surface) | Skip |
+    | Backend API changes | `--diff` |
+    | Bug fix | Skip |
+    | Dependency introduction | `--supply-chain` |
+    | Final phase (last roadmap phase) | Full audit |
     
     ### Interface Contract
     **Exposes to downstream phases:**
@@ -365,20 +383,24 @@ Execute these phases IN ORDER. Do not skip.
 
 ### Phase F: BUILD
 
-**Goal:** Execute the roadmap, phase by phase. Each phase follows the workflow: implement → verify → QA → repeat until done.
+**Goal:** Execute the roadmap, phase by phase. Each phase follows the workflow: implement → verify → QA → CSO → repeat until done.
 
 1.  **For each roadmap phase, prompt the agent:**
     ```
     Read PROJECT_WORKFLOW.md completely, then execute it starting at Step 0.
     You are implementing Roadmap Phase [N]. Follow every step exactly.
     Read IMPLEMENTATION_ROADMAP.md Phase [N] for your context map, 
-    deliverables, checkpoint questions, and complexity budget.
+    deliverables, checkpoint questions, security classification, and complexity budget.
     Do not skip ahead. Do not summarize. Do not assume.
     ```
 
 2.  **Context checkpoint gate** (before any code):
     -   Read the retro log (`RETRO_LOG.md`) for all prior phases — apply learnings
     -   Answer the 3 context checkpoint questions from the roadmap entry
+    -   If the phase has a security classification (touches auth/data/external) → also answer:
+        - What authentication/authorization model applies to this phase's endpoints?
+        - What data classification level does this phase handle (restricted/confidential/internal/public)?
+        - What trust boundaries does this phase cross?
     -   If answers are wrong or uncertain → re-read the section files and interview references
     -   Only proceed when answers are correct
 
@@ -387,10 +409,23 @@ Execute these phases IN ORDER. Do not skip.
     -   Step 1: Planning (deliverable checklist from roadmap) + smart review routing + eng review
     -   Step 2: Implementation (with /debug on-demand + continuous verification + production review)
     -   Step 3: Verification (quantitative proof + design audit + full QA loop)
+    -   Step 3.5: CSO security audit (if routed for this phase — see security classification)
     -   Step 4: Ship (sync, test, coverage audit, commit, push)
     -   Step 5: Document release (post-ship documentation update)
 
-4.  **Interface contract verification** (after Step 3, before Step 4):
+    **Step 3.5: CSO Security Audit** (when routed):
+    -   Run `prompts/cso.md` with the mode specified in the roadmap's security classification
+    -   The CSO reads the phase's section files for spec-aware threat modeling
+    -   If findings are CRITICAL or HIGH → enter **fix-verify-CSO cycle**:
+        1. Agent fixes the finding (code change + unit test for the fix)
+        2. Agent verifies the fix doesn't break existing tests
+        3. CSO re-audits the specific finding (not full re-audit)
+        4. Repeat until the finding is resolved or user accepts risk
+    -   If this is the **final roadmap phase** → run CSO in full audit mode (cumulative, not diff)
+        to catch cross-phase security interactions
+    -   If this phase introduces new dependencies → also run `--supply-chain`
+
+4.  **Interface contract verification** (after Step 3.5, before Step 4):
     -   Verify that the phase's interface contract is fulfilled — what it promised to expose to downstream phases exists and works
     -   If the interface drifted from the roadmap → update downstream roadmap entries before continuing
 
@@ -452,6 +487,7 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/design_consultation.md` | Design system consultation — typography, color, spacing, motion (UI projects) |
 | `prompts/design_review.md` | 80-item design audit with A-F scoring and AI slop detection (UI projects) |
 | `prompts/production_review.md` | Production bug review — two-pass checklist with fix-first heuristic |
+| `prompts/cso.md` | CSO security audit — OWASP Top 10, STRIDE, attack surface mapping, zero-noise filtering |
 | `prompts/qa.md` | Full QA: test → fix → verify loop, health score, regression tests, diff-aware mode |
 | `prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
 | `prompts/ship.md` | Release workflow — sync, test, coverage audit, commit, push |
