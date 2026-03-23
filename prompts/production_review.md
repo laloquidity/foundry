@@ -64,6 +64,42 @@ When the diff introduces a new enum value, status string, tier name, or type con
 - O(n*m) view lookups
 - Missing accessibility attributes
 
+### Pass 3 — OPERATIONAL
+
+> These are scaling and resilience problems that survive CI and code review but kill the app under real traffic. Check every item against the diff — only flag items relevant to what was built in this phase.
+
+#### Rate Limiting & Abuse Prevention
+- API routes without rate limiting (especially auth, signup, password reset, payment endpoints)
+- Missing CAPTCHA or bot protection on public forms
+- Unbounded file upload sizes
+
+#### Database Performance
+- Queried/filtered columns without database indexes (`WHERE`, `ORDER BY`, `JOIN ON` fields)
+- Queries that load entire tables without pagination (`LIMIT`/`OFFSET` or cursor-based)
+- Missing connection pooling configuration (raw `createConnection` instead of pool)
+- N+1 patterns in ORM relationships used in loops (also checked in Pass 1 — flag if missed)
+
+#### Error Resilience
+- Missing error boundaries in UI frameworks (React `ErrorBoundary`, Vue `errorCaptured`, etc.)
+- No graceful degradation — one failing service takes down the entire page
+- Unhandled promise rejections / missing `.catch()` on async operations
+
+#### Environment & Configuration
+- No startup validation of required environment variables (app silently runs with `undefined`)
+- Secrets or config that only fail at runtime when a specific code path is hit, not at boot
+- Missing `.env.example` showing required variables
+
+#### Async & Performance
+- Synchronous blocking operations in request handlers (email sends, PDF generation, image processing)
+- Missing queue/worker pattern for slow operations (webhook delivery, notifications, reports)
+- No CDN strategy for static assets or user-uploaded files (images served directly from app server)
+
+#### Observability & Recovery
+- No health check endpoint (`/health` or `/ready`) for load balancers and uptime monitoring
+- No structured logging in production (using `console.log` instead of a logger with levels/context)
+- No database backup strategy documented or configured (managed DB snapshots, `pg_dump` cron, etc.)
+- No alerting on error spikes or resource exhaustion
+
 ---
 
 ## Fix-First Heuristic
@@ -78,26 +114,31 @@ AUTO-FIX (agent fixes without asking):     ASK (needs human judgment):
 ├─ Magic numbers → named constants         ├─ Large fixes (>20 lines)
 ├─ Missing input validation                ├─ Enum completeness
 ├─ Variables assigned but never read       ├─ Removing functionality
-└─ Inline styles → design system tokens    └─ Anything changing user-visible
-                                              behavior
+├─ Inline styles → design system tokens    ├─ Anything changing user-visible
+├─ Add .env.example from existing vars     │   behavior
+├─ Add error boundary wrappers             ├─ Rate limiting strategy
+├─ Add missing DB index                    ├─ CDN / infrastructure changes
+└─ Add health check endpoint               └─ Backup strategy decisions
 ```
 
 **Rule of thumb:** If the fix is mechanical and a senior engineer would apply it without discussion, it's AUTO-FIX. If reasonable engineers could disagree, it's ASK.
 
 **Critical findings default toward ASK** (they're inherently riskier).
 **Informational findings default toward AUTO-FIX** (they're more mechanical).
+**Operational findings:** AUTO-FIX if it's additive (adding an index, health check, error boundary). ASK if it requires architecture decisions (rate limiting strategy, CDN provider, backup schedule).
 
 ---
 
 ## Severity Classification
 
 ```
-CRITICAL (highest severity):      INFORMATIONAL (lower severity):
-├─ SQL & Data Safety              ├─ Conditional Side Effects
-├─ Race Conditions & Concurrency  ├─ Magic Numbers & String Coupling
-├─ Trust Boundary Violations      ├─ Dead Code & Consistency
-└─ Enum & Value Completeness      ├─ Test Gaps
-                                   └─ View/Frontend
+CRITICAL (highest severity):      INFORMATIONAL (lower severity):     OPERATIONAL (scaling/resilience):
+├─ SQL & Data Safety              ├─ Conditional Side Effects         ├─ Rate Limiting & Abuse
+├─ Race Conditions & Concurrency  ├─ Magic Numbers & String Coupling  ├─ Database Performance
+├─ Trust Boundary Violations      ├─ Dead Code & Consistency          ├─ Error Resilience
+└─ Enum & Value Completeness      ├─ Test Gaps                        ├─ Environment & Configuration
+                                  └─ View/Frontend                    ├─ Async & Performance
+                                                                      └─ Observability & Recovery
 ```
 
 ---
