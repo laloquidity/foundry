@@ -33,7 +33,7 @@ bootstrap/
    - **Phase C: STRUCTURE** — Extract sections using `bootstrap/scripts/extract_sections.py`. Build index and implementation roadmap.
    - **Phase D: WORKFLOW** — Copy `bootstrap/templates/workflow_template.md` to `PROJECT_WORKFLOW.md` and adapt for this project. Get user sign-off.
    - **Phase E: ROADMAP** — Create the detailed implementation roadmap (`IMPLEMENTATION_ROADMAP.md`). Wire every deliverable to specific context (section files + line ranges, spec IDs, personas, skills/prompts, review routing). Run eng review. User sign-off.
-   - **Phase F: BUILD** — Execute the roadmap phase by phase. Each phase: context checkpoint → implement → verify → QA → ship → docs → interface contract check → complexity budget check → retrospective → next phase.
+   - **Phase F: BUILD** — Execute the roadmap phase by phase. Each phase: context checkpoint → implement → verify → QA → CSO security audit (if routed) → ship → docs → interface contract check → complexity budget check → retrospective → next phase.
 
 3. After Phase F is complete, the project is built, tested, documented, and shipped. `RETRO_LOG.md` captures learnings from every phase.
 

@@ -503,6 +503,6 @@ For additional product surfaces (UI, bots, integrations):
 
 1. **The interview splits on its OWN structure** (headers). The tasks/phases determine which sections to READ, not where to split.
 2. **Section files are read-only derived artifacts.** Never edit them directly. Edit the interview, re-extract.
-3. **Task-scoped reading** is what enables 95%+ detail retention. Never load all sections at once.
+3. **Task-scoped reading** closes the context gap. Even the best models retain ~76% of buried details at scale. Focused sections ensure the agent reads exactly what it needs. Never load all sections at once.
 4. **Verify against source** — every threshold, formula, and decision in code must trace back to the interview document.
 5. **Personas debate, client decides.** The specialist personas provide analysis and recommendations. The human client has final authority on all domain decisions.
