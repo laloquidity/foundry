@@ -4,6 +4,21 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.3.0] - 2026-03-23 — CSO v2 + Operational Hardening
+
+### Added
+- **CSO upgraded to v2.** Complete rewrite of the security audit from [GStack](https://github.com/garrytan/gstack): 15 phases (up from 8), stack-aware scanning, secrets archaeology, CI/CD pipeline security, infrastructure shadow surface, webhook & integration audit, LLM/AI security, skill supply chain scanning, variant analysis, incident response playbooks, parallel finding verification, and structured JSON report with trend tracking. 22 hard exclusions (up from 17), 12 precedents (up from 9). All 4 community-reported blind spots fixed: stack detection first, Grep tool not raw bash, no `head -20` truncation, context-window-aware scope flags (`--infra`, `--code`, `--skills`, `--supply-chain`, `--owasp`).
+- **Production review Pass 3 — OPERATIONAL.** New third pass covering 10 scaling/resilience problems that survive CI: rate limiting & abuse prevention, database performance (indexing, pagination, connection pooling), error resilience (error boundaries, graceful degradation), environment validation (startup checks, `.env.example`), async patterns (queue/worker for slow ops, CDN strategy), and observability (health checks, structured logging, backup strategy, alerting).
+- **Fix-first heuristic expanded.** AUTO-FIX items now include adding DB indexes, health check endpoints, error boundary wrappers, and `.env.example` files. ASK items include rate limiting strategy, CDN/infrastructure changes, and backup schedule decisions.
+
+### Changed
+- Report save path changed from `.gstack/security-reports/` to `.foundry/security-reports/`.
+- CSO description in SKILL.md file reference table updated to reflect v2 scope.
+- `bootstrap/` path prefix removed from all file references in `foundry-start.md` — repo now works universally after cloning regardless of directory name.
+- Phase D path instruction changed from "update all prompt file paths" to "verify all prompt file paths resolve from the project root."
+
+---
+
 ## [0.2.0] - 2026-03-22 — CSO Security Audit Integration
 
 ### Added
