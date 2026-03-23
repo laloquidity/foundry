@@ -487,7 +487,7 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/design_consultation.md` | Design system consultation — typography, color, spacing, motion (UI projects) |
 | `prompts/design_review.md` | 80-item design audit with A-F scoring and AI slop detection (UI projects) |
 | `prompts/production_review.md` | Production bug review — two-pass checklist with fix-first heuristic |
-| `prompts/cso.md` | CSO security audit — OWASP Top 10, STRIDE, attack surface mapping, zero-noise filtering |
+| `prompts/cso.md` | CSO security audit v2 — 15-phase audit: stack detection, OWASP Top 10, STRIDE, secrets archaeology, CI/CD pipeline, infrastructure, webhooks, LLM/AI security, skill supply chain, dependency scanning, zero-noise filtering |
 | `prompts/qa.md` | Full QA: test → fix → verify loop, health score, regression tests, diff-aware mode |
 | `prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
 | `prompts/ship.md` | Release workflow — sync, test, coverage audit, commit, push |
