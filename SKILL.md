@@ -271,7 +271,7 @@ Execute these phases IN ORDER. Do not skip.
     -   Configure the verification loop with your section files
     -   Set up the conflict resolution table for any ambiguities found during extraction
     -   Add the simplify loop from `prompts/simplify_loop.md` IF your project is NOT high-risk (see note below)
-    -   **Update all prompt file paths** — every reference like `prompts/eng_review.md` must resolve from the project root. If the bootstrap folder lives at `bootstrap/`, update paths to `bootstrap/prompts/eng_review.md`, etc.
+    -   **Verify all prompt file paths** — every reference like `prompts/eng_review.md` must resolve from the project root. Confirm that `prompts/`, `scripts/`, and `templates/` are accessible from where the agent runs.
     -   The workflow template already includes: engineering review (Step 1c), production review (Step 2g), design review (Step 3d), QA (Step 3e), ship (Step 4), and document release (Step 5)
 
 2.  **Configure risk level:**
