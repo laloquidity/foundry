@@ -354,6 +354,17 @@ If findings are **CRITICAL or HIGH**:
 
 **Do NOT proceed to Step 4 (Ship) with unresolved CRITICAL or HIGH security findings.**
 
+### 3.5d. Re-orientation (MANDATORY after CSO cycle)
+
+After all findings are resolved or accepted, explicitly state before continuing:
+
+```
+✅ CSO CYCLE COMPLETE — returning to build loop.
+Phase [N] | Step 3.5 done → proceeding to Step 4: Ship
+```
+
+This re-anchors the agent in the workflow after a potentially long remediation loop. Then immediately proceed to Step 4.
+
 ---
 
 ## Step 4: Ship (Release)
