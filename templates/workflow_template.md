@@ -191,6 +191,13 @@ The debug methodology enforces:
 
 **Do NOT skip this for "simple" bugs.** The Iron Law applies equally to one-line fixes and multi-file issues.
 
+**Re-orientation after debugging:** When the debug cycle completes, explicitly state which deliverable you are returning to:
+```
+🐛 DEBUG COMPLETE — returning to deliverable [name] (spec ID: [ID])
+Phase [N] | Step 2a, deliverable [M of total]
+```
+Then resume the deliverable exactly where you left off.
+
 ### 2e. 🚨 Continuous Verification Loop (DURING Coding, Not After) 🚨
 
 > **After EVERY major deliverable:**
@@ -237,12 +244,13 @@ The **Fix-First heuristic** applies:
 - **AUTO-FIX:** Dead code, missing eager loading, stale comments, magic numbers → fix without asking
 - **ASK:** Security issues, race conditions, design decisions, anything changing user-visible behavior → ask the client
 
-**Log result:**
+**Log result and re-orient:**
 ```markdown
 🔍 PRODUCTION REVIEW: [Component Name]
 - Critical findings: [count] (auto-fixed: [count], needs decision: [count])
 - Informational findings: [count] (auto-fixed: [count])
 - All ASK items resolved: ✓/✗
+✅ PRODUCTION REVIEW COMPLETE — proceeding to Step 3: Verification
 ```
 
 ---
@@ -287,6 +295,12 @@ This is an 80-item visual audit across 10 categories:
 
 **Outputs:** Dual headline scores (Design Score: A-F, AI Slop Score: A-F), per-category grades, and findings by severity. If a `DESIGN.md` exists, every delta between spec and rendered implementation is a finding.
 
+**If design findings require code changes:** Fix the issues, then re-run the design review on the affected components only. Log:
+```
+🎨 DESIGN REVIEW COMPLETE — Score: [grade] | Slop: [grade]
+Phase [N] | Step 3d done → proceeding to Step 3e: QA
+```
+
 ### 3e. Full QA: Test → Fix → Verify
 
 > **Run `prompts/qa.md` against the running application.** This replaces simple visual verification with a full QA engineering loop.
@@ -314,6 +328,7 @@ The QA skill runs in the mode appropriate to the phase:
 - Fixes applied: [N] (verified: X, best-effort: Y, reverted: Z)
 - Regression tests generated: [N]
 - Health score: [baseline] → [final]
+✅ QA COMPLETE — proceeding to Step 3.5: CSO Security Audit (if routed) or Step 4: Ship
 ```
 
 ---
@@ -476,6 +491,23 @@ If exceeded → document why. Update the roadmap for downstream phases if the ov
 **If "Assumptions to Re-Validate" has entries → run `/interview-update` workflow before starting the next phase.**
 
 Commit: `git add RETRO_LOG.md && git commit -m "retro: Phase [N] complete"`
+
+### 6d. Phase Transition (MANDATORY)
+
+After the retro is committed, explicitly state the transition:
+
+```
+✅ PHASE [N] COMPLETE — all gates passed.
+→ Starting Phase [N+1] at Step 0: Context Loading
+```
+
+If `/interview-update` was triggered, run it first, then state:
+```
+✅ INTERVIEW UPDATED — re-extraction complete.
+→ Starting Phase [N+1] at Step 0: Context Loading
+```
+
+Then immediately begin Step 0 for the next phase. Do NOT skip context loading for subsequent phases — each phase reads different section files.
 
 ---
 
