@@ -10,6 +10,23 @@ One command: `/foundry-start`. The rest handles itself.
 
 ---
 
+## Quick Start
+
+```bash
+mkdir my-project && cd my-project
+git clone https://github.com/laloquidity/foundry.git .
+```
+
+Open `my-project/` as your workspace, then tell the agent:
+
+```
+/foundry-start
+```
+
+> **Important:** The `.` at the end of the clone command puts Foundry files at the root of your project folder. Without it, git creates a nested `foundry/` subdirectory and the agent won't find the workflow.
+
+---
+
 ## Why Foundry
 
 Most AI coding tools start at "write code." Foundry starts at "what should I build and why?" and carries that clarity through every line of code, every test, every review.
