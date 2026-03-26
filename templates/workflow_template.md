@@ -384,27 +384,40 @@ This re-anchors the agent in the workflow after a potentially long remediation l
 
 ## Step 4: Ship (Release)
 
-> **Run `prompts/ship.md` after all verification passes.** This is the final mile.
+> **Run `prompts/ship.md` after all verification passes.** This is the final mile. The ship prompt is the authoritative source — these substeps are a summary.
 
 ### 4a. Pre-flight
 - Verify you're on a feature branch (not main/master)
 - Sync with base branch: `git fetch origin main && git merge origin/main`
-- Resolve any merge conflicts
+- Resolve any merge conflicts (trivial = auto-resolve, substantive = STOP)
 
-### 4b. Run Tests
-- Run the full test suite
-- **If tests fail → STOP. Do not ship broken code.**
+### 4b. Run Tests + Failure Triage
+- Run the full test suite on merged code
+- **If tests fail → triage ownership:**
+  - Use `git stash` to check if failures are in-branch (your code) or pre-existing (not your fault)
+  - In-branch failures → fix before shipping (no override)
+  - Pre-existing failures → present to client for triage (fix now / skip / file TODO)
 
-### 4c. Coverage Audit
-- Trace every codepath changed in this phase
-- Map each branch to a test
-- Generate tests for uncovered paths
+### 4c. Coverage Audit + Gate
+- Detect test framework (Node/Python/Ruby/Go/Rust)
+- Trace every codepath AND user flow changed in this phase
+- Map each branch to a test (E2E recommended for multi-component flows)
 - Output ASCII coverage diagram with quality stars (★★★ / ★★ / ★ / ☐)
+- **REGRESSION RULE:** Regressions get tests immediately — no asking, no skipping
+- Generate tests for uncovered paths (max 20 tests, 2-min per-test cap)
+- **Coverage gate:** <60% = hard stop. 60-79% = prompt. ≥80% = auto-pass.
 
-### 4d. Commit & Push
-- Split changes into logical, bisectable commits
+### 4d. Plan Completion Audit
+- Read `IMPLEMENTATION_ROADMAP.md` for the current phase's deliverables
+- Extract every actionable item and cross-reference against the diff
+- Classify each: DONE / PARTIAL / NOT DONE / CHANGED
+- **Gate:** NOT DONE items must be acknowledged (implement / defer / drop)
+
+### 4e. Commit & Push
+- Split changes into bisectable commits (infra → models → controllers → docs)
+- **Verification gate:** If ANY code changed after Step 4b tests, re-run tests first
 - Push to remote
-- Output ship report: branch, commits, files changed, test results, coverage
+- Output ship report: branch, commits, files changed, test results, coverage %, plan completion
 
 ---
 

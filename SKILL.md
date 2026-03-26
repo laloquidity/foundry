@@ -410,7 +410,7 @@ Execute these phases IN ORDER. Do not skip.
     -   Step 2: Implementation (with /debug on-demand + continuous verification + production review)
     -   Step 3: Verification (quantitative proof + design audit + full QA loop)
     -   Step 3.5: CSO security audit (if routed for this phase — see security classification)
-    -   Step 4: Ship (sync, test, coverage audit, commit, push)
+    -   Step 4: Ship (test failure triage, coverage gate ≥60%, plan completion audit, verification gate, bisectable commits, push)
     -   Step 5: Document release (post-ship documentation update)
 
     **Step 3.5: CSO Security Audit** (when routed):
@@ -490,7 +490,7 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/cso.md` | CSO security audit v2 — 15-phase audit: stack detection, OWASP Top 10, STRIDE, secrets archaeology, CI/CD pipeline, infrastructure, webhooks, LLM/AI security, skill supply chain, dependency scanning, zero-noise filtering |
 | `prompts/qa.md` | Full QA: test → fix → verify loop, health score, regression tests, diff-aware mode |
 | `prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
-| `prompts/ship.md` | Release workflow — sync, test, coverage audit, commit, push |
+| `prompts/ship.md` | Release workflow v2 — test failure triage, coverage gate (60%/80%), regression rule, plan completion audit, verification gate, bisectable commits |
 | `prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
 | `scripts/extract_sections.py` | Header-anchored section extraction script template |
 | `templates/workflow_template.md` | Execution workflow skeleton |
