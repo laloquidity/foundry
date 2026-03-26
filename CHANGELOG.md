@@ -4,6 +4,26 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.4.0] - 2026-03-26 — Ship With Teeth
+
+### Added
+- **Test failure ownership triage.** `/ship` now classifies test failures as in-branch (your code broke it, must fix) or pre-existing (not your fault, can triage). Uses `git stash` to isolate ownership.
+- **Coverage gate with hard thresholds.** AI-assessed coverage below 60% is a hard stop. 60-79% gets a prompt. 80%+ passes. Adapted from [GStack 0.11.18.0](https://github.com/garrytan/gstack).
+- **E2E test decision matrix.** Coverage audit now recommends E2E tests for multi-component user flows, integration points where mocking hides real failures, and auth/payment/data-destruction flows.
+- **Regression rule (iron law).** When the coverage audit identifies a regression — code that previously worked but the diff broke — a regression test is written immediately. No asking. No skipping.
+- **Plan completion audit.** `/ship` reads `IMPLEMENTATION_ROADMAP.md`, extracts every actionable item from the current phase, cross-references against the diff, and produces a DONE/PARTIAL/NOT DONE/CHANGED checklist. Missing items are a shipping blocker (with override).
+- **Verification gate before push.** If ANY code changed after Step 3's test run (coverage tests, review fixes), tests must re-run with fresh output before pushing. "Confidence is not evidence."
+- **Bisectable commit ordering.** Commits are now ordered by dependency: infrastructure → models/services → controllers/views → docs/metadata. Each commit must be independently valid.
+- **Test framework auto-detection.** Ship detects runtime (Node, Python, Ruby, Go, Rust) and test framework before the coverage audit, enabling automatic test generation.
+- **User flow coverage mapping.** Coverage audit now traces user interaction flows alongside code paths — double-click, navigate-away, empty/zero states, error UX.
+
+### Changed
+- Ship workflow expanded from 6 steps to 7.5 steps (1 → 2 → 3 → 4 → 5 → 6 → 6.5 → 7).
+- Coverage audit upgraded from a simple diagram to a full gate with threshold enforcement.
+- Test failures are now triaged instead of being an unconditional hard stop.
+
+---
+
 ## [0.3.0] - 2026-03-23 — CSO v2 + Operational Hardening
 
 ### Added
