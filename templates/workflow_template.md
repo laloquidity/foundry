@@ -239,6 +239,7 @@ For every spec ID assigned to this phase:
 This catches a different class of bugs than the verification loop:
 - **Pass 1 (CRITICAL):** SQL & data safety, race conditions, trust boundary violations, enum completeness
 - **Pass 2 (INFORMATIONAL):** Conditional side effects, magic numbers, dead code, test gaps
+- **Pass 3 (OPERATIONAL):** Rate limiting, DB indexing/pagination/pooling, error boundaries, env var validation, async patterns, health checks, logging, backup strategy
 
 The **Fix-First heuristic** applies:
 - **AUTO-FIX:** Dead code, missing eager loading, stale comments, magic numbers → fix without asking
