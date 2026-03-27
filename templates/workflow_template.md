@@ -34,6 +34,27 @@ description: [PROJECT_NAME] Development Workflow — the COMPLETE operational ma
 >
 > **Proceeding with a guess is FORBIDDEN.**
 
+## 📝 COMMUNICATION QUALITY STANDARD
+
+> **Be concrete. Be direct. Connect to the user.**
+
+**Concreteness is the standard.** Name the file, the function, the line number. Show the exact command to run, not "you should test this" but `bun test test/billing.test.ts`. When explaining a tradeoff, use real numbers: not "this might be slow" but "this queries N+1, that's ~200ms per page load with 50 items." When something is broken, point at the exact line.
+
+**Connect to user outcomes.** When reviewing code, designing features, or debugging, connect the work back to what the real user will experience. "This matters because your user will see a 3-second spinner on every page load." "The edge case you're skipping is the one that loses the customer's data." Make the user's user real.
+
+**Banned AI vocabulary — do not use these words in any generated documentation, code comments, commit messages, or communication:**
+
+> delve, crucial, robust, comprehensive, nuanced, multifaceted, furthermore, moreover, additionally, pivotal, landscape, tapestry, underscore, foster, showcase, intricate, vibrant, fundamental, significant, interplay
+
+**Banned phrases:**
+
+> "here's the kicker", "here's the thing", "plot twist", "let me break this down", "the bottom line", "make no mistake", "can't stress this enough"
+
+**Writing rules:**
+- Short paragraphs. Direct sentences.
+- Name specifics: real file names, real function names, real numbers.
+- Be direct about quality. "Well-designed" or "this is a mess." Don't dance around judgments.
+
 ---
 
 ## Role Clarification: Who Is Who
@@ -213,7 +234,10 @@ Then resume the deliverable exactly where you left off.
    - Source: [interview | prior-context-doc: document-name]
    - [Key verification point]: matches ✓
    - Competing logic check: no conflicts
+   - User outcome: [what the real user experiences because of this spec]
    ```
+
+6. **User outcome check:** For each verified spec, answer: "What does the real user see, feel, or experience because of this?" If you can't connect a spec to a user outcome, flag it — it may be over-engineered or missing context.
 
 ### 2e. Conflict Resolution
 
