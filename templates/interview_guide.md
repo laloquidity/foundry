@@ -12,6 +12,7 @@
 6. **Capture priorities** — "if you could only have 3 features, which?"
 7. **Document conflicts** — if two answers contradict, flag it immediately
 8. **Discover existing workflows** — ask: "Do you have any existing skills, workflows, coding standards, or processes that should be part of this project's development?" Wire these into the execution workflow like personas.
+9. **Ingest before interviewing** — if the client provides existing PRDs, specs, or context docs, read them in full and pre-fill answers. Only ask questions where the document is silent, ambiguous, or incomplete. Preserve exact values verbatim — do not paraphrase thresholds, formulas, or technical specifications.
 
 ---
 
@@ -101,6 +102,15 @@ Use `##` headers for each major topic. This structure will be used by the extrac
 - Real-world examples to test against
 - Known inputs → expected outputs
 - Case studies from manual operation
+
+## 16. Prior Context & Business Intelligence
+- Competitive analysis and market positioning (from source docs)
+- User research findings and existing personas
+- Historical context (prior approaches, why they failed)
+- Business constraints (budget, timeline, regulatory, compliance)
+- Stakeholder requirements and organizational context
+- Reference architectures, prior art, and inspirations
+- Any source document content that doesn't map to Sections 1-15
 ```
 
 ---
@@ -115,3 +125,6 @@ After the interview, verify:
 - [ ] Priorities are clear and ordered
 - [ ] Conflicts are flagged with `> [!WARNING]` blocks
 - [ ] The document is committed to git as baseline
+- [ ] If source documents were provided: reconciliation gate passed (zero MISSING items)
+- [ ] All source document values preserved verbatim (not paraphrased)
+- [ ] Source documents listed in interview header for traceability

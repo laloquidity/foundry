@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.2** The framework is complete and ready to use. Feedback and contributions welcome.
+> **Status: v0.5.0** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -52,8 +52,10 @@ Phase 0: DISCOVER ─── Product discovery (office hours)
     │                  6 Forcing Questions (startup) or design partner (builder)
     │                  Output: DESIGN_DOC.md
     ▼
-Phase A: CAPTURE ──── Deep interview with multi-perspective Advisory Mode
+Phase A: CAPTURE ──── Prior Context Ingestion (if existing PRDs/specs provided)
+    │                  Deep interview with multi-perspective Advisory Mode
     │                  Seed personas + CEO/eng/design review perspectives
+    │                  Reconciliation Gate (100% context carry-over)
     │                  Output: PROJECT_INTERVIEW.md
     ▼
 Phase A½: SKILLS ──── Discover existing skills/workflows to integrate

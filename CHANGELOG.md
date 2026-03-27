@@ -4,6 +4,22 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.5.0] - 2026-03-26 — Prior Context Ingestion
+
+### Added
+- **Prior Context Ingestion (PCI).** Phase A now supports ingesting existing PRDs, specs, and context documents with 100% detail carry-over. Four sub-steps: full document read (PCI-1), structured extraction into manifest (PCI-2), gap analysis against interview sections (PCI-3), and adaptive interview mode that confirms pre-filled content instead of re-asking (PCI-4). Verbatim preservation rule ensures exact thresholds, formulas, and technical values are never paraphrased.
+- **Reconciliation Gate.** New gate at end of Phase A verifies every substantive item from source documents is either CAPTURED in the interview, EXPLICITLY DEFERRED, or surfaced as MISSING for client decision. Zero MISSING items required to proceed.
+- **Section 16: Prior Context & Business Intelligence.** New interview guide section for capturing source document content that doesn't map to Sections 1-15 (competitive analysis, historical context, business constraints, stakeholder requirements, prior art).
+- **Source provenance tracking.** Verification loop (Step 2e in workflow) now tracks whether specs originated from the live interview or an ingested source document.
+- **Source Documents field in design doc templates.** Both startup and builder mode design docs now list source documents for Phase A handoff traceability.
+
+### Changed
+- Phase A step numbering updated: Prior Context Ingestion is step 3, Deep Interview is step 4, Advisory Mode is step 5, Save is step 6, Commit is step 7, CEO Review is step 8, Reconciliation Gate is step 9.
+- Office Hours (Phase 0) context gathering enhanced to treat existing PRDs as primary input, not background reading.
+- Interview guide gains principle 9 (ingest before interviewing) and three new post-interview checklist items for source document reconciliation.
+
+---
+
 ## [0.4.0] - 2026-03-26 — Ship With Teeth
 
 ### Added

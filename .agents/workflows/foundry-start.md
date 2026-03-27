@@ -25,7 +25,7 @@ The Foundry skill must be in your workspace root with the full scaffolding:
 
 2. Execute the bootstrap phases in order as defined in `SKILL.md`:
    - **Phase 0: DISCOVER** — Run product discovery using `prompts/office_hours.md`. Adapts to startup or builder context. Output `DESIGN_DOC.md`. Client must approve before proceeding.
-   - **Phase A: CAPTURE** — Generate seed personas from design doc, then run the deep interview using `templates/interview_guide.md` with multi-perspective Advisory Mode. Run the CEO review gate using `prompts/ceo_review.md`.
+   - **Phase A: CAPTURE** — If the user has existing PRDs/specs/context docs, run Prior Context Ingestion (PCI) first. Generate seed personas from design doc, then run the deep interview using `templates/interview_guide.md` with multi-perspective Advisory Mode. Run the CEO review gate using `prompts/ceo_review.md`. If prior context docs were ingested, run the Reconciliation Gate to verify 100% content carry-over.
    - **Phase A½: SKILLS & WORKFLOWS** — Ask the user about existing skills/workflows to integrate.
    - **Phase A¾: DESIGN** *(UI projects only)* — Run design consultation using `prompts/design_consultation.md`. Output `DESIGN.md`.
    - **Phase B: SCAFFOLD** — Refine seed personas into full personas using `prompts/crowe_persona_generator.md` with full interview context.

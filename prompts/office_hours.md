@@ -22,7 +22,13 @@ Understand the project and what the user wants to build.
 
 1. Read any existing project documentation if available (`README.md`, architecture docs, prior design docs).
 2. Check recent git history if a repo exists: `git log --oneline -30`
-3. **Ask: "What's your goal with this?"** This determines everything about how the session runs.
+3. **If the user provides a substantial existing document** (PRD, spec, context doc, design doc from another process):
+   - Read it **IN FULL** — do not skim or summarize. This document is the user's accumulated thinking. Treat it as the primary input, not background reading.
+   - The diagnostic/design questions (Phase 2A/2B) should probe **where the document is weakest**, not re-cover what it already addresses.
+   - The Premise Challenge (Phase 3) should challenge the document's premises specifically.
+   - The Alternatives (Phase 4) should evaluate whether the document's chosen approach is the best one.
+   - **Note:** The document itself passes through to Phase A for full ingestion. Office Hours produces a `DESIGN_DOC.md` that references it — it does NOT replace or subsume the original document.
+4. **Ask: "What's your goal with this?"** This determines everything about how the session runs.
 
    Present the options:
    > Before we dig in — what's your goal with this?
@@ -292,6 +298,11 @@ Date: {date}
 ## Recommended Approach
 {chosen approach with rationale}
 
+## Source Documents
+{list any existing PRDs, specs, or context documents provided by the client.
+ These pass through to Phase A for full ingestion — they are NOT consumed or
+ replaced by this design doc. If no source documents, omit this section.}
+
 ## Open Questions
 {any unresolved questions from the office hours}
 
@@ -336,6 +347,11 @@ Date: {date}
 
 ## Recommended Approach
 {chosen approach with rationale}
+
+## Source Documents
+{list any existing PRDs, specs, or context documents provided by the client.
+ These pass through to Phase A for full ingestion — they are NOT consumed or
+ replaced by this design doc. If no source documents, omit this section.}
 
 ## Open Questions
 {any unresolved questions from the office hours}

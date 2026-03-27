@@ -210,6 +210,7 @@ Then resume the deliverable exactly where you left off.
    ```markdown
    ✅ VERIFIED: [SPEC-ID] [Component Name]
    - Section file: [filename]
+   - Source: [interview | prior-context-doc: document-name]
    - [Key verification point]: matches ✓
    - Competing logic check: no conflicts
    ```

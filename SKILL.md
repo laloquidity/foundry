@@ -70,12 +70,54 @@ Execute these phases IN ORDER. Do not skip.
 2. **Generate Seed Personas** from `DESIGN_DOC.md`. The design doc from Phase 0 contains enough context (domain, target users, technical approach, constraints) to generate lightweight domain consultants:
    - Run `prompts/crowe_persona_generator.md` with the `DESIGN_DOC.md` as input
    - Generate 2-3 seed personas — these are domain-aware advisors, not full implementation personas
-   - Seed personas provide **domain-specific recommendations** during the interview (step 4 below)
+   - Seed personas provide **domain-specific recommendations** during the interview (step 5 below)
    - In Phase B, these seed personas get refined and expanded with the full interview context
 
-3. **Run the Deep Interview** using `templates/interview_guide.md` as your structure. Ask every question. Record every answer. Capture exact thresholds, formulas, edge cases, decision rules.
+3. **Prior Context Ingestion** (if the user has existing PRDs, specs, or context documents):
 
-4. **🧭 Advisory Mode — proactive, multi-perspective, inline with every question:**
+   > The user's existing documents represent accumulated thinking. Every detail in them was written for a reason. Your job is to capture ALL of it, not just the parts that map to your interview questions.
+
+   > **Source doc format:** Documents must be readable files in the workspace (markdown, text, etc.). If the user has content in other formats (Notion, Google Docs, Figma, PDF), ask them to export or paste the content into a markdown file first.
+
+   **Step PCI-1: Full Document Read**
+   - Read every provided document in full. Do NOT skim, summarize, or skip sections.
+   - If there are multiple documents, read all of them.
+
+   **Step PCI-2: Structured Extraction**
+   - Extract every concrete detail into a manifest:
+     - Exact thresholds, formulas, and numeric values
+     - Decision rules and logic (if/then/else chains)
+     - Architecture decisions and their rationale
+     - Data models, schemas, and API contracts
+     - Edge cases and failure modes
+     - User personas and scenarios
+     - Constraints (budget, timeline, regulatory, technical)
+     - Business context, competitive analysis, market data
+     - Any other substantive content
+   - For each extracted item, note which interview guide section (1-15) it maps to.
+   - Items that don't map to any section → flag for Section 16 (Prior Context & Business Intelligence).
+
+   **Step PCI-3: Gap Analysis**
+   - Compare the extracted manifest against the interview guide sections.
+   - For each section:
+     - **COVERED** — the document addresses this fully
+     - **PARTIAL** — some content exists but key questions remain
+     - **GAP** — the document doesn't address this at all
+   - Present the gap analysis to the client before starting the interview.
+
+   **Step PCI-4: Adaptive Interview Mode**
+   - The interview adapts its approach based on the gap analysis, but **every section still gets the full Advisory Mode treatment** (step 5). The existing document is a well-thought-out starting point, not gospel. The interview's job is to pressure-test, enrich, and bring fresh perspective — whether the content came from a PRD or from a live question.
+     - **COVERED sections:** Present the document's content, then provide an Advisory Mode recommendation or challenge from the most relevant perspective (seed persona, CEO lens, eng lens, design lens). Ask: "Your [document name] says [specific content]. Here's my perspective: [recommendation, alternative approach, or challenge]. Is this still the right approach, or should we adjust?"
+     - **PARTIAL sections:** Present what the document says, provide Advisory Mode perspective on the existing content, then ask the SPECIFIC questions the document doesn't answer.
+     - **GAP sections:** Ask the full interview question with Advisory Mode recommendations (normal flow).
+   - **Verbatim preservation rule:** When the client CONFIRMS a detail from the source document, preserve exact values, formulas, thresholds, and decision rules VERBATIM. Do not paraphrase, round, simplify, or summarize. But if the client CHANGES a detail based on the Advisory Mode challenge, capture the new decision and note what the original document said (for traceability).
+   - **The goal is a SUPERSET, not a copy.** The interview should produce a `PROJECT_INTERVIEW.md` that is richer than the original document — with the PRD's details preserved where confirmed, improved where challenged, and expanded with new insights, edge cases, and perspectives the original document didn't consider.
+
+   > **Skip condition:** If the user has no existing documents, skip step 3 entirely and proceed to step 4 (normal interview flow).
+
+4. **Run the Deep Interview** using `templates/interview_guide.md` as your structure. If Prior Context Ingestion ran (step 3), the interview operates in adaptive mode — but this does NOT mean a rubber stamp. The interview still brings genuine new ideas, questions, and perspectives as if encountering the problem fresh. The prior context accelerates the interview by not re-asking answered questions, but the Advisory Mode challenge and multi-perspective recommendations run at full intensity on ALL content, including pre-filled content. If no prior context, ask every question. Record every answer. Capture exact thresholds, formulas, edge cases, decision rules.
+
+5. **🧭 Advisory Mode — proactive, multi-perspective, inline with every question:**
 
    For every architectural or technical question, provide **recommendations from multiple perspectives** alongside the question. The seed personas and review skill perspectives all contribute.
 
@@ -115,19 +157,37 @@ Execute these phases IN ORDER. Do not skip.
    - The interview captures the **DECISION** (what the client chose), not just the recommendation.
    - Client always has final authority.
 
-5. **Save as `PROJECT_INTERVIEW.md`** — this becomes the canonical source of truth. EVERYTHING traces back to this document.
+6. **Save as `PROJECT_INTERVIEW.md`** — this becomes the canonical source of truth. EVERYTHING traces back to this document. If prior context documents were ingested, list them in the document header for traceability.
 
-6. **Commit the interview:**
+7. **Commit the interview:**
    ```bash
    git add PROJECT_INTERVIEW.md && git commit -m "Baseline: domain interview"
    ```
 
-7. **🔍 CEO Review Gate** — Run the CEO review process using `prompts/ceo_review.md`. Present the captured interview to a CEO/Founder lens for premise challenge, dream state mapping, and scope validation.
+8. **🔍 CEO Review Gate** — Run the CEO review process using `prompts/ceo_review.md`. Present the captured interview to a CEO/Founder lens for premise challenge, dream state mapping, and scope validation.
 
    - The client selects a mode: **Expansion** (dream big), **Selective Expansion** (cherry-pick), **Hold Scope** (make bulletproof), or **Reduction** (cut to minimum)
    - Each proposed change is presented individually — client opts in or out
    - If changes are accepted, update `PROJECT_INTERVIEW.md` and run the `/interview-update` workflow to propagate changes through sections and index
    - All accepted changes are folded INTO the interview — the CEO review is a validation gate, not a separate document
+
+9. **📋 Reconciliation Gate** (if prior context documents were ingested in step 3):
+
+   > Before leaving Phase A, PROVE that nothing was lost.
+
+   - Re-read the original source document(s) provided by the user.
+   - For every substantive item in the source document, verify ONE of:
+     - ✅ **CAPTURED** — the item appears in `PROJECT_INTERVIEW.md` (cite the section)
+     - ⏭️ **EXPLICITLY DEFERRED** — noted as out-of-scope with rationale
+     - ❌ **MISSING** — not in the interview and not deferred
+   - If ANY items are MISSING → present them to the client: "These items from your [document name] didn't make it into the interview. Should I add them, or are they intentionally excluded?"
+   - Only proceed to Phase A½ when there are zero MISSING items.
+   - **Commit:**
+     ```bash
+     git add PROJECT_INTERVIEW.md && git commit -m "Reconciled: all source document content captured"
+     ```
+
+   > **Skip condition:** If no prior context documents were provided (step 3 was skipped), skip this gate.
 
 ---
 
@@ -212,19 +272,6 @@ Execute these phases IN ORDER. Do not skip.
 
 **Goal:** Split the interview into focused, task-scoped chunks for high-fidelity context loading.
 
-1. **Adapt the extraction script** from `scripts/extract_sections.py` for your project:
-   - Update the `SECTIONS` list with your interview's `##` header patterns
-   - Update spec IDs and cross-references for your domain
-   - Run: `python3 -u extract_sections.py`
-   - Verify: all sections PASS, each targeting ~2,500 tokens
-   - **Splitting rules:** Split at `##` header boundaries (one topic per section). Never split mid-topic to hit the token target — if a topic needs 3,500 tokens to stay coherent, keep it whole. If a section exceeds ~5,000 tokens, review for natural sub-topic splits at `###` headers.
-
-2. **Generate section index** — create `sections/_INDEX.md`:
-   - List every section file with line range and token count
-   - Create **Phase → Section Mapping** for each implementation phase
-   - Include cross-references between interdependent sections
-
-3. **Create implementation roadmap** — break the project into phases:
 1.  **Adapt the extraction script** from `scripts/extract_sections.py` for your project:
     -   Update the `SECTIONS` list with your interview's `##` header patterns
     -   Update spec IDs and cross-references for your domain
