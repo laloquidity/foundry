@@ -189,6 +189,18 @@ Execute these phases IN ORDER. Do not skip.
 
    > **Skip condition:** If no prior context documents were provided (step 3 was skipped), skip this gate.
 
+10. **📝 Project Documentation Suite** — Run `prompts/project_docs.md` to generate the initial documentation suite from `DESIGN_DOC.md` and `PROJECT_INTERVIEW.md`:
+    - Product Brief (one-pager)
+    - Investor Memo (thesis, market, differentiation, risks)
+    - Technical Overview (architecture, decisions, security model)
+    - README draft (public-facing project README)
+    - All documents are saved to `docs/` and trace back to the interview
+    - Re-run after each build phase completion or substantive interview update
+    - **Commit:**
+      ```bash
+      git add docs/ && git commit -m "docs: initial documentation suite"
+      ```
+
 ---
 
 ### Phase A½: SKILLS & WORKFLOWS DISCOVERY
@@ -539,6 +551,7 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
 | `prompts/ship.md` | Release workflow v2 — test failure triage, coverage gate (60%/80%), regression rule, plan completion audit, verification gate, bisectable commits |
 | `prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
+| `prompts/project_docs.md` | Living documentation suite — Product Brief, Investor Memo, Technical Overview, README. Generated from interview + design doc, updated incrementally |
 | `scripts/extract_sections.py` | Header-anchored section extraction script template |
 | `templates/workflow_template.md` | Execution workflow skeleton |
 | `templates/interview_guide.md` | Structured interview question template |

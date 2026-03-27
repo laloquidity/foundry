@@ -4,6 +4,15 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.5.1] - 2026-03-27 — Living Documentation Suite
+
+### Added
+- **`prompts/project_docs.md`** — New prompt that generates professional, external-facing documentation from `DESIGN_DOC.md` and `PROJECT_INTERVIEW.md`. Produces four documents: Product Brief (one-pager), Investor Memo (thesis, market, risks), Technical Overview (architecture, decisions), and README draft. Includes source mapping (every claim traces to interview), gap reporting, and an incremental update protocol for keeping docs current as the project evolves.
+- **Phase A step 10** — Initial project docs generation wired into the bootstrap lifecycle after the Reconciliation Gate. Re-run after each build phase or substantive interview update.
+- **Communication Quality Standard** — Banned AI vocabulary (20 words), banned phrases (7), concreteness rules, and user outcome connection in the workflow template.
+
+---
+
 ## [0.5.0] - 2026-03-26 — Prior Context Ingestion
 
 ### Added
