@@ -72,6 +72,20 @@ Execute these phases IN ORDER. Do not skip.
    - Generate 2-3 seed personas — these are domain-aware advisors, not full implementation personas
    - Seed personas provide **domain-specific recommendations** during the interview (step 5 below)
    - In Phase B, these seed personas get refined and expanded with the full interview context
+   - **Ethereum/onchain projects:** Generate an additional onchain seed persona — a Solidity/onchain advisor who provides domain-specific recommendations during the interview (chain selection, framework selection, standard compliance, security patterns). Keep it lightweight; the full specialist is generated at Phase B.
+
+2b. **EthSkills Context Loading** (Ethereum/onchain projects — before the interview):
+
+   > Read these ethskills files before running the interview. They correct stale LLM training data and inform architecture questions.
+
+   - Read `ethskills/concepts.md` — CROPS framework, incentive design, Hyperstructure Test
+   - Read `ethskills/l2s.md` — Chain selection, deployment gotchas, finality/cost tradeoffs
+   - Read `ethskills/why.md` — Current network stats (early 2026), gas reality (<1 gwei), ERC-8004 + x402 agent economy
+   - Read `ethskills/protocol.md` — Staleness guard for EIP info, correct block timing (12s), gas limit (60M post-Fusaka)
+   - Read `ethskills/tools.md` — Framework selection (Hardhat vs Foundry vs Ape), MCP servers, Scaffold-ETH 2
+   - When chain and scope are clear, add `ethskills/standards.md` — ERC standards including agent-era standards (ERC-8004, x402, EIP-7702)
+
+   > **Skip condition:** If the project has no Ethereum/onchain component, skip this step. If `ethskills/` directory doesn't exist, run `bash scripts/pull_ethskills.sh` first.
 
 3. **Prior Context Ingestion** (if the user has existing PRDs, specs, or context documents):
 
@@ -213,7 +227,14 @@ Execute these phases IN ORDER. Do not skip.
    - Clear inputs and outputs
    - Authority level (mandatory vs optional, blocking vs advisory)
 
-4. **Save to project:**
+4. **Ethereum/onchain projects — wire EthSkills:**
+   - Read `ETH-SKILL-GUIDE.md` in the project root — this is the master integration guide for Ethereum ethskills
+   - It maps each ethskill to specific workflow steps (0f through 6c)
+   - Wire the ethskills into `PROJECT_WORKFLOW.md` and `IMPLEMENTATION_ROADMAP.md` as described in the guide
+   - Authority: **mandatory and blocking** (same as other skills in the workflow)
+   - The ethskills files in `ethskills/` are read locally — no network fetch needed
+
+5. **Save to project:**
    ```bash
    # Copy relevant skill/workflow files to .agents/ directory
    cp -r user-provided-workflow.md .agents/workflows/
@@ -253,15 +274,26 @@ Execute these phases IN ORDER. Do not skip.
    - Trading system → Strategist + Engineer + Mathematician
    - Consumer app → UX Designer + Frontend Engineer + Backend Architect
    - SaaS → Product Owner + Security Engineer + Infrastructure Lead
+   - **Ethereum/onchain** → Solidity Architect + Frontend Engineer + [domain specialist]
 
 2. **Generate personas** using the Crowe meta-prompt in `prompts/crowe_persona_generator.md`. For each role, prompt Crowe with:
    ```
    Create a persona for [exact role, domain, and specific requirements]
    ```
 
-3. **Save persona files** to project root as `PERSONA_[NAME].md`
+3. **Ethereum/onchain projects — refine the onchain seed persona:**
+   The onchain seed persona from Phase A MUST be refined into a full Solidity/onchain specialist using the complete interview context:
+   ```
+   Create a persona for a principal Solidity architect with deep expertise in
+   [the specific standards/patterns identified in the interview]. Standards they
+   must know: OpenZeppelin, EIPs relevant to this project. Review focus:
+   security, gas, correctness, upgrade risk.
+   ```
+   This full persona is **mandatory** for Step 3c blocking sign-off. It cannot be the seed version.
 
-4. **Commit:**
+4. **Save persona files** to project root as `PERSONA_[NAME].md`
+
+5. **Commit:**
    ```bash
    git add PERSONA_*.md && git commit -m "Added specialist personas"
    ```
@@ -411,6 +443,24 @@ Execute these phases IN ORDER. Do not skip.
     - New abstractions: [N]
     - New dependencies: [N]
     - If exceeded → STOP and reassess
+    
+    ### EthSkills (Ethereum Projects — MANDATORY for onchain phases)
+    **Load at Step 0f (context):**
+    - `ethskills/security.md` — [which of the 9 vulnerability categories are relevant]
+    - `ethskills/addresses.md` — [which canonical addresses this phase's contracts interact with]
+    - [additional skill] — [what it covers for this phase]
+    
+    **Load at Step 3a (testing setup):**
+    - [skill] — [what it covers]
+    
+    **Load at Step 3.5 (CSO supplement):**
+    - [skill] — [which CSO phases it maps to]
+    
+    **Load at Step 4f (production gate):**
+    - [skill] — [what checklist to apply]
+    
+    > If this phase has no onchain work, replace with:
+    > "No onchain work in this phase — ethskills minimums skipped: [reason]"
     ```
 
 3.  **Run the Engineering Plan Review** using `prompts/eng_review.md` against the full roadmap. This catches:
@@ -453,12 +503,14 @@ Execute these phases IN ORDER. Do not skip.
 
 3.  The workflow handles execution from here:
     -   Step 0: Context loading (index, section files, spec registry, retro log)
+    -   Step 0f: EthSkills context loading (Ethereum projects — read ethskills files for this phase)
     -   Step 1: Planning (deliverable checklist from roadmap) + smart review routing + eng review
     -   Step 2: Implementation (with /debug on-demand + continuous verification + production review)
     -   Step 3: Verification (quantitative proof + design audit + full QA loop)
-    -   Step 3.5: CSO security audit (if routed for this phase — see security classification)
+    -   Step 3.5: CSO security audit (if routed for this phase — see security classification) + EthSkills audit supplement (Ethereum projects)
     -   Step 4: Ship (test failure triage, coverage gate ≥60%, plan completion audit, verification gate, bisectable commits, push)
-    -   Step 5: Document release (post-ship documentation update)
+    -   Step 4f: EthSkills production check (Ethereum projects — wallet safety, gas validation, deployment checklist)
+    -   Step 5: Document release (post-ship documentation update + onchain docs: contract addresses, ABIs, verified links)
 
     **Step 3.5: CSO Security Audit** (when routed):
     -   Run `prompts/cso.md` with the mode specified in the roadmap's security classification
@@ -526,6 +578,9 @@ For additional product surfaces (UI, bots, integrations):
 | File | Purpose |
 |:-----|:--------|
 | `SKILL.md` | This file — master orchestration |
+| `ETH-SKILL-GUIDE.md` | Master integration guide for Ethereum ethskills — maps each ethskill to Foundry workflow steps |
+| `ethskills/` | Locally pulled ethskills reference files (19 skills) — run `scripts/pull_ethskills.sh` to populate |
+| `scripts/pull_ethskills.sh` | Script to pull/refresh all ethskills from ethskills.com into `ethskills/` |
 | `prompts/crowe_persona_generator.md` | Dr. Julian Crowe persona generator meta-prompt |
 | `prompts/simplify_loop.md` | Code simplification specialist (for standard-risk projects) |
 | `prompts/office_hours.md` | Phase 0 product discovery — 6 Forcing Questions, premise challenge, alternatives |

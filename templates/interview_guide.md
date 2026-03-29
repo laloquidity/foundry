@@ -88,6 +88,18 @@ Use `##` headers for each major topic. This structure will be used by the extrac
 - Integration points with existing systems
 - Deployment requirements
 
+## 12b. Onchain Architecture (Ethereum Projects — skip if not applicable)
+- Target chain(s) and L2 selection rationale
+- Development framework (Hardhat vs Foundry vs Ape) — this must be locked during the interview, not changed mid-build
+- Token standards to implement (ERC-20, 721, 1155, 4626, etc.)
+- Upgrade pattern (no proxy / UUPS / Transparent / Beacon) and justification
+- External protocol integrations (Uniswap, Aave, Chainlink, etc.) and canonical addresses needed
+- Gas budget and optimization strategy (target gas per core operation)
+- Wallet interaction pattern (EOA only / Smart accounts / EIP-7702 smart EOAs)
+- Event architecture (indexing strategy: The Graph subgraph vs direct RPC vs provider APIs)
+- Agent-facing? (ERC-8004 onchain identity, x402 HTTP payment protocol)
+- Security requirements (audit scope, known attack vectors for this contract type)
+
 ## 13. Open Items
 - Unresolved questions
 - Items needing research
