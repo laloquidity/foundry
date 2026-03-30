@@ -12,9 +12,11 @@ The Foundry skill must be in your workspace root with the full scaffolding:
 ```
 ├── SKILL.md              ← master orchestrator
 ├── ETH-SKILL-GUIDE.md    ← Ethereum ethskills integration guide (onchain projects)
+├── TOB-SKILL-GUIDE.md    ← Trail of Bits audit skills integration guide (smart contract projects)
 ├── ethskills/            ← locally pulled ethskills reference files (run scripts/pull_ethskills.sh)
+├── tob-skills/           ← locally pulled Trail of Bits audit skills (run scripts/pull_tob_skills.sh)
 ├── prompts/              ← all review & consultation prompts
-├── scripts/              ← section extraction + ethskills pull scripts
+├── scripts/              ← section extraction + ethskills/tob pull scripts
 └── templates/            ← workflow template, interview guide
 ```
 
@@ -28,7 +30,7 @@ The Foundry skill must be in your workspace root with the full scaffolding:
 2. Execute the bootstrap phases in order as defined in `SKILL.md`:
    - **Phase 0: DISCOVER** — Run product discovery using `prompts/office_hours.md`. Adapts to startup or builder context. Output `DESIGN_DOC.md`. Client must approve before proceeding.
    - **Phase A: CAPTURE** — If the user has existing PRDs/specs/context docs, run Prior Context Ingestion (PCI) first. Generate seed personas from design doc (for Ethereum projects, include an onchain seed persona and read ethskills context files before the interview), then run the deep interview using `templates/interview_guide.md` with multi-perspective Advisory Mode. Run the CEO review gate using `prompts/ceo_review.md`. If prior context docs were ingested, run the Reconciliation Gate to verify 100% content carry-over.
-   - **Phase A½: SKILLS & WORKFLOWS** — Ask the user about existing skills/workflows to integrate. For Ethereum/onchain projects, read `ETH-SKILL-GUIDE.md` and wire ethskills into the workflow and roadmap as described.
+   - **Phase A½: SKILLS & WORKFLOWS** — Ask the user about existing skills/workflows to integrate. For Ethereum/onchain projects, read `ETH-SKILL-GUIDE.md` and wire ethskills into the workflow and roadmap. For smart contract projects, also read `TOB-SKILL-GUIDE.md` and wire Trail of Bits audit skills (dimensional analysis, spec-to-code compliance, entry point analysis, property-based testing, etc.) into the workflow and roadmap.
    - **Phase A¾: DESIGN** *(UI projects only)* — Run design consultation using `prompts/design_consultation.md`. Output `DESIGN.md`.
    - **Phase B: SCAFFOLD** — Refine seed personas into full personas using `prompts/crowe_persona_generator.md` with full interview context. For Ethereum projects, the onchain seed persona must be refined into a full Solidity/onchain specialist (mandatory for Step 3c sign-off).
    - **Phase C: STRUCTURE** — Extract sections using `scripts/extract_sections.py`. Build index and implementation roadmap.

@@ -234,7 +234,14 @@ Execute these phases IN ORDER. Do not skip.
    - Authority: **mandatory and blocking** (same as other skills in the workflow)
    - The ethskills files in `ethskills/` are read locally — no network fetch needed
 
-5. **Save to project:**
+5. **Smart contract projects — wire Trail of Bits audit skills:**
+   - Read `TOB-SKILL-GUIDE.md` in the project root — this maps Trail of Bits' official audit skills to Foundry workflow steps
+   - It covers: dimensional analysis, spec-to-code compliance, entry point analysis, property-based testing, differential review, and pre-audit gates
+   - Wire into `PROJECT_WORKFLOW.md` and `IMPLEMENTATION_ROADMAP.md` as described in the guide
+   - Authority: **mandatory and blocking** (same as EthSkills)
+   - The ToB skills files in `tob-skills/` are read locally — run `bash scripts/pull_tob_skills.sh` to populate
+
+6. **Save to project:**
    ```bash
    # Copy relevant skill/workflow files to .agents/ directory
    cp -r user-provided-workflow.md .agents/workflows/
@@ -581,6 +588,9 @@ For additional product surfaces (UI, bots, integrations):
 | `ETH-SKILL-GUIDE.md` | Master integration guide for Ethereum ethskills — maps each ethskill to Foundry workflow steps |
 | `ethskills/` | Locally pulled ethskills reference files (19 skills) — run `scripts/pull_ethskills.sh` to populate |
 | `scripts/pull_ethskills.sh` | Script to pull/refresh all ethskills from ethskills.com into `ethskills/` |
+| `TOB-SKILL-GUIDE.md` | Trail of Bits audit skills integration guide — maps 10 ToB skills to Foundry workflow steps |
+| `tob-skills/` | Locally pulled Trail of Bits audit skills (10 skills) — run `scripts/pull_tob_skills.sh` to populate |
+| `scripts/pull_tob_skills.sh` | Script to pull/refresh Trail of Bits skills from GitHub into `tob-skills/` |
 | `prompts/crowe_persona_generator.md` | Dr. Julian Crowe persona generator meta-prompt |
 | `prompts/simplify_loop.md` | Code simplification specialist (for standard-risk projects) |
 | `prompts/office_hours.md` | Phase 0 product discovery — 6 Forcing Questions, premise challenge, alternatives |
