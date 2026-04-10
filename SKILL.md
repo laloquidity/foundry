@@ -612,13 +612,15 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/ship.md` | Release workflow v2 — test failure triage, coverage gate (60%/80%), regression rule, plan completion audit, verification gate, bisectable commits |
 | `prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
 | `prompts/project_docs.md` | Living documentation suite — Product Brief, Investor Memo, Technical Overview, README. Generated from interview + design doc, updated incrementally |
-| `prompts/content_curator.md` | Content curation — mines Foundry artifacts for genuine insights, produces X Article and Post drafts for human review |
+| `prompts/content_curator.md` | Content curation — mines Foundry artifacts and extended source material for genuine insights, produces X Article and Post drafts for human review |
 | `scripts/extract_sections.py` | Header-anchored section extraction script template |
 | `templates/workflow_template.md` | Execution workflow skeleton |
 | `templates/interview_guide.md` | Structured interview question template |
 | `templates/interview_update_workflow.md` | Ready-made `/interview-update` workflow template |
 | `.agents/workflows/foundry-start.md` | One-command `/foundry-start` workflow — entry point for the entire bootstrap |
 | `.agents/workflows/new-idea.md` | `/new-idea` workflow — capture new ideas with interview rigor, then propagate |
+| `.agents/workflows/curate.md` | `/curate` workflow — standalone ad-hoc content curation against arbitrary source files |
+| `data-room/` | (project-level) Extended source material — competitive analyses, rate research, investor Q&A, conversation extracts. Mined by content curator alongside standard artifacts |
 
 ## Key Principles
 
