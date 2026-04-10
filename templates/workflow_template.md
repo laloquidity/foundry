@@ -135,17 +135,17 @@ Before writing ANY code, create an explicit deliverable checklist:
 
 > **Not all reviews are needed for every phase.** Route reviews based on what changed. This prevents CEO review fatigue on infra work and design review noise on backend changes.
 
-| Change Type | CEO Review | Eng Review | Design Review | Design Consultation | Security (CSO) | Production Review | QA |
-|:------------|:-----------|:-----------|:--------------|:--------------------|:---------------|:------------------|:---|
-| **New feature (full-stack)** | ✅ | ✅ | ✅ | ✅ (if new UI) | ✅ (`--diff`) | ✅ | ✅ |
-| **Backend/API only** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ✅ (diff-aware) |
-| **Frontend/UI only** | ⬚ Skip | ✅ | ✅ | ⬚ Skip (unless new patterns) | ⬚ Skip | ✅ | ✅ |
-| **Infrastructure/DevOps** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ⬚ Skip |
-| **Bug fix** | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ✅ | ✅ (regression) |
-| **Architecture change** | ✅ | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ✅ |
-| **Scope change / new requirement** | ✅ | ✅ | ✅ (if UI) | ✅ (if UI) | ⬚ Skip | ⬚ Skip | ⬚ Skip |
-| **Dependency introduction** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--supply-chain`) | ⬚ Skip | ⬚ Skip |
-| **Final phase (last roadmap phase)** | ✅ | ✅ | ✅ (if UI) | ⬚ Skip | ✅ (full audit) | ✅ | ✅ |
+| Change Type | CEO Review | Eng Review | Design Review | Design Consultation | Security (CSO) | Production Review | QA | Content Curation |
+|:------------|:-----------|:-----------|:--------------|:--------------------|:---------------|:------------------|:---|:-----------------|
+| **New feature (full-stack)** | ✅ | ✅ | ✅ | ✅ (if new UI) | ✅ (`--diff`) | ✅ | ✅ | ⬚ Skip |
+| **Backend/API only** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ✅ (diff-aware) | ⬚ Skip |
+| **Frontend/UI only** | ⬚ Skip | ✅ | ✅ | ⬚ Skip (unless new patterns) | ⬚ Skip | ✅ | ✅ | ⬚ Skip |
+| **Infrastructure/DevOps** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ⬚ Skip | ⬚ Skip |
+| **Bug fix** | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ⬚ Skip | ✅ | ✅ (regression) | ⬚ Skip |
+| **Architecture change** | ✅ | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--diff`) | ✅ | ✅ | ✅ (if substantive) |
+| **Scope change / new requirement** | ✅ | ✅ | ✅ (if UI) | ✅ (if UI) | ⬚ Skip | ⬚ Skip | ⬚ Skip | ✅ (if from interview update) |
+| **Dependency introduction** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--supply-chain`) | ⬚ Skip | ⬚ Skip | ⬚ Skip |
+| **Final phase (last roadmap phase)** | ✅ | ✅ | ✅ (if UI) | ⬚ Skip | ✅ (full audit) | ✅ | ✅ | ⬚ Skip |
 
 **Persona routing:** If a persona's domain overlaps with the change, that persona participates in sign-off (Step 3c) even if their review type is skipped for the phase.
 
@@ -530,6 +530,18 @@ If exceeded → document why. Update the roadmap for downstream phases if the ov
 **If "Assumptions to Re-Validate" has entries → run `/interview-update` workflow before starting the next phase.**
 
 Commit: `git add RETRO_LOG.md && git commit -m "retro: Phase [N] complete"`
+
+### 6c½. Content Curation (Optional, Post-Retro)
+
+> If the retrospective surfaced surprises, invalidated assumptions, or non-obvious patterns, run `prompts/content_curator.md`.
+
+1. Ask the client: "The retro surfaced [N] signals. Run content curation? (y/n)"
+2. If yes → Curator reads `RETRO_LOG.md` latest entry + relevant section files
+3. If `content/drafts/` already has files → curator reads them first to skip covered signals
+4. Drafts saved to `content/drafts/`
+5. Commit: `git add content/drafts/ && git commit -m "content: curator pass after Phase [N] retro"`
+
+> **Skip condition:** Client says no, or the retro was clean with no surprises or invalidated assumptions.
 
 ### 6d. Phase Transition (MANDATORY)
 
