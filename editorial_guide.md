@@ -13,11 +13,11 @@ Rules derived from editing the Foundry article + [blader/humanizer](https://gith
 
 **Stacked short sentences.** AI loves choppy cadence to sound punchy. "Agents forget. Specs get too long. Decisions vanish." Merge them into flowing prose: "Agents forget what you told them, specs get too long to retain properly, and decisions vanish."
 
-**Inline-header paragraphs.** Starting a paragraph with a bolded label followed by a period is pattern #15 in the humanizer. "**Persistent context architecture.** The interview splits into..." Just start the paragraph with the content.
+**Inline-header paragraphs.** Starting a paragraph with a bolded label followed by a period is pattern #15 in the humanizer. "**Persistent context architecture.** The interview splits into..." Just start the paragraph with the content. When you need visual separation for sequential items, use one of three alternatives: (1) actual numbered or bulleted lists, (2) ordinal prose flow ("First, ... Second, ... Third, ..."), or (3) sub-headings. Never open a paragraph with a bolded label that acts as a mini-heading.
 
 **Bold overuse.** Mechanical bolding of key phrases reads like a sales deck. Use bold sparingly, only when something genuinely needs visual emphasis.
 
-**"Not X, it's Y" parallelism.** "This isn't a task list, it's a context map." AI loves this construction. Cut it or rephrase: "Exceed the budget and the agent stops to reassess instead of sprawling."
+**"Not X, it's Y" / "X, not Y" parallelism.** AI uses contrastive phrasing as a crutch for emphasis. Both directions are tells. "This isn't a task list, it's a context map" and "The savings are structural, not situational" are the same construction. Cut the contrast and just say what it is: "Exceed the budget and the agent stops to reassess instead of sprawling." If the positive statement is clear enough on its own, the negation adds nothing.
 
 **Rule of three.** AI forces ideas into groups of three. "Innovation, inspiration, and industry insights." If two items cover it, use two.
 
@@ -59,6 +59,6 @@ Rules derived from editing the Foundry article + [blader/humanizer](https://gith
 6. Check every claim. Can you source it or demonstrate it? If not, soften the language or cut the number.
 7. Read the title. Does it say what the thing is, or does it tease? Say what it is.
 8. Read the last paragraph. Does it end with something concrete or something vague? Make it concrete.
-9. Check for "not X, it's Y" constructions. Rephrase.
+9. Check for "not X, it's Y" and "X, not Y" constructions. Both directions are AI tells. Rephrase.
 10. Ask: "would I actually say this out loud to someone?" If not, rewrite it.
 11. Search for time-duration claims ("weeks", "months", "spent days", "after years of"). Can you verify the exact duration? If not, describe the work instead of the time.

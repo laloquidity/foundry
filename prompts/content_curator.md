@@ -59,9 +59,9 @@ Bad: "Just finished our deep interview process and wow, so many insights! Here's
 ### Structural Rules
 - Zero em dashes. Replace with commas, colons, periods, or rephrase.
 - No stacked short sentences for artificial punch. "Agents forget. Specs get too long. Decisions vanish." Merge into flowing prose.
-- No inline-header paragraphs. Don't start a paragraph with a bolded label followed by a period.
+- No inline-header paragraphs. Don't start a paragraph with a bolded label followed by a period. When you need visual separation for sequential items, use: (1) actual numbered or bulleted lists, (2) ordinal prose flow ("First, ... Second, ..."), or (3) sub-headings.
 - Bold only when something genuinely needs visual emphasis. Not every key phrase.
-- No "Not X, it's Y" parallelism. Rephrase.
+- No "Not X, it's Y" or "X, not Y" parallelism. Both directions are AI tells. Cut the contrast and just say what it is. If the positive statement is clear enough on its own, the negation adds nothing.
 - No forced rule of three. If two items cover it, use two.
 
 ### Language Rules
