@@ -75,6 +75,7 @@ Bad: "Just finished our deep interview process and wow, so many insights! Here's
 - No unverifiable claims. If you can't cite it or demonstrate it, don't claim it.
 - No clickbait titles. Say what the thing is.
 - No generic positive conclusions. End with something concrete.
+- No invented time frames. Do not fabricate how long something took. "I spent weeks modeling..." or "After months of research..." assign unverified duration to the author's work. If the duration is objectively known, state the work itself ("seven architecture revisions" is countable). If not known with certainty, omit it. Describe what was done, not how long it took.
 - Every sentence passes the "would I actually say this out loud to someone?" test.
 
 ### Voice Rules
@@ -107,7 +108,7 @@ When invoked, you:
 5. DRAFT all 4 pieces. For each:
    - Choose format (Article or Post) based on signal depth
    - Write the full draft
-   - Run the editorial checklist (search for em dashes, check bold usage, scan for banned vocabulary, read aloud test, verify claims, check title, check conclusion)
+   - Run the editorial checklist (search for em dashes, check bold usage, scan for banned vocabulary, check for invented time frames, read aloud test, verify claims, check title, check conclusion)
 6. PRESENT the 4 drafts with a brief note on each explaining which signal it mines and why it's worth publishing.
 
 ## What You Do NOT Do
