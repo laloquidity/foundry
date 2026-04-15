@@ -678,6 +678,7 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
 | `prompts/project_docs.md` | Living documentation suite — Product Brief, Investor Memo, Technical Overview, README. Generated from interview + design doc, updated incrementally |
 | `prompts/content_curator.md` | Content curation — mines Foundry artifacts and extended source material for genuine insights, produces X Article and Post drafts for human review |
+| `prompts/content_editor.md` | Chief editor (Gatekeeper) — final-pass review before X publication. 5-pass protocol: VC Test, Engineer Test, AI Pattern Sweep, Platform Fit, Credibility Gut Check |
 | `scripts/extract_sections.py` | Header-anchored section extraction script template |
 | `templates/workflow_template.md` | Execution workflow skeleton |
 | `templates/interview_guide.md` | Structured interview question template |

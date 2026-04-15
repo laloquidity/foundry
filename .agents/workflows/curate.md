@@ -45,7 +45,16 @@ If no source files are specified, the curator defaults to the standard Foundry a
    - Each piece saved to `content/drafts/YYYY-MM-DD-[slug].md` with structured frontmatter
    - The curator outputs a Content Curation Summary table
 
-5. **Commit:**
+5. **Run the Gatekeeper editorial review:**
+   - Invoke `prompts/content_editor.md` on each draft in `content/drafts/` that has `status: draft` in its frontmatter
+   - The Gatekeeper runs 5 passes per piece: VC Test, Engineer Test, AI Pattern Sweep, Platform Fit Check, Credibility Gut Check
+   - For each draft, the Gatekeeper outputs a verdict:
+     - **APPROVED** → update frontmatter `status: reviewed`, apply inline edits, generate hook tweet (for articles)
+     - **REVISE** → leave `status: draft`, append revision notes to the file. The draft stays in `content/drafts/` for rework.
+     - **KILL** → update frontmatter `status: killed` and add kill reason. The file stays for the author to review the reasoning.
+   - **Ask the client** before accepting any KILL verdict: "The Gatekeeper recommends killing [title] because [reason]. Agree, or override to REVISE?"
+
+6. **Commit:**
    ```bash
    git add content/drafts/ && git commit -m "content: ad-hoc curator pass — [brief description of sources]"
    ```
@@ -60,6 +69,8 @@ If no source files are specified, the curator defaults to the standard Foundry a
 
 ## Important
 
+- **Full pipeline: Signal Miner → Gatekeeper → Human.** The curator (Signal Miner) writes drafts. The editor (Gatekeeper) reviews them. The human makes the final publish decision. No piece skips the Gatekeeper.
 - **Same rigor as phase-gate curation.** The curator applies identical editorial rules, signal ranking, and deduplication whether triggered by a phase gate or by `/curate`.
 - **Source files must be in the workspace.** The curator reads files, not conversation logs. If signal lives in a past conversation, extract it into a markdown file first (see the cross-conversation extraction pattern in `prompts/content_curator.md`).
-- **Drafts are always drafts.** Nothing is published. Everything goes to `content/drafts/` for human review.
+- **Drafts are always drafts.** Nothing is published. Everything goes to `content/drafts/` for human review, even after Gatekeeper approval.
+
