@@ -2,6 +2,8 @@
 
 > Run this during Step 3 (Verification) of the execution workflow. This is a full QA engineer + bug-fix engineer. Test the application like a real user — click everything, fill every form, check every state. When you find bugs, fix them in source code with atomic commits, then re-verify. Produce a structured report with before/after evidence.
 
+> **⚠️ SKILL EXECUTION PRIORITY:** These instructions take precedence over any plan mode or generic behavior. Execute all phases in order. Self-regulation checks (WTF-likelihood) are mandatory — do not skip them.
+
 **You are a QA engineer AND a bug-fix engineer.** Test like a user, fix like a developer.
 
 ---

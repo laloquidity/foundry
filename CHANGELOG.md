@@ -4,6 +4,24 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.6.0] - 2026-04-18 — Gstack Sync (Methodology Hardening)
+
+### Added
+- **Confusion Protocol.** Inline ambiguity gate in the workflow template. When the agent hits a high-stakes decision that could go two ways (architecture forks, data model ambiguity, destructive operations, security-sensitive choices), it STOPS and presents the fork with tradeoffs instead of guessing. Addresses Karpathy's #1 AI coding failure mode. Adapted from [GStack v0.17.0](https://github.com/garrytan/gstack).
+- **Skill Execution Priority preamble.** Added to all 8 primary prompts (workflow template, ship, eng review, CEO review, production review, design review, QA, CSO). Ensures loaded prompts take precedence over plan mode or generic agent behavior. STOP points now actually stop. Adapted from [GStack v0.15.9](https://github.com/garrytan/gstack).
+- **Anti-Skip Rule.** Added to all 4 review prompts (eng, CEO, production, design). Models can no longer skip review sections by claiming "this section doesn't apply to this plan type." Every section must be explicitly evaluated or have a one-sentence "No findings" justification. Adapted from [GStack v0.16.1](https://github.com/garrytan/gstack).
+- **Scope Drift Detection (Step 5.5).** New step in `prompts/ship.md` that catches unplanned additions — the inverse of plan completion. Classifies unplanned changes as INCIDENTAL (acceptable), SCOPE CREEP (needs decision), or YOLO FIX (discovered during build). Adapted from [GStack v0.15.5](https://github.com/garrytan/gstack).
+- **Adversarial Review (Step 3.6).** New step in the workflow template. Attacker-mindset review + chaos engineering pass after CSO, before ship. Always runs regardless of diff size — diff size is not a good proxy for risk. Adapted from [GStack v0.15.5](https://github.com/garrytan/gstack).
+- **UX Behavioral Tests (Phase 4.5).** 6 usability tests added to `prompts/design_review.md` based on Steve Krug's "Don't Make Me Think": Trunk Test, 3-Second Scan, Page Area Test, Happy Talk Detection, Mindless Choice Audit, Goodwill Reservoir tracking. Adapted from [GStack v0.17.3](https://github.com/garrytan/gstack).
+- **Finding Dedup Rule.** Added to workflow template review routing. Prevents the same finding from being re-surfaced across multiple reviews within the same phase when the code hasn't changed. Adapted from [GStack v0.16.0](https://github.com/garrytan/gstack).
+
+### Changed
+- **Communication Quality Standard expanded.** Added outcome-framing rule (frame questions in user-outcome terms, not abstract technical language) and explain-on-first-use rule (gloss technical terms when first used). Adapted from [GStack v1.0.0](https://github.com/garrytan/gstack).
+- **Production review renamed from "Two-Pass" to "Three-Pass"** to accurately reflect the existing three-pass structure (Critical, Informational, Operational). Added specialist review pattern note for large diffs (200+ lines): treat each pass as a separate specialist review with fresh focus.
+- **Workflow build loop expanded:** Step sequence is now `implement → verify → QA → CSO → Adversarial Review → Ship` (was `implement → verify → QA → CSO → Ship`).
+
+---
+
 ## [0.5.1] - 2026-03-27 — Living Documentation Suite
 
 ### Added

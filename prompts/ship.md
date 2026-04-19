@@ -2,6 +2,8 @@
 
 > Run this as Step 4 in the execution workflow — after all verification passes (Step 3). This is the final mile: sync, test, coverage audit, plan check, commit, push.
 
+> **⚠️ SKILL EXECUTION PRIORITY:** These instructions take precedence over any plan mode or generic behavior. Execute all steps in order. Do not skip steps or declare completion without fresh evidence.
+
 ## Philosophy
 
 Once you've decided what to build, nailed the technical plan, and run a serious review, stop talking. Execute.
@@ -304,6 +306,47 @@ COMPLETION: 3/5 DONE, 1 PARTIAL, 1 NOT DONE, 1 CHANGED
     A) Stop — implement the missing items before shipping
     B) Ship anyway — defer to a follow-up
     C) These items were intentionally dropped — remove from scope
+
+---
+
+## Step 5.5: Scope Drift Detection
+
+> **Did you build what was planned — and ONLY what was planned?** Plan completion (Step 5) catches what's missing. This step catches what was ADDED without being in the plan.
+
+### 5.5.1 Cross-Reference Diff Against Plan
+
+Compare the full diff (`git diff origin/main...HEAD`) against the roadmap phase deliverables:
+
+1. For each file changed in the diff, check if it traces to a plan deliverable
+2. For each code change, verify the functionality was specified
+
+### 5.5.2 Classify Unplanned Changes
+
+- **INCIDENTAL:** Small refactors, import cleanups, formatting — normal and acceptable
+- **SCOPE CREEP:** New functionality, new endpoints, new UI elements not in the plan
+- **YOLO FIX:** Bug fix discovered during implementation — reasonable but should be documented
+
+### 5.5.3 Output
+
+```
+SCOPE DRIFT CHECK
+══════════════════════════════
+[INCIDENTAL]  Cleaned up imports in utils.ts — OK
+[SCOPE CREEP] Added /api/notifications endpoint — not in Phase 3 plan
+[YOLO FIX]    Fixed timezone bug in scheduler — discovered during build
+
+Verdict: [CLEAN / DRIFT DETECTED]
+```
+
+### 5.5.4 Gate Logic
+
+- **CLEAN (all incidental or yolo fixes):** Pass. Continue.
+- **DRIFT DETECTED (scope creep items):** Ask the client:
+  - Show the unplanned additions
+  - Options:
+    A) Keep — this is a valid addition, update the plan
+    B) Revert — remove the unplanned changes
+    C) Split — move to a separate branch/PR
 
 ---
 

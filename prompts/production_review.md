@@ -2,17 +2,23 @@
 
 > Run this as Step 2g in the execution workflow — after the spec traceability audit (Step 2f) confirms completeness, before the verification step (Step 3). This catches production bugs that spec conformance checks miss.
 
+> **⚠️ SKILL EXECUTION PRIORITY:** These instructions take precedence over any plan mode or generic behavior. Execute all three passes in order.
+
 ## Philosophy
 
 Passing tests do not mean the code is safe. This review exists because there is a whole class of bugs that survive CI and still punch you in production. This is a structural audit, not a style nitpick pass.
 
 **Every finding gets action — not just critical ones.**
 
+**Anti-Skip Rule:** You MUST evaluate all three passes (Critical, Informational, Operational). If a pass genuinely has nothing to flag, write "Pass N: No findings — [one sentence why]" and move on. You may NOT skip a pass by claiming it doesn't apply to this change type.
+
 ---
 
-## Two-Pass Review
+## Three-Pass Review
 
 Apply this checklist against the implementation diff (all code written in this phase).
+
+**Specialist review pattern (for large diffs, 200+ lines):** For large diffs, treat each pass as a separate specialist review. Reset your focus between passes — re-read the diff summary before starting each pass as if you're seeing it for the first time. This prevents findings from Pass 1 from anchoring your attention in Pass 2. For each pass, read only the code relevant to that pass's categories.
 
 ### Pass 1 — CRITICAL
 
