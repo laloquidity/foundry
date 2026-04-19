@@ -1,1 +1,3 @@
 .DS_Store
+node_modules/
+.deck-server/package-lock.json

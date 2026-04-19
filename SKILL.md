@@ -203,6 +203,33 @@ Execute these phases IN ORDER. Do not skip.
 
    > **Skip condition:** If no prior context documents were provided (step 3 was skipped), skip this gate.
 
+10. **📝 Project Documentation Suite** — Run `prompts/project_docs.md` to generate the initial documentation suite from `DESIGN_DOC.md` and `PROJECT_INTERVIEW.md`:
+     - Product Brief (one-pager)
+     - Investor Memo (thesis, market, differentiation, risks)
+     - Technical Overview (architecture, decisions, security model)
+     - README draft (public-facing project README)
+     - All documents are saved to `docs/` and trace back to the interview
+     - Re-run after each build phase completion or substantive interview update
+     - **Commit:**
+       ```bash
+       git add docs/ && git commit -m "docs: initial documentation suite"
+       ```
+
+11. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against the interview artifacts.
+
+     > The interview is the richest source of genuine signal: discoveries from the deep dive, debates between Advisory Mode and client instinct, premise challenges that changed direction, and non-obvious decisions.
+
+     - **Ask the client:** "The interview surfaced [N] substantive decisions and [N] premise challenges. Run content curation to mine these for publishable insights? (y/n)"
+     - If yes → invoke the Content Curator with: `DESIGN_DOC.md`, `PROJECT_INTERVIEW.md`
+     - If `content/drafts/` already has files from a previous pass → curator reads them first to avoid mining duplicate signals
+     - Curator outputs 4 draft pieces to `content/drafts/`
+     - **Commit:**
+       ```bash
+       git add content/drafts/ && git commit -m "content: curator pass after interview"
+       ```
+
+     > **Skip condition:** Client says no, or the interview was straightforward with no substantive discoveries or debates.
+
 ---
 
 ### Phase A½: SKILLS & WORKFLOWS DISCOVERY
@@ -270,6 +297,21 @@ Execute these phases IN ORDER. Do not skip.
    ```
 
 > **Why here?** Design decisions inform the implementation structure. Running this before section extraction (Phase C) means design requirements can be captured in the interview and wired into the execution workflow. The design review prompt (`prompts/design_review.md`) can then audit the implementation against `DESIGN.md` during verification.
+
+4. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against the design artifacts.
+
+    > Design consultations surface creative risks taken or rejected, tension between safe and bold choices, and differentiated aesthetic decisions that other builders would find interesting.
+
+    - **Ask the client:** "The design consultation produced decisions worth mining for content? (y/n)"
+    - If yes → invoke the Content Curator with: `DESIGN.md`, `DESIGN_DOC.md`
+    - If `content/drafts/` already has files → curator reads them first to skip covered signals
+    - Curator outputs 4 draft pieces to `content/drafts/`
+    - **Commit:**
+      ```bash
+      git add content/drafts/ && git commit -m "content: curator pass after design"
+      ```
+
+    > **Skip condition:** Client says no, or the project has no user-facing interface.
 
 ---
 
@@ -344,6 +386,19 @@ Execute these phases IN ORDER. Do not skip.
     ```bash
     git add sections/ && git commit -m "Extracted sections, built index"
     ```
+
+6. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against architecture artifacts.
+
+     > Architecture decisions, persona debates, and roadmap tradeoffs reveal hard choices and differentiated thinking. The gap between what's conventional and what this project chose to do differently is where the signal lives.
+
+     - **Ask the client:** "Architecture and roadmap are finalized. Run content curation to mine the tradeoffs and decisions? (y/n)"
+     - If yes → invoke the Content Curator with: `PERSONA_*.md`, `sections/_INDEX.md`, `IMPLEMENTATION_ROADMAP.md`
+     - If `content/drafts/` already has files → curator reads them first to skip covered signals
+     - Curator outputs 4 draft pieces to `content/drafts/`
+     - **Commit:**
+       ```bash
+       git add content/drafts/ && git commit -m "content: curator pass after architecture"
+       ```
 
 ---
 
@@ -564,6 +619,21 @@ Execute these phases IN ORDER. Do not skip.
     -   If "Assumptions to Re-Validate" has entries → run `/interview-update` workflow
     -   Commit: `git add RETRO_LOG.md && git commit -m "retro: Phase [N] complete"`
 
+6½. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against the retro.
+
+     > Retrospectives surface the "we almost built the wrong thing" moments, invalidated assumptions, surprising patterns, and hard-won execution insights that other builders would find valuable.
+
+     - **Ask the client:** "The retro surfaced [N] surprises and [N] invalidated assumptions. Run content curation? (y/n)"
+     - If yes → invoke the Content Curator with: `RETRO_LOG.md` (latest entry), relevant section files for the completed phase
+     - If `content/drafts/` already has files → curator reads them first to skip covered signals
+     - Curator outputs 4 draft pieces to `content/drafts/`
+     - **Commit:**
+       ```bash
+       git add content/drafts/ && git commit -m "content: curator pass after Phase [N] retro"
+       ```
+
+     > **Skip condition:** Client says no, or the retro was clean with no surprises or invalidated assumptions.
+
 7.  **Run `/interview-update`** whenever the interview document grows with new information.
 
 8.  **Repeat** for the next roadmap phase until all phases are complete.
@@ -604,6 +674,8 @@ For additional product surfaces (UI, bots, integrations):
 | `prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
 | `prompts/ship.md` | Release workflow v2 — test failure triage, coverage gate (60%/80%), regression rule, plan completion audit, verification gate, bisectable commits |
 | `prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
+| `prompts/project_docs.md` | Living documentation suite — Product Brief, Investor Memo, Technical Overview, README. Generated from interview + design doc, updated incrementally |
+| `prompts/content_curator.md` | Content curation — mines Foundry artifacts for genuine insights, produces X Article and Post drafts for human review |
 | `scripts/extract_sections.py` | Header-anchored section extraction script template |
 | `templates/workflow_template.md` | Execution workflow skeleton |
 | `templates/interview_guide.md` | Structured interview question template |
