@@ -105,6 +105,8 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | `document_release.md` | Post-ship documentation update — keeps all docs current |
 | `crowe_persona_generator.md` | Domain-expert persona generator |
 | `simplify_loop.md` | Code simplification specialist (standard-risk projects) |
+| `content_curator.md` | Signal Miner — mines Foundry artifacts for genuine insights, produces X/LinkedIn draft content |
+| `content_editor.md` | Gatekeeper (Chief Editor) — 5-pass editorial review before publication (VC Test, Engineer Test, AI Pattern Sweep, Platform Fit, Credibility) |
 
 ### Templates (`templates/`)
 
@@ -118,8 +120,10 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 
 | Workflow | What It Does |
 |:---------|:-------------|
-| `foundry-start.md` | Entry point — `/foundry-start` triggers the entire bootstrap |
+| `foundry-start.md` | Entry point — `/foundry-start` triggers the entire bootstrap (auto-detects fresh vs resume) |
+| `foundry-resume.md` | `/foundry-resume` — explicitly resume a paused session via checkpoint file |
 | `new-idea.md` | `/new-idea` — capture new ideas mid-project with interview rigor |
+| `curate.md` | `/curate` — ad-hoc content curation pass outside the phase gate lifecycle |
 
 ### Other
 

@@ -22,6 +22,46 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.5.5] - 2026-04-15 — Gatekeeper (Chief Editor)
+
+### Added
+- **Gatekeeper persona (`prompts/content_editor.md`).** Chief Editor that runs a 5-pass editorial review on all Signal Miner drafts before a human sees them: VC Signal Test, Engineer Accuracy Test, AI Pattern Sweep, Platform Fit Check, Credibility Gut Check. Verdicts: APPROVED, REVISE, or KILL.
+- **`/curate` workflow updated.** Added Step 5: Gatekeeper review between draft creation and commit. Pipeline is now Signal Miner → Gatekeeper → Human.
+
+---
+
+## [0.5.4] - 2026-04-13 — Editorial Guide Hardening
+
+### Changed
+- **Parallelism rule expanded.** Both directions of contrastive phrasing now flagged as AI tells: "Not X, it's Y" AND "X, not Y." Checklist item updated. Content curator persona updated to match.
+- **Inline-header rule expanded.** Added three explicit alternatives (lists, ordinal prose, sub-headings) for achieving visual separation without the AI-typical bold-lead pattern.
+
+### Added
+- **Invented time frames rule.** Do not fabricate how long something took. "I spent weeks modeling..." assigns unverified duration. State the work itself if countable, omit duration if not known with certainty. Added to `editorial_guide.md` (tone mistakes + checklist item 11) and `content_curator.md`.
+
+---
+
+## [0.5.3] - 2026-04-13 — Session Continuity
+
+### Added
+- **Checkpoint Protocol.** Every commit updates `.foundry/checkpoint.md` with current phase, step, artifacts, open items, and interview progress. Amended into the phase commit to keep git history clean.
+- **`/foundry-start` auto-detection.** Detects fresh vs. resume via checkpoint file. On resume, runs workspace drift scan (`git diff` + untracked files), classifies changes by impact (HIGH/MEDIUM/LOW), and reconciles accepted changes into Foundry artifacts before continuing.
+- **`/foundry-resume` workflow.** Convenience alias for the resume path. Reports "no session found" if no checkpoint exists.
+
+---
+
+## [0.5.2] - 2026-04-10 — Content Pipeline
+
+### Added
+- **Signal Miner persona (`prompts/content_curator.md`).** Mines Foundry artifacts (interview, design doc, retro log, section files) for genuine first-principles insights. Produces X Article and Post drafts ready for human review. Anti-AI-slop rules embedded: no manufactured enthusiasm, no listicle structure, no "journey" framing, no performance of expertise.
+- **Content pipeline wired into lifecycle.** 4 opt-in trigger points in `SKILL.md`: Post-Interview, Post-Design, Post-Architecture, Post-Phase Retro. Cumulative awareness: later passes read existing drafts to skip already-covered signals.
+- **`/curate` workflow (`.agents/workflows/curate.md`).** Standalone curation pass for ad-hoc use outside phase gates. Supports extended source material: `data-room/`, conversation extracts, external analyses.
+- **Routing table updated.** Content Curation column added to the review routing table in `workflow_template.md`. Step 6c½ added for post-retro curation.
+
+---
+
+
+
 ## [0.5.1] - 2026-03-27 — Living Documentation Suite
 
 ### Added
