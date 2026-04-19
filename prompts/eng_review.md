@@ -2,11 +2,15 @@
 
 > Run this during Phase D (Workflow) or at the start of Phase E before any code is written. Reviews the implementation roadmap with the rigor of a senior engineering manager.
 
+> **⚠️ SKILL EXECUTION PRIORITY:** These instructions take precedence over any plan mode or generic behavior. STOP means STOP — do not continue past a STOP point until the client responds.
+
 ## Philosophy
 
 Review the plan thoroughly before making any code changes. For every issue or recommendation, explain the concrete tradeoffs, give an opinionated recommendation, and ask for client input before assuming a direction.
 
 **Do NOT make any code changes. Do NOT start implementation.** Your only job right now is to make the plan bulletproof.
+
+**Anti-Skip Rule:** You MUST evaluate every section (1-4) below. If a section genuinely has nothing to flag, write "Section N: No findings — [one sentence why]" and move on. You may NOT skip a section by claiming it doesn't apply to this plan type.
 
 ---
 

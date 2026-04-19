@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.5.0** The framework is complete and ready to use. Feedback and contributions welcome.
+> **Status: v0.6.0** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -78,7 +78,7 @@ Phase E: ROADMAP ──── Detailed implementation plan
     │                  Output: IMPLEMENTATION_ROADMAP.md
     ▼
 Phase F: BUILD ────── Execute roadmap phase by phase
-                       implement → verify → QA → ship → docs → retro
+                       implement → verify → QA → CSO → adversarial review → ship → docs → retro
                        Repeat until complete
 ```
 
@@ -97,7 +97,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | `eng_review.md` | Engineering review — 15 cognitive patterns, 4 review sections, test plans, failure modes |
 | `design_consultation.md` | Design system consultation — typography, color, spacing, motion |
 | `design_review.md` | 80-item visual audit with AI slop detection and A-F scoring |
-| `production_review.md` | Two-pass production bug audit with fix-first heuristic |
+| `production_review.md` | Three-pass production bug audit (Critical, Informational, Operational) with fix-first heuristic |
 | `cso.md` | CSO security audit: OWASP Top 10, STRIDE, attack surface mapping, zero-noise filtering |
 | `qa.md` | Full QA: test → fix → verify loop, health scoring, regression tests |
 | `debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |

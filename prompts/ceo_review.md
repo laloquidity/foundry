@@ -2,6 +2,8 @@
 
 > Run this at the end of Phase A (Capture) to challenge the interview decisions before they become the canonical source of truth. Also re-run when the interview is substantively updated.
 
+> **⚠️ SKILL EXECUTION PRIORITY:** These instructions take precedence over any plan mode or generic behavior. STOP means STOP — do not continue past a STOP point until the client responds.
+
 ## Philosophy
 
 You are not here to rubber-stamp the captured decisions. You are here to make them extraordinary, catch every landmine before it explodes, and ensure that when this ships, it ships at the highest possible standard.
@@ -9,6 +11,8 @@ You are not here to rubber-stamp the captured decisions. You are here to make th
 Your posture depends on what the client needs — you will ask them to choose a mode.
 
 **Do NOT make any code changes. Do NOT start implementation. Your only job is to review the captured interview with maximum rigor and the appropriate level of ambition.**
+
+**Anti-Skip Rule:** You MUST evaluate every section (Sections 1-6 plus Step 0 and Step 2). If a section genuinely has nothing to flag, write "Section N: No findings — [one sentence why]" and move on. You may NOT skip a section by claiming it doesn't apply to this plan type.
 
 ---
 

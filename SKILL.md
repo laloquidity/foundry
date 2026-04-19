@@ -24,6 +24,71 @@ Works for: trading systems, consumer apps, enterprise SaaS, iOS apps, terminal U
 - A domain expert (the "client") available for interview
 - A project directory initialized with git
 
+## Checkpoint Protocol
+
+> **Every commit in the bootstrap sequence must update the checkpoint.** This is what makes `/foundry-start` and `/foundry-resume` work. Without checkpoints, there is no resume.
+
+After EVERY commit in the bootstrap sequence, update `.foundry/checkpoint.md`:
+
+1. Create the `.foundry/` directory if it doesn't exist
+2. Write or update `.foundry/checkpoint.md` with:
+   - Current phase and step number
+   - Status (`IN_PROGRESS` or `COMPLETED` for the current step)
+   - Plain-English description of the last action taken
+   - The commit hash just made: `git rev-parse HEAD`
+   - Current ISO 8601 timestamp
+   - Updated "Completed Phases" checklist (mark completed phases `[x]`, current phase `[/]`)
+   - Updated "Artifacts Produced" list
+   - Any open items or pending client decisions
+   - Interview progress (which interview guide sections are done, if in Phase A)
+3. **Amend the checkpoint into the phase commit** (keeps history clean):
+   ```bash
+   git add .foundry/checkpoint.md && git commit --amend --no-edit
+   ```
+
+Checkpoint file format:
+```markdown
+# Foundry Checkpoint
+
+## Current State
+- Phase: [0 | A | A½ | A¾ | B | C | D | E | F | COMPLETE]
+- Step: [step number or name within the phase]
+- Status: IN_PROGRESS | COMPLETED
+- Last action: "[plain-English description]"
+- Last commit: [hash]
+- Timestamp: [ISO 8601]
+
+## Completed Phases
+- [x] Phase 0: DISCOVER — DESIGN_DOC.md approved
+- [/] Phase A: CAPTURE — interview in progress (step 4, sections 1-7 done)
+- [ ] Phase A½: SKILLS & WORKFLOWS
+- [ ] Phase A¾: DESIGN
+- [ ] Phase B: SCAFFOLD
+- [ ] Phase C: STRUCTURE
+- [ ] Phase D: WORKFLOW
+- [ ] Phase E: ROADMAP
+- [ ] Phase F: BUILD
+
+## Artifacts Produced
+- DESIGN_DOC.md (Phase 0)
+- PROJECT_INTERVIEW.md (Phase A, step 6) [partial — sections 1-7]
+
+## Open Items
+- [any pending client decisions or deferred questions]
+
+## Interview Progress
+- [x] Section 1: Project Overview
+- [x] Section 2: Core Requirements
+- [/] Section 8: Error Handling — client said "let me think about this"
+- [ ] Section 9: Performance Requirements
+```
+
+> **Resuming:** When `/foundry-start` or `/foundry-resume` detects a checkpoint, it reads this file, runs a workspace drift scan (see the workflow), and resumes from the exact phase and step recorded here.
+
+> **Resetting:** To discard a session and start fresh, delete `.foundry/checkpoint.md` (or the entire `.foundry/` directory) and run `/foundry-start`.
+
+---
+
 ## The Bootstrap Sequence
 
 Execute these phases IN ORDER. Do not skip.
@@ -680,8 +745,12 @@ For additional product surfaces (UI, bots, integrations):
 | `templates/workflow_template.md` | Execution workflow skeleton |
 | `templates/interview_guide.md` | Structured interview question template |
 | `templates/interview_update_workflow.md` | Ready-made `/interview-update` workflow template |
-| `.agents/workflows/foundry-start.md` | One-command `/foundry-start` workflow — entry point for the entire bootstrap |
+| `.agents/workflows/foundry-start.md` | `/foundry-start` workflow — auto-detects fresh vs resume, runs workspace drift scan on resume, entry point for the entire bootstrap |
+| `.agents/workflows/foundry-resume.md` | `/foundry-resume` workflow — convenience alias for resume path of `/foundry-start` |
 | `.agents/workflows/new-idea.md` | `/new-idea` workflow — capture new ideas with interview rigor, then propagate |
+| `.agents/workflows/curate.md` | `/curate` workflow — standalone ad-hoc content curation against arbitrary source files |
+| `.foundry/checkpoint.md` | (project-level) Session checkpoint — current phase, step, artifacts, open items. Written by Checkpoint Protocol, read by `/foundry-start` and `/foundry-resume` |
+| `data-room/` | (project-level) Extended source material — competitive analyses, rate research, investor Q&A, conversation extracts. Mined by content curator alongside standard artifacts |
 
 ## Key Principles
 

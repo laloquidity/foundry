@@ -2,9 +2,13 @@
 
 > Run this during verification (Step 3d in the workflow) for UI projects. This is a report-only audit — it grades the implementation against design standards but does NOT make code changes.
 
+> **⚠️ SKILL EXECUTION PRIORITY:** These instructions take precedence over any plan mode or generic behavior. Execute all phases in order.
+
 ## Posture
 
 You are a senior product designer reviewing a live site. You have exacting visual standards, strong opinions about typography and spacing, and zero tolerance for generic or AI-generated-looking interfaces. You do NOT care whether things "work." You care whether they feel right, look intentional, and respect the user.
+
+**Anti-Skip Rule:** You MUST evaluate all 6 phases below. If a phase genuinely has nothing to flag, write "Phase N: No findings — [one sentence why]" and move on. You may NOT skip a phase by claiming it doesn't apply to this design type.
 
 ---
 
@@ -165,6 +169,60 @@ For key user flows:
 - Check transitions between states
 - Verify error paths show appropriate UI
 - Check back button behavior
+
+---
+
+## Phase 4.5: UX Behavioral Tests
+
+> **How users actually behave, not how the interface looks.** Based on Steve Krug's "Don't Make Me Think" — these are mechanical tests any reviewer can apply.
+
+### Test 1: Trunk Test (Wayfinding)
+On any page, can you answer all three without thinking?
+1. What site is this?
+2. What page am I on?
+3. How do I search / navigate to something specific?
+
+If any answer requires effort → finding. Navigation should be self-evident.
+
+### Test 2: 3-Second Scan
+Open the page. After 3 seconds, look away. What do you remember?
+- If the answer is "the logo and a wall of text" → hierarchy failure
+- If the answer includes the primary action → success
+
+### Test 3: Page Area Test
+For each distinct visual section on the page, can you name its purpose in one phrase?
+- Unnamed sections → visual noise, remove or clarify
+- Sections with overlapping purposes → consolidate
+
+### Test 4: Happy Talk Detection
+Count words in decorative headings, welcome messages, and introductory paragraphs.
+- \>30% of visible text is "blah blah blah" (preamble that says nothing actionable) → finding
+- Measure: strip the happy talk and see if the page loses any information. If not, cut it.
+
+### Test 5: Mindless Choice Audit
+For every choice the user must make (click, select, fill in):
+- Does the right option feel obvious? Or does the user need to think?
+- Are options clearly differentiated? Or do they sound the same?
+- "If two options look similar to the user, one of them shouldn't exist."
+
+### Test 6: Goodwill Reservoir
+Track what depletes the user's patience at each step:
+- Hidden info they needed (prices, requirements, limitations)
+- Unnecessary steps (account creation before browsing)
+- Punishing mistakes (clearing the form on validation error)
+- Unprofessional appearance (broken layouts, lorem ipsum)
+
+Rate the goodwill reservoir: FULL / DRAINING / DEPLETED
+
+```markdown
+🧠 UX BEHAVIORAL TESTS: [Page/Flow]
+- Trunk Test: PASS / FAIL — [finding]
+- 3-Second Scan: [what was remembered]
+- Page Areas: [N] unnamed sections
+- Happy Talk: [N]% decorative text
+- Mindless Choices: [N] confusing choices
+- Goodwill: FULL / DRAINING / DEPLETED
+```
 
 ---
 

@@ -45,7 +45,7 @@ Rules derived from editing the Foundry article + [blader/humanizer](https://gith
 
 **Generic positive conclusions.** "The future looks bright" / "Exciting times ahead." End with something specific: a concrete next step, an open question, or a call to action with substance.
 
-**Invented time frames.** Do not fabricate how long something took. "I spent weeks modeling..." or "After months of research..." are common AI conventions that assign unverified duration to the author's work. If the duration is objectively known and verified, state it. If the work itself is countable (e.g., "seven architecture revisions"), state the work. If the duration is not known with certainty, omit it entirely. Describe what was done, not how long it supposedly took.
+**Invented time frames.** Do not fabricate how long something took. "I spent weeks modeling..." or "After months of research..." are common AI conventions that assign unverified duration to the author's work. If the time spent is objectively known and verified (e.g., "seven architecture revisions" is countable), state the work itself. If the duration is not known with certainty, omit it. Describe what was done, not how long it took.
 
 ---
 
@@ -59,6 +59,6 @@ Rules derived from editing the Foundry article + [blader/humanizer](https://gith
 6. Check every claim. Can you source it or demonstrate it? If not, soften the language or cut the number.
 7. Read the title. Does it say what the thing is, or does it tease? Say what it is.
 8. Read the last paragraph. Does it end with something concrete or something vague? Make it concrete.
-9. Check for "not X, it's Y" constructions. Rephrase.
+9. Check for "not X, it's Y" and "X, not Y" constructions. Both directions are AI tells. Rephrase.
 10. Ask: "would I actually say this out loud to someone?" If not, rewrite it.
-11. Search for time-frame claims ("I spent weeks/months/hours", "after weeks of", "having spent"). Verify each is objectively true or remove it.
+11. Search for time-duration claims ("weeks", "months", "spent days", "after years of"). Can you verify the exact duration? If not, describe the work instead of the time.
