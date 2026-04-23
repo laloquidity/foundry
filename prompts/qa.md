@@ -377,3 +377,82 @@ If the project has a TODO/backlog file:
 11. **Only create new test files for regression tests.** Never modify existing tests. Never modify CI configuration.
 12. **Revert on regression.** If a fix makes things worse, `git revert HEAD` immediately.
 13. **Self-regulate.** Follow the WTF-likelihood heuristic. When in doubt, stop and ask.
+
+---
+
+## Report Template
+
+Use `templates/qa-report-template.md` as the structured report format. Copy it to the output directory at the start of each run and fill in as you go.
+
+## Output Structure
+
+```
+.foundry/qa/
+├── qa-report-{domain}-{YYYY-MM-DD}.md    # Structured report
+├── screenshots/
+│   ├── initial.png                        # Landing page screenshot
+│   ├── issue-001-step-1.png               # Per-issue evidence
+│   ├── issue-001-result.png
+│   ├── issue-001-before.png               # Before fix (if fixed)
+│   ├── issue-001-after.png                # After fix (if fixed)
+│   └── ...
+└── baseline.json                          # For regression mode
+```
+
+---
+
+## Issue Taxonomy
+
+### Severity Levels
+
+| Severity | Definition | Examples |
+|----------|------------|----------|
+| **critical** | Blocks a core workflow, causes data loss, or crashes the app | Form submit causes error page, checkout flow broken, data deleted without confirmation |
+| **high** | Major feature broken or unusable, no workaround | Search returns wrong results, file upload silently fails, auth redirect loop |
+| **medium** | Feature works but with noticeable problems, workaround exists | Slow page load (>5s), form validation missing but submit still works, layout broken on mobile only |
+| **low** | Minor cosmetic or polish issue | Typo in footer, 1px alignment issue, hover state inconsistent |
+
+### Categories
+
+1. **Visual/UI** — Layout breaks, broken images, z-index issues, font/color inconsistencies, animation glitches, alignment issues, dark mode problems
+2. **Functional** — Broken links, dead buttons, form validation issues, incorrect redirects, state not persisting, race conditions, search returning wrong results
+3. **UX** — Confusing navigation, missing loading indicators, slow interactions (>500ms with no feedback), unclear error messages, no confirmation before destructive actions, dead ends
+4. **Content** — Typos, outdated text, placeholder/lorem ipsum left in, truncated text, wrong labels, missing empty states
+5. **Performance** — Slow page loads (>3s), janky scrolling, layout shifts (CLS), excessive network requests (>50), large unoptimized images, blocking JavaScript
+6. **Console/Errors** — JavaScript exceptions, failed network requests (4xx/5xx), deprecation warnings, CORS errors, mixed content, CSP violations
+7. **Accessibility** — Missing alt text, unlabeled form inputs, keyboard navigation broken, focus traps, missing/incorrect ARIA, insufficient contrast
+
+### Per-Page Exploration Checklist
+
+For each page visited during a QA session:
+
+1. **Visual scan** — Take screenshot. Look for layout issues, broken images, alignment.
+2. **Interactive elements** — Click every button, link, and control. Does each do what it says?
+3. **Forms** — Fill and submit. Test empty submission, invalid data, edge cases (long text, special characters).
+4. **Navigation** — Check all paths in/out. Breadcrumbs, back button, deep links, mobile menu.
+5. **States** — Check empty state, loading state, error state, full/overflow state.
+6. **Console** — Check for JS errors after interactions. Any new errors or failed requests?
+7. **Responsiveness** — If relevant, check mobile (375px) and tablet viewports.
+8. **Auth boundaries** — What happens when logged out? Different user roles?
+
+---
+
+## Framework-Specific Checklists
+
+### Next.js
+- Check console for hydration errors (`Hydration failed`, `Text content did not match`)
+- Monitor `_next/data` requests — 404s indicate broken data fetching
+- Test client-side navigation (click links, don't just navigate directly) — catches routing issues
+- Check for CLS (Cumulative Layout Shift) on pages with dynamic content
+
+### Rails
+- Check for N+1 query warnings in console (if development mode)
+- Verify CSRF token presence in forms
+- Test Turbo/Stimulus integration — do page transitions work smoothly?
+- Check for flash messages appearing and dismissing correctly
+
+### General SPA (React, Vue, Angular)
+- Use interactive element discovery for navigation — link crawling misses client-side routes
+- Check for stale state (navigate away and back — does data refresh?)
+- Test browser back/forward — does the app handle history correctly?
+- Check for memory leaks (monitor console after extended use)

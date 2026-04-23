@@ -749,6 +749,8 @@ For additional product surfaces (UI, bots, integrations):
 | `.agents/workflows/foundry-resume.md` | `/foundry-resume` workflow — convenience alias for resume path of `/foundry-start` |
 | `.agents/workflows/new-idea.md` | `/new-idea` workflow — capture new ideas with interview rigor, then propagate |
 | `.agents/workflows/curate.md` | `/curate` workflow — standalone ad-hoc content curation against arbitrary source files |
+| `.agents/workflows/qa.md` | `/qa` workflow — run QA test → fix → verify loop against a running application |
+| `templates/qa-report-template.md` | Structured QA report format — health score, issue documentation, fix evidence, ship readiness |
 | `.foundry/checkpoint.md` | (project-level) Session checkpoint — current phase, step, artifacts, open items. Written by Checkpoint Protocol, read by `/foundry-start` and `/foundry-resume` |
 | `data-room/` | (project-level) Extended source material — competitive analyses, rate research, investor Q&A, conversation extracts. Mined by content curator alongside standard artifacts |
 
