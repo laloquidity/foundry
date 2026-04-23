@@ -15,14 +15,10 @@
 | Parameter | Default | Override example |
 |-----------|---------|-----------------|
 | Target URL | (auto-detect or required) | `https://myapp.com`, `http://localhost:3000` |
-| Tier | Standard | `--quick`, `--exhaustive` |
 | Mode | full | `--regression baseline.json` |
 | Scope | Full app (or diff-scoped) | `Focus on the billing page` |
 
-**Tiers determine which issues get fixed:**
-- **Quick:** Fix critical + high severity only
-- **Standard:** + medium severity (default)
-- **Exhaustive:** + low/cosmetic severity
+**Fix policy:** Fix ALL findings, regardless of severity. Every bug found gets fixed. The only exceptions are issues that literally cannot be fixed from source code (third-party widget bugs, infrastructure issues).
 
 **If no URL and on a feature branch:** Automatically enter **diff-aware mode.**
 
@@ -229,13 +225,9 @@ Minimum 0 per category.
 
 ## Phase 7: Triage
 
-Sort all discovered issues by severity, then decide which to fix based on the selected tier:
+Sort all discovered issues by severity (critical → high → medium → low). **Fix ALL of them** in that order.
 
-- **Quick:** Fix critical + high only. Mark medium/low as "deferred."
-- **Standard:** Fix critical + high + medium. Mark low as "deferred."
-- **Exhaustive:** Fix all, including cosmetic/low severity.
-
-Mark issues that cannot be fixed from source code (e.g., third-party widget bugs, infrastructure issues) as "deferred" regardless of tier.
+The only issues marked "deferred" are those that literally cannot be fixed from source code (e.g., third-party widget bugs, infrastructure issues, external service outages).
 
 ---
 

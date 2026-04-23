@@ -12,8 +12,6 @@ Run the QA engineer skill (`prompts/qa.md`) against a running application. Tests
 /qa                                     # diff-aware mode (auto on feature branch)
 /qa https://myapp.com                   # full mode against URL
 /qa http://localhost:3000               # full mode against local dev server
-/qa --quick                             # 30-second smoke test
-/qa --exhaustive                        # fix everything including cosmetic issues
 /qa --regression .foundry/qa/baseline.json  # compare against previous run
 /qa Focus on the billing page           # scoped QA
 ```
@@ -23,9 +21,10 @@ Run the QA engineer skill (`prompts/qa.md`) against a running application. Tests
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | Target URL | auto-detect | URL to test. If omitted on a feature branch, enters diff-aware mode |
-| Tier | Standard | `--quick` (critical+high only), `--exhaustive` (all including cosmetic) |
 | Mode | diff-aware or full | Automatic based on branch/URL |
 | Scope | Full app | Natural language scope restriction |
+
+**Fix policy:** Every bug found gets fixed. No deferral by severity.
 
 ## Steps
 
