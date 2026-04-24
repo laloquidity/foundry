@@ -180,22 +180,14 @@ Proceeding to Step 1: Planning (Deliverable Checklist).
 
 ## Step 1: Planning (Deliverable Checklist)
 
-Before writing ANY code, create an explicit deliverable checklist:
+Before writing ANY code, open `IMPLEMENTATION_ROADMAP.md` and locate the deliverable list for your current phase. **This IS your checklist.** Do not create a separate deliverable list.
 
-```markdown
-## Phase [N] Deliverable Checklist
+1. Read every `- [ ]` item in the roadmap's `### Deliverables` section for this phase
+2. If the roadmap is missing deliverables you need to add (discovered during eng review), add them to the roadmap file directly — then commit
+3. As you complete each deliverable during Step 2, update `IMPLEMENTATION_ROADMAP.md` in-place: `[ ]` → `[/]` (in progress) → `[x]` (complete)
+4. **The roadmap file is the single source of truth for progress.** If it's not checked off in the roadmap, it's not done.
 
-### [Component 1]
-- [ ] [Sub-deliverable 1] — [spec ID]
-- [ ] [Sub-deliverable 2] — [spec ID]
-
-### [Component 2]
-- [ ] [Sub-deliverable 1] — [spec ID]
-```
-
-**EVERY sub-deliverable is tracked with `[ ]` / `[/]` / `[x]`.** Nothing is implied or assumed.
-
-**Ethereum/onchain projects — ERC standard deliverables:** When creating the deliverable checklist for contract phases, each deliverable involving an ERC standard should include the standard's required function signatures and events as sub-deliverables:
+**Ethereum/onchain projects — ERC standard deliverables:** When reviewing the roadmap's deliverable list for contract phases, add ERC sub-deliverables directly to `IMPLEMENTATION_ROADMAP.md` if missing. Each deliverable involving an ERC standard should include the standard's required function signatures and events as sub-deliverables:
 
 ```markdown
 ### ERC-20 Token Contract
@@ -262,7 +254,7 @@ For EACH deliverable:
 1. **Read the spec registry entry** for the relevant ID(s)
 2. **Cross-reference the section file** that governs this component
 3. **Write the implementation** with spec ID comments on every significant block
-4. **Mark `[x]` in your deliverable list**
+4. **Mark `[x]` in `IMPLEMENTATION_ROADMAP.md`** for this deliverable (edit the file, not just your notes)
 5. **Move to the next sub-deliverable**
 
 ### 2b. FORBIDDEN Actions During Implementation
@@ -285,7 +277,7 @@ For EACH deliverable:
 
 ### 2c. REQUIRED Actions During Implementation
 
-✅ Every `[ ]` becomes `[x]` with implementation complete
+✅ Every `[ ]` becomes `[x]` in `IMPLEMENTATION_ROADMAP.md` with implementation complete
 ✅ Every code block has a spec ID comment referencing its **section file**
 ✅ Every parameter comes from config, not hardcoded
 ✅ Every value matches the interview document exactly
@@ -703,6 +695,7 @@ A contract with 100% unit coverage but 0 fork tests for external calls = FAIL.
 - Read `IMPLEMENTATION_ROADMAP.md` for the current phase's deliverables
 - Extract every actionable item and cross-reference against the diff
 - Classify each: DONE / PARTIAL / NOT DONE / CHANGED
+- **Update the roadmap file:** Mark each DONE item `[x]`, each PARTIAL item `[/]` with a note
 - **Gate:** NOT DONE items must be acknowledged (implement / defer / drop)
 
 ### 4e. Commit & Push

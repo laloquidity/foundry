@@ -54,6 +54,7 @@ Checkpoint file format:
 - Phase: [0 | A | A½ | A¾ | B | C | D | E | F | COMPLETE]
 - Step: [step number or name within the phase]
 - Status: IN_PROGRESS | COMPLETED
+- Deliverables: [completed]/[total] (Phase [N]) — see IMPLEMENTATION_ROADMAP.md
 - Last action: "[plain-English description]"
 - Last commit: [hash]
 - Timestamp: [ISO 8601]
