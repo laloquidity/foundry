@@ -374,7 +374,7 @@ If the project has a TODO/backlog file:
 
 ## Report Template
 
-Use `templates/qa-report-template.md` as the structured report format. Copy it to the output directory at the start of each run and fill in as you go.
+Use `.foundry/templates/qa-report-template.md` as the structured report format. Copy it to the output directory at the start of each run and fill in as you go.
 
 ## Output Structure
 

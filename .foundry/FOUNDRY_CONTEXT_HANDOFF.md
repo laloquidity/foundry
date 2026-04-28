@@ -22,23 +22,23 @@ It is NOT a code framework. It is a **process framework** — a set of markdown 
 
 | File | Purpose |
 |:-----|:--------|
-| `SKILL.md` | **Master orchestrator.** Defines the full Phase A → Phase G lifecycle. The agent reads this first and it governs everything. |
-| `templates/workflow_template.md` | Per-phase build loop (Steps 0-6). Copied into project as `PROJECT_WORKFLOW.md`. Every phase of implementation follows these steps. |
-| `templates/interview_guide.md` | Deep interview framework for Phase A. |
-| `templates/interview_update_workflow.md` | Mid-project scope change handler. |
-| `prompts/ship.md` | **v2 "Ship With Teeth"** — release workflow with coverage gate (60%/80%), test failure triage, plan completion audit, verification gate, bisectable commits. |
-| `prompts/cso.md` | **v2 CSO security audit** — 15-phase security scan. |
-| `prompts/production_review.md` | **3-pass production bug audit** — Critical, Informational, Operational. |
-| `prompts/crowe_persona_generator.md` | Generates specialist reviewer personas. |
-| `prompts/qa.md` | QA loop. |
-| `prompts/design_review.md` | Design audit. |
-| `prompts/eng_review.md` | Engineering review. |
-| `prompts/debug.md` | Iron Law debug methodology. |
-| `prompts/ceo_review.md` | CEO strategic review. |
-| `prompts/office_hours.md` | Client check-in prompts. |
-| `prompts/simplify_loop.md` | Complexity reduction. |
-| `prompts/document_release.md` | Documentation update. |
-| `prompts/design_consultation.md` | Design consultation. |
+| `.foundry/SKILL.md` | **Master orchestrator.** Defines the full Phase A → Phase G lifecycle. The agent reads this first and it governs everything. |
+| `.foundry/templates/workflow_template.md` | Per-phase build loop (Steps 0-6). Copied into project as `PROJECT_WORKFLOW.md`. Every phase of implementation follows these steps. |
+| `.foundry/templates/interview_guide.md` | Deep interview framework for Phase A. |
+| `.foundry/templates/interview_update_workflow.md` | Mid-project scope change handler. |
+| `.foundry/prompts/ship.md` | **v2 "Ship With Teeth"** — release workflow with coverage gate (60%/80%), test failure triage, plan completion audit, verification gate, bisectable commits. |
+| `.foundry/prompts/cso.md` | **v2 CSO security audit** — 15-phase security scan. |
+| `.foundry/prompts/production_review.md` | **3-pass production bug audit** — Critical, Informational, Operational. |
+| `.foundry/prompts/crowe_persona_generator.md` | Generates specialist reviewer personas. |
+| `.foundry/prompts/qa.md` | QA loop. |
+| `.foundry/prompts/design_review.md` | Design audit. |
+| `.foundry/prompts/eng_review.md` | Engineering review. |
+| `.foundry/prompts/debug.md` | Iron Law debug methodology. |
+| `.foundry/prompts/ceo_review.md` | CEO strategic review. |
+| `.foundry/prompts/office_hours.md` | Client check-in prompts. |
+| `.foundry/prompts/simplify_loop.md` | Complexity reduction. |
+| `.foundry/prompts/document_release.md` | Documentation update. |
+| `.foundry/prompts/design_consultation.md` | Design consultation. |
 
 ### Lifecycle (Phases)
 
@@ -83,7 +83,7 @@ Step 6:   Phase transition (interface contract, complexity budget, retro)
   - Verification gate (no claims without fresh evidence)
   - Bisectable commits
 - **Production Review Pass 3 (OPERATIONAL):** Added 10 scaling/resilience checks (rate limiting, DB indexing, pagination, pooling, error boundaries, env validation, async patterns, health checks, logging, backups).
-- **Workflow Template + SKILL.md:** Updated to reflect all v2 features.
+- **Workflow Template + .foundry/SKILL.md:** Updated to reflect all v2 features.
 
 ### 3. ETH-SKILL-GUIDE (standalone, NOT in repo)
 - Created a comprehensive guide for wiring [ethskills.com](https://ethskills.com) into Foundry projects.
@@ -205,10 +205,10 @@ git clone https://github.com/laloquidity/foundry .
 /foundry-start
 ```
 
-The agent reads `SKILL.md` and begins Phase A (Interview). Everything flows from there.
+The agent reads `.foundry/SKILL.md` and begins Phase A (Interview). Everything flows from there.
 
 If it's an Ethereum project, also copy ETH-SKILL-GUIDE.md into the workspace root before Phase A½.
 
 ---
 
-*End of handoff. The next agent should read SKILL.md and workflow_template.md in full before making any changes to Foundry itself.*
+*End of handoff. The next agent should read .foundry/SKILL.md and .foundry/templates/workflow_template.md in full before making any changes to Foundry itself.*

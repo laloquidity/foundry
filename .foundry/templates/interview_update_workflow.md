@@ -18,7 +18,7 @@ Run this whenever the interview document (`PROJECT_INTERVIEW.md`) is updated wit
 
 2. **Run the extraction script:**
    ```bash
-   python3 -u scripts/extract_sections.py
+   python3 -u .foundry/scripts/extract_sections.py
    ```
    
    Expected output: `X/X passed, 0 failed`
@@ -45,6 +45,6 @@ Run this whenever the interview document (`PROJECT_INTERVIEW.md`) is updated wit
    - Update the execution workflow if the new content affects any phase's scope
 
 6. **CEO Re-validation** (if changes are substantive):
-   - If the interview changes involved new requirements, changed thresholds, or modified decision rules (not just typo fixes), run `prompts/ceo_review.md` in **HOLD SCOPE** mode against the changed sections
+   - If the interview changes involved new requirements, changed thresholds, or modified decision rules (not just typo fixes), run `.foundry/prompts/ceo_review.md` in **HOLD SCOPE** mode against the changed sections
    - Confirm the new decisions don't conflict with existing scope decisions or the 12-month vision
    - If conflicts are found, resolve them before proceeding

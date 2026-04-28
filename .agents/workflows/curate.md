@@ -4,7 +4,7 @@ description: Run an ad-hoc content curation pass against any source files — st
 
 # /curate — Standalone Content Curation
 
-Run the Content Curator (`prompts/content_curator.md`) against arbitrary source files at any time. Use this when curation opportunities arise outside the build lifecycle: after a competitive analysis conversation, an investor call, a deep research session, or a market event.
+Run the Content Curator (`.foundry/prompts/content_curator.md`) against arbitrary source files at any time. Use this when curation opportunities arise outside the build lifecycle: after a competitive analysis conversation, an investor call, a deep research session, or a market event.
 
 ## Usage
 
@@ -49,7 +49,7 @@ If no source files are specified, the curator defaults to the standard Foundry a
    - Build signals around the arc, not alongside it.
 
 4. **Run the curator:**
-   - Invoke `prompts/content_curator.md` with the collected source files and the arc identified in step 3
+   - Invoke `.foundry/prompts/content_curator.md` with the collected source files and the arc identified in step 3
    - The curator reads all sources, extracts candidate signals, ranks them, and produces draft pieces
    - All editorial rules and voice standards apply exactly as in phase-gate curation
    - **Quality over quantity.** One piece that captures the genuine arc is better than four pieces that each grab a fragment. Produce 1–4 pieces depending on the richness of the source material.
@@ -61,7 +61,7 @@ If no source files are specified, the curator defaults to the standard Foundry a
    - The curator outputs a Content Curation Summary table
 
 6. **Run the Gatekeeper editorial review:**
-   - Invoke `prompts/content_editor.md` on each draft in `content/drafts/` that has `status: draft` in its frontmatter
+   - Invoke `.foundry/prompts/content_editor.md` on each draft in `content/drafts/` that has `status: draft` in its frontmatter
    - The Gatekeeper runs 5 passes per piece: VC Test, Engineer Test, AI Pattern Sweep, Platform Fit Check, Credibility Gut Check
    - For each draft, the Gatekeeper outputs a verdict:
      - **APPROVED** → update frontmatter `status: reviewed`, apply inline edits, generate hook tweet (for articles)
@@ -88,7 +88,7 @@ If no source files are specified, the curator defaults to the standard Foundry a
 
 - **Full pipeline: Signal Miner → Gatekeeper → Human.** The curator (Signal Miner) writes drafts. The editor (Gatekeeper) reviews them. The human makes the final publish decision. No piece skips the Gatekeeper.
 - **Same rigor as phase-gate curation.** The curator applies identical editorial rules, signal ranking, and deduplication whether triggered by a phase gate or by `/curate`.
-- **Source files must be in the workspace.** The curator reads files, not conversation logs. If signal lives in a past conversation, extract it into a markdown file first (see the cross-conversation extraction pattern in `prompts/content_curator.md`).
+- **Source files must be in the workspace.** The curator reads files, not conversation logs. If signal lives in a past conversation, extract it into a markdown file first (see the cross-conversation extraction pattern in `.foundry/prompts/content_curator.md`).
 - **Drafts are always drafts.** Nothing is published. Everything goes to `content/drafts/` for human review, even after Gatekeeper approval.
 - **Arc over signals.** The most common failure mode in AI-assisted curation is producing multiple pieces that each capture a "signal" without capturing the throughline. Fight this by finding the arc first and building around it.
 - **Curate, don't catalog.** Mining conversations will surface more detail than the piece needs. Include what serves the narrative. If a data point doesn't advance the arc or earn a claim, cut it — even if it's interesting. The goal is a piece that flows, not a transcript.

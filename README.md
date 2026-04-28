@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.6.0** The framework is complete and ready to use. Feedback and contributions welcome.
+> **Status: v0.7.0** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -10,20 +10,43 @@ One command: `/foundry-start`. The rest handles itself.
 
 ---
 
-## Quick Start
+## Install
 
 ```bash
-mkdir my-project && cd my-project
-git clone https://github.com/laloquidity/foundry.git .
+# From your project directory (new or existing):
+bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh)
 ```
 
-Open `my-project/` as your workspace, then tell the agent:
+This installs Foundry into `.foundry/` and `.agents/workflows/`. Your README, git history, existing files — untouched.
+
+```
+your-project/
+├── .foundry/                     ← Foundry framework (installed)
+│   ├── SKILL.md                  ← master orchestrator
+│   ├── prompts/                  ← 16 review & consultation prompts
+│   ├── templates/                ← workflow template, interview guide
+│   └── scripts/                  ← section extraction
+├── .agents/workflows/            ← slash command workflows (installed)
+│   ├── foundry-start.md
+│   ├── curate.md
+│   ├── qa.md
+│   └── ...
+├── README.md                     ← yours
+├── src/                          ← yours
+└── ...                           ← yours
+```
+
+Then tell your agent:
 
 ```
 /foundry-start
 ```
 
-> **Important:** The `.` at the end of the clone command puts Foundry files at the root of your project folder. Without it, git creates a nested `foundry/` subdirectory and the agent won't find the workflow.
+To update to the latest version:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh) --update
+```
 
 ---
 
@@ -88,7 +111,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 
 ## What's Included
 
-### Prompts (`prompts/`)
+### Prompts (`.foundry/prompts/`)
 
 | Prompt | What It Does |
 |:-------|:-------------|
@@ -108,7 +131,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | `content_curator.md` | Signal Miner — mines Foundry artifacts for genuine insights, produces X/LinkedIn draft content |
 | `content_editor.md` | Gatekeeper (Chief Editor) — 5-pass editorial review before publication (VC Test, Engineer Test, AI Pattern Sweep, Platform Fit, Credibility) |
 
-### Templates (`templates/`)
+### Templates (`.foundry/templates/`)
 
 | Template | What It Does |
 |:---------|:-------------|
@@ -124,13 +147,14 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | `foundry-resume.md` | `/foundry-resume` — explicitly resume a paused session via checkpoint file |
 | `new-idea.md` | `/new-idea` — capture new ideas mid-project with interview rigor |
 | `curate.md` | `/curate` — ad-hoc content curation pass outside the phase gate lifecycle |
+| `qa.md` | `/qa` — full QA test → fix → verify loop against a running application |
 
 ### Other
 
 | File | What It Does |
 |:-----|:-------------|
-| `SKILL.md` | Master orchestrator — defines every phase, step, and prompt |
-| `scripts/extract_sections.py` | Header-anchored section extraction script |
+| `.foundry/SKILL.md` | Master orchestrator — defines every phase, step, and prompt |
+| `.foundry/scripts/extract_sections.py` | Header-anchored section extraction script |
 
 ---
 
@@ -144,18 +168,19 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 ### Setup
 
 ```bash
-# 1. Clone this repo into your new project
-git clone https://github.com/YOUR_USERNAME/foundry.git my-project
-cd my-project
+# New project
+mkdir my-project && cd my-project && git init
+bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh)
 
-# 2. Open in your IDE
-# Cursor, Windsurf, VS Code, etc.
+# Existing project
+cd my-existing-project
+bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh)
 ```
 
 ### Run It
 
 1. **Open your AI agent** in the project directory
-2. **Type `/foundry-start`** — the agent reads `SKILL.md` and begins Phase 0 (product discovery)
+2. **Type `/foundry-start`** — the agent reads `.foundry/SKILL.md` and begins Phase 0 (product discovery)
 3. **Answer questions** during discovery and interview phases — this is the only manual work
 4. **Approve** at each STOP gate (design doc, interview, roadmap)
 5. **Watch it build** — Phase F executes the roadmap with full review coverage
@@ -164,14 +189,15 @@ The framework generates these files as it runs:
 
 ```
 my-project/
-├── DESIGN_DOC.md              ← Phase 0 output (product discovery)
-├── PROJECT_INTERVIEW.md       ← Phase A output (deep specification)
-├── sections/                  ← Phase C output (context-scoped chunks)
+├── .foundry/                      ← framework (installed)
+├── DESIGN_DOC.md                  ← Phase 0 output (product discovery)
+├── PROJECT_INTERVIEW.md           ← Phase A output (deep specification)
+├── sections/                      ← Phase C output (context-scoped chunks)
 │   └── _INDEX.md
-├── PROJECT_WORKFLOW.md        ← Phase D output (execution manual)
-├── IMPLEMENTATION_ROADMAP.md  ← Phase E output (detailed battle plan)
-├── RETRO_LOG.md               ← Phase F output (learning loop)
-└── src/                       ← Phase F output (your actual code)
+├── PROJECT_WORKFLOW.md            ← Phase D output (execution manual)
+├── IMPLEMENTATION_ROADMAP.md      ← Phase E output (detailed battle plan)
+├── RETRO_LOG.md                   ← Phase F output (learning loop)
+└── src/                           ← Phase F output (your actual code)
 ```
 
 ### Compatibility
@@ -179,8 +205,8 @@ my-project/
 Foundry works with any AI coding tool that can read markdown files. Tested with:
 - **Cursor** — use `/foundry-start` in chat
 - **Windsurf** — use `/foundry-start` in Cascade
-- **Claude Code** — reference `SKILL.md` directly
-- **Any LLM** — paste `SKILL.md` as the system prompt, it handles the rest
+- **Claude Code** — reference `.foundry/SKILL.md` directly
+- **Any LLM** — paste `.foundry/SKILL.md` as the system prompt, it handles the rest
 
 ---
 

@@ -86,7 +86,7 @@ Checkpoint file format:
 
 > **Resuming:** When `/foundry-start` or `/foundry-resume` detects a checkpoint, it reads this file, runs a workspace drift scan (see the workflow), and resumes from the exact phase and step recorded here.
 
-> **Resetting:** To discard a session and start fresh, delete `.foundry/checkpoint.md` (or the entire `.foundry/` directory) and run `/foundry-start`.
+> **Resetting:** To discard a session and start fresh, delete `.foundry/checkpoint.md` and run `/foundry-start`. Do not delete the entire `.foundry/` directory — it contains the framework files.
 
 ---
 
@@ -100,7 +100,7 @@ Execute these phases IN ORDER. Do not skip.
 
 **Goal:** Validate what to build and why, before capturing how to build it.
 
-1. **Run `prompts/office_hours.md`** — this runs a full product discovery session. It adapts to the user's context:
+1. **Run `.foundry/prompts/office_hours.md`** — this runs a full product discovery session. It adapts to the user's context:
    - **Startup/intrapreneurship** → 6 Forcing Questions (Demand Reality, Status Quo, Desperate Specificity, Narrowest Wedge, Observation & Surprise, Future-Fit)
    - **Builder/hackathon/learning** → Generative design partner (coolest version, fastest path, 10x vision)
 
@@ -134,7 +134,7 @@ Execute these phases IN ORDER. Do not skip.
    ```
 
 2. **Generate Seed Personas** from `DESIGN_DOC.md`. The design doc from Phase 0 contains enough context (domain, target users, technical approach, constraints) to generate lightweight domain consultants:
-   - Run `prompts/crowe_persona_generator.md` with the `DESIGN_DOC.md` as input
+   - Run `.foundry/prompts/crowe_persona_generator.md` with the `DESIGN_DOC.md` as input
    - Generate 2-3 seed personas — these are domain-aware advisors, not full implementation personas
    - Seed personas provide **domain-specific recommendations** during the interview (step 5 below)
    - In Phase B, these seed personas get refined and expanded with the full interview context
@@ -144,14 +144,14 @@ Execute these phases IN ORDER. Do not skip.
 
    > Read these ethskills files before running the interview. They correct stale LLM training data and inform architecture questions.
 
-   - Read `ethskills/concepts.md` — CROPS framework, incentive design, Hyperstructure Test
-   - Read `ethskills/l2s.md` — Chain selection, deployment gotchas, finality/cost tradeoffs
-   - Read `ethskills/why.md` — Current network stats (early 2026), gas reality (<1 gwei), ERC-8004 + x402 agent economy
-   - Read `ethskills/protocol.md` — Staleness guard for EIP info, correct block timing (12s), gas limit (60M post-Fusaka)
-   - Read `ethskills/tools.md` — Framework selection (Hardhat vs Foundry vs Ape), MCP servers, Scaffold-ETH 2
-   - When chain and scope are clear, add `ethskills/standards.md` — ERC standards including agent-era standards (ERC-8004, x402, EIP-7702)
+   - Read `.foundry/ethskills/concepts.md` — CROPS framework, incentive design, Hyperstructure Test
+   - Read `.foundry/ethskills/l2s.md` — Chain selection, deployment gotchas, finality/cost tradeoffs
+   - Read `.foundry/ethskills/why.md` — Current network stats (early 2026), gas reality (<1 gwei), ERC-8004 + x402 agent economy
+   - Read `.foundry/ethskills/protocol.md` — Staleness guard for EIP info, correct block timing (12s), gas limit (60M post-Fusaka)
+   - Read `.foundry/ethskills/tools.md` — Framework selection (Hardhat vs Foundry vs Ape), MCP servers, Scaffold-ETH 2
+   - When chain and scope are clear, add `.foundry/ethskills/standards.md` — ERC standards including agent-era standards (ERC-8004, x402, EIP-7702)
 
-   > **Skip condition:** If the project has no Ethereum/onchain component, skip this step. If `ethskills/` directory doesn't exist, run `bash scripts/pull_ethskills.sh` first.
+   > **Skip condition:** If the project has no Ethereum/onchain component, skip this step. If `.foundry/ethskills/` directory doesn't exist, run `bash .foundry/scripts/pull_ethskills.sh` first.
 
 3. **Prior Context Ingestion** (if the user has existing PRDs, specs, or context documents):
 
@@ -195,7 +195,7 @@ Execute these phases IN ORDER. Do not skip.
 
    > **Skip condition:** If the user has no existing documents, skip step 3 entirely and proceed to step 4 (normal interview flow).
 
-4. **Run the Deep Interview** using `templates/interview_guide.md` as your structure. If Prior Context Ingestion ran (step 3), the interview operates in adaptive mode — but this does NOT mean a rubber stamp. The interview still brings genuine new ideas, questions, and perspectives as if encountering the problem fresh. The prior context accelerates the interview by not re-asking answered questions, but the Advisory Mode challenge and multi-perspective recommendations run at full intensity on ALL content, including pre-filled content. If no prior context, ask every question. Record every answer. Capture exact thresholds, formulas, edge cases, decision rules.
+4. **Run the Deep Interview** using `.foundry/templates/interview_guide.md` as your structure. If Prior Context Ingestion ran (step 3), the interview operates in adaptive mode — but this does NOT mean a rubber stamp. The interview still brings genuine new ideas, questions, and perspectives as if encountering the problem fresh. The prior context accelerates the interview by not re-asking answered questions, but the Advisory Mode challenge and multi-perspective recommendations run at full intensity on ALL content, including pre-filled content. If no prior context, ask every question. Record every answer. Capture exact thresholds, formulas, edge cases, decision rules.
 
 5. **🧭 Advisory Mode — proactive, multi-perspective, inline with every question:**
 
@@ -205,9 +205,9 @@ Execute these phases IN ORDER. Do not skip.
    - Ask the question
    - Provide a **production-grade recommendation** from the most relevant perspective:
      - **Seed Persona view** — domain-specific advice based on the persona's expertise (e.g., a fintech persona recommends settlement patterns)
-     - **CEO Review lens** (`prompts/ceo_review.md`) — strategic scope, dream state, reversibility
-     - **Eng Review lens** (`prompts/eng_review.md`) — architecture, blast radius, failure modes
-     - **Design lens** (`prompts/design_consultation.md`) — UX, interaction patterns (if UI-relevant)
+     - **CEO Review lens** (`.foundry/prompts/ceo_review.md`) — strategic scope, dream state, reversibility
+     - **Eng Review lens** (`.foundry/prompts/eng_review.md`) — architecture, blast radius, failure modes
+     - **Design lens** (`.foundry/prompts/design_consultation.md`) — UX, interaction patterns (if UI-relevant)
    - Keep it concise — one recommendation with the key tradeoff, not a dissertation
    - The client confirms, adjusts, or picks a different path
 
@@ -244,7 +244,7 @@ Execute these phases IN ORDER. Do not skip.
    git add PROJECT_INTERVIEW.md && git commit -m "Baseline: domain interview"
    ```
 
-8. **🔍 CEO Review Gate** — Run the CEO review process using `prompts/ceo_review.md`. Present the captured interview to a CEO/Founder lens for premise challenge, dream state mapping, and scope validation.
+8. **🔍 CEO Review Gate** — Run the CEO review process using `.foundry/prompts/ceo_review.md`. Present the captured interview to a CEO/Founder lens for premise challenge, dream state mapping, and scope validation.
 
    - The client selects a mode: **Expansion** (dream big), **Selective Expansion** (cherry-pick), **Hold Scope** (make bulletproof), or **Reduction** (cut to minimum)
    - Each proposed change is presented individually — client opts in or out
@@ -269,7 +269,7 @@ Execute these phases IN ORDER. Do not skip.
 
    > **Skip condition:** If no prior context documents were provided (step 3 was skipped), skip this gate.
 
-10. **📝 Project Documentation Suite** — Run `prompts/project_docs.md` to generate the initial documentation suite from `DESIGN_DOC.md` and `PROJECT_INTERVIEW.md`:
+10. **📝 Project Documentation Suite** — Run `.foundry/prompts/project_docs.md` to generate the initial documentation suite from `DESIGN_DOC.md` and `PROJECT_INTERVIEW.md`:
      - Product Brief (one-pager)
      - Investor Memo (thesis, market, differentiation, risks)
      - Technical Overview (architecture, decisions, security model)
@@ -281,7 +281,7 @@ Execute these phases IN ORDER. Do not skip.
        git add docs/ && git commit -m "docs: initial documentation suite"
        ```
 
-11. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against the interview artifacts.
+11. **✍️ Content Curation Pass** (Optional) — Run `.foundry/prompts/content_curator.md` against the interview artifacts.
 
      > The interview is the richest source of genuine signal: discoveries from the deep dive, debates between Advisory Mode and client instinct, premise challenges that changed direction, and non-obvious decisions.
 
@@ -321,18 +321,18 @@ Execute these phases IN ORDER. Do not skip.
    - Authority level (mandatory vs optional, blocking vs advisory)
 
 4. **Ethereum/onchain projects — wire EthSkills:**
-   - Read `ETH-SKILL-GUIDE.md` in the project root — this is the master integration guide for Ethereum ethskills
+   - Read `.foundry/ETH-SKILL-GUIDE.md` in the project root — this is the master integration guide for Ethereum ethskills
    - It maps each ethskill to specific workflow steps (0f through 6c)
    - Wire the ethskills into `PROJECT_WORKFLOW.md` and `IMPLEMENTATION_ROADMAP.md` as described in the guide
    - Authority: **mandatory and blocking** (same as other skills in the workflow)
-   - The ethskills files in `ethskills/` are read locally — no network fetch needed
+   - The ethskills files in `.foundry/ethskills/` are read locally — no network fetch needed
 
 5. **Smart contract projects — wire Trail of Bits audit skills:**
-   - Read `TOB-SKILL-GUIDE.md` in the project root — this maps Trail of Bits' official audit skills to Foundry workflow steps
+   - Read `.foundry/TOB-SKILL-GUIDE.md` in the project root — this maps Trail of Bits' official audit skills to Foundry workflow steps
    - It covers: dimensional analysis, spec-to-code compliance, entry point analysis, property-based testing, differential review, and pre-audit gates
    - Wire into `PROJECT_WORKFLOW.md` and `IMPLEMENTATION_ROADMAP.md` as described in the guide
    - Authority: **mandatory and blocking** (same as EthSkills)
-   - The ToB skills files in `tob-skills/` are read locally — run `bash scripts/pull_tob_skills.sh` to populate
+   - The ToB skills files in `.foundry/tob-skills/` are read locally — run `bash .foundry/scripts/pull_tob_skills.sh` to populate
 
 6. **Save to project:**
    ```bash
@@ -349,7 +349,7 @@ Execute these phases IN ORDER. Do not skip.
 
 > **Skip this phase** if the project has no user-facing interface (backend-only, CLI, data pipeline, headless).
 
-1. **Run the Design Consultation** using `prompts/design_consultation.md` as the process guide. This is a conversation, not a form — the design consultant will:
+1. **Run the Design Consultation** using `.foundry/prompts/design_consultation.md` as the process guide. This is a conversation, not a form — the design consultant will:
    - Understand the product's audience, personality, and competitive landscape
    - Propose a complete design system: typography, color palette, spacing scale, motion strategy
    - Identify safe choices AND creative risks — the client picks which risks to take
@@ -362,9 +362,9 @@ Execute these phases IN ORDER. Do not skip.
    git add DESIGN.md && git commit -m "Added design system"
    ```
 
-> **Why here?** Design decisions inform the implementation structure. Running this before section extraction (Phase C) means design requirements can be captured in the interview and wired into the execution workflow. The design review prompt (`prompts/design_review.md`) can then audit the implementation against `DESIGN.md` during verification.
+> **Why here?** Design decisions inform the implementation structure. Running this before section extraction (Phase C) means design requirements can be captured in the interview and wired into the execution workflow. The design review prompt (`.foundry/prompts/design_review.md`) can then audit the implementation against `DESIGN.md` during verification.
 
-4. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against the design artifacts.
+4. **✍️ Content Curation Pass** (Optional) — Run `.foundry/prompts/content_curator.md` against the design artifacts.
 
     > Design consultations surface creative risks taken or rejected, tension between safe and bold choices, and differentiated aesthetic decisions that other builders would find interesting.
 
@@ -391,7 +391,7 @@ Execute these phases IN ORDER. Do not skip.
    - SaaS → Product Owner + Security Engineer + Infrastructure Lead
    - **Ethereum/onchain** → Solidity Architect + Frontend Engineer + [domain specialist]
 
-2. **Generate personas** using the Crowe meta-prompt in `prompts/crowe_persona_generator.md`. For each role, prompt Crowe with:
+2. **Generate personas** using the Crowe meta-prompt in `.foundry/prompts/crowe_persona_generator.md`. For each role, prompt Crowe with:
    ```
    Create a persona for [exact role, domain, and specific requirements]
    ```
@@ -419,7 +419,7 @@ Execute these phases IN ORDER. Do not skip.
 
 **Goal:** Split the interview into focused, task-scoped chunks for high-fidelity context loading.
 
-1.  **Adapt the extraction script** from `scripts/extract_sections.py` for your project:
+1.  **Adapt the extraction script** from `.foundry/scripts/extract_sections.py` for your project:
     -   Update the `SECTIONS` list with your interview's `##` header patterns
     -   Update spec IDs and cross-references for your domain
     -   Run: `python3 -u extract_sections.py`
@@ -453,7 +453,7 @@ Execute these phases IN ORDER. Do not skip.
     git add sections/ && git commit -m "Extracted sections, built index"
     ```
 
-6. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against architecture artifacts.
+6. **✍️ Content Curation Pass** (Optional) — Run `.foundry/prompts/content_curator.md` against architecture artifacts.
 
      > Architecture decisions, persona debates, and roadmap tradeoffs reveal hard choices and differentiated thinking. The gap between what's conventional and what this project chose to do differently is where the signal lives.
 
@@ -472,22 +472,22 @@ Execute these phases IN ORDER. Do not skip.
 
 **Goal:** Generate the project-specific execution workflow that agents follow during coding.
 
-1.  **Copy and adapt** `templates/workflow_template.md` to your project's `PROJECT_WORKFLOW.md`:
+1.  **Copy and adapt** `.foundry/templates/workflow_template.md` to your project's `PROJECT_WORKFLOW.md`:
     -   Inject your persona roles into the Role Clarification table
     -   Update section file references for your project
     -   Configure the verification loop with your section files
     -   Set up the conflict resolution table for any ambiguities found during extraction
-    -   Add the simplify loop from `prompts/simplify_loop.md` IF your project is NOT high-risk (see note below)
-    -   **Verify all prompt file paths** — every reference like `prompts/eng_review.md` must resolve from the project root. Confirm that `prompts/`, `scripts/`, and `templates/` are accessible from where the agent runs.
+    -   Add the simplify loop from `.foundry/prompts/simplify_loop.md` IF your project is NOT high-risk (see note below)
+    -   **Verify all prompt file paths** — every reference like `.foundry/prompts/eng_review.md` must resolve from the project root. Confirm that `.foundry/prompts/`, `.foundry/scripts/`, and `.foundry/templates/` are accessible from where the agent runs.
     -   The workflow template already includes: engineering review (Step 1c), production review (Step 2g), design review (Step 3d), QA (Step 3e), ship (Step 4), and document release (Step 5)
 
 2.  **Configure risk level:**
     -   **High-risk** (trading, medical, financial): Do NOT include the simplify loop. The verification loop (Step 2d) is sufficient. Any code cleanup happens as a deliberate, separate decision.
     -   **Standard-risk** (consumer apps, SaaS, tools): Include the simplify loop after each component, before verification.
 
-3.  **Run the Engineering Plan Review** using `prompts/eng_review.md` — have the implementation roadmap reviewed with engineering manager rigor before finalizing the workflow. This catches architecture issues, scope creep, missing test plans, and failure modes.
+3.  **Run the Engineering Plan Review** using `.foundry/prompts/eng_review.md` — have the implementation roadmap reviewed with engineering manager rigor before finalizing the workflow. This catches architecture issues, scope creep, missing test plans, and failure modes.
 
-4.  **Create the `/interview-update` workflow** — copy `templates/interview_update_workflow.md` to `.agents/workflows/interview-update.md` and adapt for your project's paths.
+4.  **Create the `/interview-update` workflow** — copy `.foundry/templates/interview_update_workflow.md` to `.agents/workflows/interview-update.md` and adapt for your project's paths.
 
 5.  **Wire up `/foundry-start`** — the bootstrap folder includes `.agents/workflows/foundry-start.md`. When copying the bootstrap folder to a new workspace, ensure this directory is included so `/foundry-start` works immediately.
     -   **Update the `foundry-start.md` workflow** to begin execution at Phase 0.
@@ -574,8 +574,8 @@ Execute these phases IN ORDER. Do not skip.
     
     ### EthSkills (Ethereum Projects — MANDATORY for onchain phases)
     **Load at Step 0f (context):**
-    - `ethskills/security.md` — [which of the 9 vulnerability categories are relevant]
-    - `ethskills/addresses.md` — [which canonical addresses this phase's contracts interact with]
+    - `.foundry/ethskills/security.md` — [which of the 9 vulnerability categories are relevant]
+    - `.foundry/ethskills/addresses.md` — [which canonical addresses this phase's contracts interact with]
     - [additional skill] — [what it covers for this phase]
     
     **Load at Step 3a (testing setup):**
@@ -591,7 +591,7 @@ Execute these phases IN ORDER. Do not skip.
     > "No onchain work in this phase — ethskills minimums skipped: [reason]"
     ```
 
-3.  **Run the Engineering Plan Review** using `prompts/eng_review.md` against the full roadmap. This catches:
+3.  **Run the Engineering Plan Review** using `.foundry/prompts/eng_review.md` against the full roadmap. This catches:
     -   Phases that are too large (complexity budget too high)
     -   Missing dependencies between phases
     -   Context checkpoint questions that are too vague
@@ -641,7 +641,7 @@ Execute these phases IN ORDER. Do not skip.
     -   Step 5: Document release (post-ship documentation update + onchain docs: contract addresses, ABIs, verified links)
 
     **Step 3.5: CSO Security Audit** (when routed):
-    -   Run `prompts/cso.md` with the mode specified in the roadmap's security classification
+    -   Run `.foundry/prompts/cso.md` with the mode specified in the roadmap's security classification
     -   The CSO reads the phase's section files for spec-aware threat modeling
     -   If findings are CRITICAL or HIGH → enter **fix-verify-CSO cycle**:
         1. Agent fixes the finding (code change + unit test for the fix)
@@ -685,7 +685,7 @@ Execute these phases IN ORDER. Do not skip.
     -   If "Assumptions to Re-Validate" has entries → run `/interview-update` workflow
     -   Commit: `git add RETRO_LOG.md && git commit -m "retro: Phase [N] complete"`
 
-6½. **✍️ Content Curation Pass** (Optional) — Run `prompts/content_curator.md` against the retro.
+6½. **✍️ Content Curation Pass** (Optional) — Run `.foundry/prompts/content_curator.md` against the retro.
 
      > Retrospectives surface the "we almost built the wrong thing" moments, invalidated assumptions, surprising patterns, and hard-won execution insights that other builders would find valuable.
 
@@ -720,38 +720,38 @@ For additional product surfaces (UI, bots, integrations):
 
 | File | Purpose |
 |:-----|:--------|
-| `SKILL.md` | This file — master orchestration |
-| `ETH-SKILL-GUIDE.md` | Master integration guide for Ethereum ethskills — maps each ethskill to Foundry workflow steps |
-| `ethskills/` | Locally pulled ethskills reference files (19 skills) — run `scripts/pull_ethskills.sh` to populate |
-| `scripts/pull_ethskills.sh` | Script to pull/refresh all ethskills from ethskills.com into `ethskills/` |
-| `TOB-SKILL-GUIDE.md` | Trail of Bits audit skills integration guide — maps 10 ToB skills to Foundry workflow steps |
-| `tob-skills/` | Locally pulled Trail of Bits audit skills (10 skills) — run `scripts/pull_tob_skills.sh` to populate |
-| `scripts/pull_tob_skills.sh` | Script to pull/refresh Trail of Bits skills from GitHub into `tob-skills/` |
-| `prompts/crowe_persona_generator.md` | Dr. Julian Crowe persona generator meta-prompt |
-| `prompts/simplify_loop.md` | Code simplification specialist (for standard-risk projects) |
-| `prompts/office_hours.md` | Phase 0 product discovery — 6 Forcing Questions, premise challenge, alternatives |
-| `prompts/ceo_review.md` | CEO/founder review — scope management, cognitive patterns, 6 deep review sections |
-| `prompts/eng_review.md` | Engineering plan review — architecture, tests, diagrams, failure modes |
-| `prompts/design_consultation.md` | Design system consultation — typography, color, spacing, motion (UI projects) |
-| `prompts/design_review.md` | 80-item design audit with A-F scoring and AI slop detection (UI projects) |
-| `prompts/production_review.md` | Production bug review — three-pass checklist (critical, informational, operational) with fix-first heuristic |
-| `prompts/cso.md` | CSO security audit v2 — 15-phase audit: stack detection, OWASP Top 10, STRIDE, secrets archaeology, CI/CD pipeline, infrastructure, webhooks, LLM/AI security, skill supply chain, dependency scanning, zero-noise filtering |
-| `prompts/qa.md` | Full QA: test → fix → verify loop, health score, regression tests, diff-aware mode |
-| `prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
-| `prompts/ship.md` | Release workflow v2 — test failure triage, coverage gate (60%/80%), regression rule, plan completion audit, verification gate, bisectable commits |
-| `prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
-| `prompts/project_docs.md` | Living documentation suite — Product Brief, Investor Memo, Technical Overview, README. Generated from interview + design doc, updated incrementally |
-| `prompts/content_curator.md` | Content curation — mines Foundry artifacts for genuine insights, produces X Article and Post drafts for human review |
-| `scripts/extract_sections.py` | Header-anchored section extraction script template |
-| `templates/workflow_template.md` | Execution workflow skeleton |
-| `templates/interview_guide.md` | Structured interview question template |
-| `templates/interview_update_workflow.md` | Ready-made `/interview-update` workflow template |
+| `.foundry/SKILL.md` | This file — master orchestration |
+| `.foundry/ETH-SKILL-GUIDE.md` | Master integration guide for Ethereum ethskills — maps each ethskill to Foundry workflow steps |
+| `.foundry/ethskills/` | Locally pulled ethskills reference files (19 skills) — run `.foundry/scripts/pull_ethskills.sh` to populate |
+| `.foundry/scripts/pull_ethskills.sh` | Script to pull/refresh all ethskills from ethskills.com into `.foundry/ethskills/` |
+| `.foundry/TOB-SKILL-GUIDE.md` | Trail of Bits audit skills integration guide — maps 10 ToB skills to Foundry workflow steps |
+| `.foundry/tob-skills/` | Locally pulled Trail of Bits audit skills (10 skills) — run `.foundry/scripts/pull_tob_skills.sh` to populate |
+| `.foundry/scripts/pull_tob_skills.sh` | Script to pull/refresh Trail of Bits skills from GitHub into `.foundry/tob-skills/` |
+| `.foundry/prompts/crowe_persona_generator.md` | Dr. Julian Crowe persona generator meta-prompt |
+| `.foundry/prompts/simplify_loop.md` | Code simplification specialist (for standard-risk projects) |
+| `.foundry/prompts/office_hours.md` | Phase 0 product discovery — 6 Forcing Questions, premise challenge, alternatives |
+| `.foundry/prompts/ceo_review.md` | CEO/founder review — scope management, cognitive patterns, 6 deep review sections |
+| `.foundry/prompts/eng_review.md` | Engineering plan review — architecture, tests, diagrams, failure modes |
+| `.foundry/prompts/design_consultation.md` | Design system consultation — typography, color, spacing, motion (UI projects) |
+| `.foundry/prompts/design_review.md` | 80-item design audit with A-F scoring and AI slop detection (UI projects) |
+| `.foundry/prompts/production_review.md` | Production bug review — three-pass checklist (critical, informational, operational) with fix-first heuristic |
+| `.foundry/prompts/cso.md` | CSO security audit v2 — 15-phase audit: stack detection, OWASP Top 10, STRIDE, secrets archaeology, CI/CD pipeline, infrastructure, webhooks, LLM/AI security, skill supply chain, dependency scanning, zero-noise filtering |
+| `.foundry/prompts/qa.md` | Full QA: test → fix → verify loop, health score, regression tests, diff-aware mode |
+| `.foundry/prompts/debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
+| `.foundry/prompts/ship.md` | Release workflow v2 — test failure triage, coverage gate (60%/80%), regression rule, plan completion audit, verification gate, bisectable commits |
+| `.foundry/prompts/document_release.md` | Post-ship documentation update — keeps all docs current |
+| `.foundry/prompts/project_docs.md` | Living documentation suite — Product Brief, Investor Memo, Technical Overview, README. Generated from interview + design doc, updated incrementally |
+| `.foundry/prompts/content_curator.md` | Content curation — mines Foundry artifacts for genuine insights, produces X Article and Post drafts for human review |
+| `.foundry/scripts/extract_sections.py` | Header-anchored section extraction script template |
+| `.foundry/templates/workflow_template.md` | Execution workflow skeleton |
+| `.foundry/templates/interview_guide.md` | Structured interview question template |
+| `.foundry/templates/interview_update_workflow.md` | Ready-made `/interview-update` workflow template |
 | `.agents/workflows/foundry-start.md` | `/foundry-start` workflow — auto-detects fresh vs resume, runs workspace drift scan on resume, entry point for the entire bootstrap |
 | `.agents/workflows/foundry-resume.md` | `/foundry-resume` workflow — convenience alias for resume path of `/foundry-start` |
 | `.agents/workflows/new-idea.md` | `/new-idea` workflow — capture new ideas with interview rigor, then propagate |
 | `.agents/workflows/curate.md` | `/curate` workflow — standalone ad-hoc content curation against arbitrary source files |
 | `.agents/workflows/qa.md` | `/qa` workflow — run QA test → fix → verify loop against a running application |
-| `templates/qa-report-template.md` | Structured QA report format — health score, issue documentation, fix evidence, ship readiness |
+| `.foundry/templates/qa-report-template.md` | Structured QA report format — health score, issue documentation, fix evidence, ship readiness |
 | `.foundry/checkpoint.md` | (project-level) Session checkpoint — current phase, step, artifacts, open items. Written by Checkpoint Protocol, read by `/foundry-start` and `/foundry-resume` |
 | `data-room/` | (project-level) Extended source material — competitive analyses, rate research, investor Q&A, conversation extracts. Mined by content curator alongside standard artifacts |
 

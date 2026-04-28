@@ -4,7 +4,7 @@ description: Run a full QA pass — test like a user, fix bugs, verify fixes, pr
 
 # /qa — Test → Fix → Verify
 
-Run the QA engineer skill (`prompts/qa.md`) against a running application. Tests like a real user — clicks everything, fills every form, checks every state. When bugs are found, fixes them in source code with atomic commits, then re-verifies. Produces a structured report with before/after evidence and a health score.
+Run the QA engineer skill (`.foundry/prompts/qa.md`) against a running application. Tests like a real user — clicks everything, fills every form, checks every state. When bugs are found, fixes them in source code with atomic commits, then re-verifies. Produces a structured report with before/after evidence and a health score.
 
 ## Usage
 
@@ -39,7 +39,7 @@ Run the QA engineer skill (`prompts/qa.md`) against a running application. Tests
    - `--regression` → full mode, then compare against baseline
 
 3. **Run the QA skill:**
-   - Read and execute `prompts/qa.md` in full — follow every phase in order
+   - Read and execute `.foundry/prompts/qa.md` in full — follow every phase in order
    - Use the browser tool to navigate, interact, and screenshot
    - Document each issue immediately with screenshot evidence
    - For interactive bugs: screenshot before → action → screenshot after
@@ -68,7 +68,7 @@ Run the QA engineer skill (`prompts/qa.md`) against a running application. Tests
 
 8. **Report:**
    - Write report to `.foundry/qa/qa-report-{domain}-{YYYY-MM-DD}.md`
-   - Use template from `templates/qa-report-template.md`
+   - Use template from `.foundry/templates/qa-report-template.md`
    - Save `baseline.json` for future regression runs
    - Output PR summary: "QA found N issues, fixed M, health score X → Y."
 
@@ -82,7 +82,7 @@ Run the QA engineer skill (`prompts/qa.md`) against a running application. Tests
 
 ## Browser Testing in Antigravity
 
-This workflow uses Antigravity's browser subagent for all browser interactions. The QA skill in `prompts/qa.md` references browser commands — map them as follows:
+This workflow uses Antigravity's browser subagent for all browser interactions. The QA skill in `.foundry/prompts/qa.md` references browser commands — map them as follows:
 
 | QA Skill Reference | Antigravity Equivalent |
 |--------------------|-----------------------|

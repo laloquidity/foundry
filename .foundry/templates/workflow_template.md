@@ -153,17 +153,17 @@ Read every listed skill file in full. They are required context files alongside 
 If the phase has no EthSkills listed, skip this step.
 
 **Every onchain phase loads (minimum):**
-- `ethskills/security.md` — 9 vulnerability categories, defensive patterns
-- `ethskills/addresses.md` — canonical verified addresses for target chain
+- `.foundry/ethskills/security.md` — 9 vulnerability categories, defensive patterns
+- `.foundry/ethskills/addresses.md` — canonical verified addresses for target chain
 
 If a phase has no onchain work (e.g., pure documentation, CI/CD setup, or frontend styling with no wallet/contract interaction), these minimums may be skipped — but the phase must state why explicitly in its EthSkills section.
 
 **Phase 1 (Foundation) additionally loads:**
-- `ethskills/tools.md` — confirms framework, MCP servers, Scaffold-ETH 2 setup
-- `ethskills/protocol.md` — confirms architectural assumptions against actual chain behavior
-- `ethskills/indexing.md` — design contracts event-first (events are your API)
+- `.foundry/ethskills/tools.md` — confirms framework, MCP servers, Scaffold-ETH 2 setup
+- `.foundry/ethskills/protocol.md` — confirms architectural assumptions against actual chain behavior
+- `.foundry/ethskills/indexing.md` — design contracts event-first (events are your API)
 
-**If the project uses Scaffold-ETH 2** (decided during interview, confirmed by `ethskills/tools.md`):
+**If the project uses Scaffold-ETH 2** (decided during interview, confirmed by `.foundry/ethskills/tools.md`):
 - SE2 Phase 1 (Scaffold) = Foundry Step 2 (Implementation)
 - SE2 Phase 2 (Live + Local) = Foundry Step 3 (Verification)
 - SE2 Phase 3 (Production) = Foundry Step 4 (Ship)
@@ -215,7 +215,7 @@ This ensures the spec traceability audit (Step 2f) can verify every standard-req
 | **Dependency introduction** | ⬚ Skip | ✅ | ⬚ Skip | ⬚ Skip | ✅ (`--supply-chain`) | ⬚ Skip | ⬚ Skip | `building-blocks/` |
 | **Final phase (last roadmap phase)** | ✅ | ✅ | ✅ (if UI) | ⬚ Skip | ✅ (full audit) | ✅ | ✅ | `qa/`, `audit/` |
 
-> **Note:** `ethskills/security.md` and `ethskills/addresses.md` are always loaded at Step 0f for any onchain phase (see minimum rule in Step 0f). The EthSkills column lists skills *in addition to* those minimums.
+> **Note:** `.foundry/ethskills/security.md` and `.foundry/ethskills/addresses.md` are always loaded at Step 0f for any onchain phase (see minimum rule in Step 0f). The EthSkills column lists skills *in addition to* those minimums.
 
 **Persona routing:** If a persona's domain overlaps with the change, that persona participates in sign-off (Step 3c) even if their review type is skipped for the phase.
 
@@ -225,7 +225,7 @@ This ensures the spec traceability audit (Step 2f) can verify every standard-req
 
 ### 1c. Engineering Plan Review (BEFORE Writing Code)
 
-> **Run `prompts/eng_review.md` against the deliverable checklist before any implementation begins.**
+> **Run `.foundry/prompts/eng_review.md` against the deliverable checklist before any implementation begins.**
 
 This is your engineering manager reviewing the plan for:
 - Architecture issues and unnecessary complexity
@@ -236,7 +236,7 @@ This is your engineering manager reviewing the plan for:
 
 **Required outputs:** "NOT in scope" section, "What already exists" section, ASCII diagrams, test plan, failure modes analysis, completion summary.
 
-**Ethereum/onchain projects — additional eng review checks:** Before the eng review, ensure the reviewer has context from `ethskills/tools.md` (validates framework selection) and `ethskills/protocol.md` (validates architecture assumptions about finality, block timing, and mempool). The eng review should specifically check:
+**Ethereum/onchain projects — additional eng review checks:** Before the eng review, ensure the reviewer has context from `.foundry/ethskills/tools.md` (validates framework selection) and `.foundry/ethskills/protocol.md` (validates architecture assumptions about finality, block timing, and mempool). The eng review should specifically check:
 - Framework selection justified (why Hardhat vs Foundry vs Ape for this project?)
 - Finality assumptions match the chosen chain's actual finality time
 - Gas estimation strategy documented (hardcoded? live estimate? EIP-1559 priority fee?)
@@ -270,7 +270,7 @@ For EACH deliverable:
 **Ethereum/onchain projects — Solidity FORBIDDEN actions:**
 ❌ Using `tx.origin` for authorization (use `msg.sender`)
 ❌ Ignoring Checks-Effects-Interactions (CEI) pattern for external calls
-❌ Hardcoding contract addresses without cross-checking against `ethskills/addresses.md`
+❌ Hardcoding contract addresses without cross-checking against `.foundry/ethskills/addresses.md`
 ❌ Using `transfer()` or `send()` for ETH transfers (use `call{}` with reentrancy guard)
 ❌ Deploying without a testnet deployment and verification first
 ❌ Implementing custom math when OpenZeppelin or Solady equivalents exist
@@ -285,14 +285,14 @@ For EACH deliverable:
 ✅ If a spec gap is found, STOP and ask
 
 **Ethereum/onchain projects — Solidity REQUIRED actions:**
-✅ Before implementing ANY Solidity: `ethskills/standards.md` and `ethskills/building-blocks.md` already loaded at Step 0f
-✅ Every contract address used is verified against `ethskills/addresses.md` — no hardcoding unverified addresses
-✅ Every ERC standard implemented is validated against `ethskills/standards.md` — no deviations without explicit client approval
-✅ Every external call pattern cross-checked against `ethskills/security.md` reentrancy and oracle manipulation sections
+✅ Before implementing ANY Solidity: `.foundry/ethskills/standards.md` and `.foundry/ethskills/building-blocks.md` already loaded at Step 0f
+✅ Every contract address used is verified against `.foundry/ethskills/addresses.md` — no hardcoding unverified addresses
+✅ Every ERC standard implemented is validated against `.foundry/ethskills/standards.md` — no deviations without explicit client approval
+✅ Every external call pattern cross-checked against `.foundry/ethskills/security.md` reentrancy and oracle manipulation sections
 
 ### 2d. 🐛 Systematic Debugging (On-Demand)
 
-> **When a bug is encountered during implementation — test failure, runtime error, unexpected behavior — run `prompts/debug.md` BEFORE attempting a fix.**
+> **When a bug is encountered during implementation — test failure, runtime error, unexpected behavior — run `.foundry/prompts/debug.md` BEFORE attempting a fix.**
 
 The debug methodology enforces:
 - **Iron Law:** No fixes without root cause investigation first
@@ -303,8 +303,8 @@ The debug methodology enforces:
 - **Phase 5:** Fresh verification + structured debug report
 
 **Ethereum/onchain projects — Solidity debug supplement:** When debugging smart contracts, re-read before forming hypotheses:
-- `ethskills/security.md` — 9 specific vulnerability patterns with defensive code: token decimals, no floating point, reentrancy (CEI pattern), SafeERC20, DEX spot price oracles, vault inflation attack, infinite approvals, access control, input validation. Also: MEV/sandwich attacks, proxy pattern issues, EIP-712 signature bugs, delegatecall.
-- `ethskills/building-blocks.md` — expected DeFi patterns. NOTE: has chain-specific sections (Building on Base → Aerodrome, Building on Arbitrum → GMX/Pendle). Check the section for your target chain specifically.
+- `.foundry/ethskills/security.md` — 9 specific vulnerability patterns with defensive code: token decimals, no floating point, reentrancy (CEI pattern), SafeERC20, DEX spot price oracles, vault inflation attack, infinite approvals, access control, input validation. Also: MEV/sandwich attacks, proxy pattern issues, EIP-712 signature bugs, delegatecall.
+- `.foundry/ethskills/building-blocks.md` — expected DeFi patterns. NOTE: has chain-specific sections (Building on Base → Aerodrome, Building on Arbitrum → GMX/Pendle). Check the section for your target chain specifically.
 
 These are read-only reference — do not apply fixes without root cause confirmed per Iron Law.
 
@@ -338,15 +338,15 @@ Then resume the deliverable exactly where you left off.
 6. **User outcome check:** For each verified spec, answer: "What does the real user see, feel, or experience because of this?" If you can't connect a spec to a user outcome, flag it — it may be over-engineered or missing context.
 
 **Ethereum/onchain projects — EthSkills verification (Solidity deliverables):**
-- Re-read `ethskills/security.md` sections for the specific vulnerability categories relevant to this contract (reentrancy, oracle manipulation, access control, etc.) — re-reading ensures it's the last thing in context, not buried under implementation tokens
-- Re-read `ethskills/standards.md` entry for the ERC standard this contract implements
+- Re-read `.foundry/ethskills/security.md` sections for the specific vulnerability categories relevant to this contract (reentrancy, oracle manipulation, access control, etc.) — re-reading ensures it's the last thing in context, not buried under implementation tokens
+- Re-read `.foundry/ethskills/standards.md` entry for the ERC standard this contract implements
 - Verify: function signatures, event names, return types, error conditions match the standard exactly
-- Verify: addresses used match `ethskills/addresses.md` for the target chain
-- Verify: no known security anti-patterns from `ethskills/security.md` are present (check all 9 vulnerability categories)
-- Verify: events designed per `ethskills/indexing.md` event-first principle (events are your API — frontend reads these)
-- Verify: if target chain is Base → check `ethskills/building-blocks.md` "Building on Base" section
-- Verify: if target chain is Arbitrum → check `ethskills/building-blocks.md` "Building on Arbitrum" section
-- Verify: if project has frontend → Three-Button Flow from `ethskills/orchestration.md` implemented
+- Verify: addresses used match `.foundry/ethskills/addresses.md` for the target chain
+- Verify: no known security anti-patterns from `.foundry/ethskills/security.md` are present (check all 9 vulnerability categories)
+- Verify: events designed per `.foundry/ethskills/indexing.md` event-first principle (events are your API — frontend reads these)
+- Verify: if target chain is Base → check `.foundry/ethskills/building-blocks.md` "Building on Base" section
+- Verify: if target chain is Arbitrum → check `.foundry/ethskills/building-blocks.md` "Building on Arbitrum" section
+- Verify: if project has frontend → Three-Button Flow from `.foundry/ethskills/orchestration.md` implemented
 - Log: `✅ ETHSKILLS VERIFIED: [contract name] — standards: ✓, addresses: ✓, security: ✓, events: ✓`
 
 ### 2e. Conflict Resolution
@@ -366,15 +366,15 @@ For every spec ID assigned to this phase:
 4. **Was verification logged for it?**
 
 **Ethereum/onchain projects — additional spec traceability checks:**
-5. **Does the ABI match the standard?** Every function signature, return type, and event topic matches `ethskills/standards.md`
-6. **Are addresses verified?** Every external address used is confirmed against `ethskills/addresses.md` for the target chain
+5. **Does the ABI match the standard?** Every function signature, return type, and event topic matches `.foundry/ethskills/standards.md`
+6. **Are addresses verified?** Every external address used is confirmed against `.foundry/ethskills/addresses.md` for the target chain
 7. **Is the constructor/initializer documented?** All deploy parameters documented with expected values
 
 **If ANY spec ID is missing from code, tests, OR verification log → you are NOT done.**
 
 ### 2g. 🔍 Production Bug Audit (Post-Implementation Gate)
 
-> **Run `prompts/production_review.md` against all code written in this phase.** This runs AFTER the spec traceability audit confirms completeness.
+> **Run `.foundry/prompts/production_review.md` against all code written in this phase.** This runs AFTER the spec traceability audit confirms completeness.
 
 This catches a different class of bugs than the verification loop:
 - **Pass 1 (CRITICAL):** SQL & data safety, race conditions, trust boundary violations, enum completeness
@@ -386,13 +386,13 @@ This catches a different class of bugs than the verification loop:
 | Pass 3 Category | Onchain Equivalent |
 |:----------------|:-------------------|
 | Rate limiting | Gas price caps, per-block transaction limits |
-| DB indexing | Event indexing strategy — read `ethskills/indexing.md` for The Graph / subgraph patterns |
+| DB indexing | Event indexing strategy — read `.foundry/ethskills/indexing.md` for The Graph / subgraph patterns |
 | Connection pooling | RPC provider rotation, WebSocket reconnection |
 | Health checks | RPC endpoint health, chain reorg detection |
 | Error boundaries | Revert handling, custom error decoding in UI |
 | Backup strategy | Multi-RPC fallback, archive node access for historical queries |
 
-Read `ethskills/indexing.md` during production review if the dApp reads on-chain data.
+Read `.foundry/ethskills/indexing.md` during production review if the dApp reads on-chain data.
 
 The **Fix-First heuristic** applies:
 - **AUTO-FIX:** Dead code, missing eager loading, stale comments, magic numbers → fix without asking
@@ -420,7 +420,7 @@ pytest tests/ -v
 pytest tests/ --cov=src/ --cov-report=term-missing
 ```
 
-**Ethereum/onchain projects — testing setup:** Before writing any contract tests, read `ethskills/testing.md`. Apply:
+**Ethereum/onchain projects — testing setup:** Before writing any contract tests, read `.foundry/ethskills/testing.md`. Apply:
 - Test type matrix: unit vs fork vs fuzz vs invariant — select appropriate types per function
 - Fork tests mandatory for any function that calls external protocols or reads canonical addresses
 - Fuzz tests mandatory for any arithmetic, balance calculations, or fee computations
@@ -430,7 +430,7 @@ pytest tests/ --cov=src/ --cov-report=term-missing
 
 Verify that this phase's deliverables integrate correctly with previous phases.
 
-**Ethereum/onchain projects — frontend ↔ contract integration:** Read `ethskills/orchestration.md` before running integration verification. Apply its checklist for:
+**Ethereum/onchain projects — frontend ↔ contract integration:** Read `.foundry/ethskills/orchestration.md` before running integration verification. Apply its checklist for:
 - ABI encoding correctness (function selectors, event topics)
 - Transaction simulation before signing (no silent failures)
 - Error decoding (custom errors, revert strings surface correctly in UI)
@@ -447,7 +447,7 @@ Before marking a phase complete, all personas must sign off:
 
 ### 3d. Design Audit (UI Projects Only)
 
-> **Run `prompts/design_review.md` against the implemented UI.** Skip if the project has no user-facing interface.
+> **Run `.foundry/prompts/design_review.md` against the implemented UI.** Skip if the project has no user-facing interface.
 
 This is an 80-item visual audit across 10 categories:
 1. Visual Hierarchy & Composition
@@ -469,7 +469,7 @@ This is an 80-item visual audit across 10 categories:
 Phase [N] | Step 3d done → proceeding to Step 3e: QA
 ```
 
-**Ethereum/onchain projects — dApp UX supplement:** For projects with a frontend, also read `ethskills/frontend-ux.md` alongside the design review. Apply as an additional design review lens:
+**Ethereum/onchain projects — dApp UX supplement:** For projects with a frontend, also read `.foundry/ethskills/frontend-ux.md` alongside the design review. Apply as an additional design review lens:
 - Wallet connect button placement and state management (connected/disconnected/wrong chain)
 - Transaction status patterns (pending spinner, confirmation count, success/failure states)
 - Gas cost display (estimated cost in USD, gas price context)
@@ -480,7 +480,7 @@ Design review findings from `frontend-ux/` are graded on the same A-F scale as t
 
 ### 3e. Full QA: Test → Fix → Verify
 
-> **Run `prompts/qa.md` against the running application.** This replaces simple visual verification with a full QA engineering loop.
+> **Run `.foundry/prompts/qa.md` against the running application.** This replaces simple visual verification with a full QA engineering loop.
 
 The QA skill runs in the mode appropriate to the phase:
 - **Diff-aware mode** (default on feature branch): Automatically identifies affected pages from the git diff, tests only what changed
@@ -508,9 +508,9 @@ The QA skill runs in the mode appropriate to the phase:
 ✅ QA COMPLETE — proceeding to Step 3.5: CSO Security Audit (if routed) or Step 4: Ship
 ```
 
-**Ethereum/onchain projects — dApp-specific QA:** Read `ethskills/qa.md` alongside `prompts/qa.md`. If `ethskills/qa.md` pulled as a live dApp page instead of markdown, use `ethskills/frontend-playbook.md` Build Verification Process as the fallback.
+**Ethereum/onchain projects — dApp-specific QA:** Read `.foundry/ethskills/qa.md` alongside `.foundry/prompts/qa.md`. If `.foundry/ethskills/qa.md` pulled as a live dApp page instead of markdown, use `.foundry/ethskills/frontend-playbook.md` Build Verification Process as the fallback.
 
-Apply `ethskills/frontend-ux.md` 9 mandatory rules as a QA checklist in addition to the standard QA loop:
+Apply `.foundry/ethskills/frontend-ux.md` 9 mandatory rules as a QA checklist in addition to the standard QA loop:
 1. Every onchain button has its own pending state (spinner, disabled, etc.)
 2. Four-state action flow implemented (idle → pending → success → error)
 3. Address display follows standards (truncation, ENS resolution, checksum)
@@ -536,7 +536,7 @@ Proceeding to Step 3.5: CSO Security Audit (if routed) or Step 4: Ship.
 
 ## Step 3.5: CSO Security Audit (When Routed)
 
-> **Run `prompts/cso.md` after QA passes, before shipping.** Check the review routing table above. Skip this step if CSO is not routed for this phase's change type.
+> **Run `.foundry/prompts/cso.md` after QA passes, before shipping.** Check the review routing table above. Skip this step if CSO is not routed for this phase's change type.
 
 ### 3.5a. Determine CSO Mode
 
@@ -549,7 +549,7 @@ Check the `IMPLEMENTATION_ROADMAP.md` Security Classification for this phase:
 ### 3.5b. Run the Audit
 
 1. Load the phase's section files so the CSO has spec-aware context (trust boundaries, auth model, data classification from the interview)
-2. Run `prompts/cso.md` with the determined mode
+2. Run `.foundry/prompts/cso.md` with the determined mode
 3. Log the result:
 
 ```markdown
@@ -624,15 +624,15 @@ Classify each finding as:
 > **After completing the CSO audit above, run the EthSkills audit supplement.** This adds onchain-specific security coverage.
 
 Read and apply:
-- `ethskills/security.md` — maps to CSO Phases 2, 5, 6, 9:
-  - CSO Phase 2 (Secrets Archaeology) → `ethskills/wallets.md` "NEVER COMMIT SECRETS" section + `ethskills/security.md` access control
-  - CSO Phase 5 (Infrastructure Shadow) → `ethskills/security.md` proxy patterns, oracle trust + `ethskills/wallets.md` AI agent key safety rules
-  - CSO Phase 6 (Webhook/Integration Audit) → `ethskills/security.md` delegatecall, EIP-712 signatures
-  - CSO Phase 9 (OWASP) → `ethskills/security.md` 9 vulnerability categories with defensive code samples
-- `ethskills/audit.md` — process guide for the parallel sub-agent audit system (separate from ethskills — see `ETH-SKILL-GUIDE.md` "Audit System" section for the full checklist table and URL patterns)
+- `.foundry/ethskills/security.md` — maps to CSO Phases 2, 5, 6, 9:
+  - CSO Phase 2 (Secrets Archaeology) → `.foundry/ethskills/wallets.md` "NEVER COMMIT SECRETS" section + `.foundry/ethskills/security.md` access control
+  - CSO Phase 5 (Infrastructure Shadow) → `.foundry/ethskills/security.md` proxy patterns, oracle trust + `.foundry/ethskills/wallets.md` AI agent key safety rules
+  - CSO Phase 6 (Webhook/Integration Audit) → `.foundry/ethskills/security.md` delegatecall, EIP-712 signatures
+  - CSO Phase 9 (OWASP) → `.foundry/ethskills/security.md` 9 vulnerability categories with defensive code samples
+- `.foundry/ethskills/audit.md` — process guide for the parallel sub-agent audit system (separate from ethskills — see `ETH-SKILL-GUIDE.md` "Audit System" section for the full checklist table and URL patterns)
 
 **Audit process:**
-1. Read `ethskills/audit.md` for the process and routing table
+1. Read `.foundry/ethskills/audit.md` for the process and routing table
 2. Fetch the master skill: `https://raw.githubusercontent.com/austintgriffith/evm-audit-skills/main/evm-audit-master/SKILL.md`
 3. Use the routing table to select 5-8 of the 20 domain-specific checklists based on contract type
 4. Fetch each selected checklist: `https://raw.githubusercontent.com/austintgriffith/evm-audit-skills/main/[skill-name]/SKILL.md`
@@ -656,7 +656,7 @@ Proceeding to Step 4: Ship.
 
 ## Step 4: Ship (Release)
 
-> **Run `prompts/ship.md` after all verification passes.** This is the final mile. The ship prompt is the authoritative source — these substeps are a summary.
+> **Run `.foundry/prompts/ship.md` after all verification passes.** This is the final mile. The ship prompt is the authoritative source — these substeps are a summary.
 
 ### 4a. Pre-flight
 - Verify you're on a feature branch (not main/master)
@@ -709,9 +709,9 @@ A contract with 100% unit coverage but 0 fork tests for external calls = FAIL.
 > **Skip this step if the project has no Ethereum/onchain component.**
 
 Read and apply in full:
-- `ethskills/wallets.md` — **AI agent key safety rules**: storage hierarchy (worst→best), Safe transaction patterns, key rotation. Also: EIP-7702 smart EOAs, Safe multisig addresses.
-- `ethskills/gas.md` — real-world costs (early 2026), mainnet vs L2 comparison. Verify gas assumptions haven't changed since interview. Use `cast base-fee` to check live.
-- `ethskills/frontend-playbook.md` — **Go to Production checklist** (8 steps):
+- `.foundry/ethskills/wallets.md` — **AI agent key safety rules**: storage hierarchy (worst→best), Safe transaction patterns, key rotation. Also: EIP-7702 smart EOAs, Safe multisig addresses.
+- `.foundry/ethskills/gas.md` — real-world costs (early 2026), mainnet vs L2 comparison. Verify gas assumptions haven't changed since interview. Use `cast base-fee` to check live.
+- `.foundry/ethskills/frontend-playbook.md` — **Go to Production checklist** (8 steps):
   1. Final Code Review 🤖
   2. Choose Domain 👤
   3. Generate OG Image + Fix Metadata 🤖
@@ -737,7 +737,7 @@ Log: `✅ ETHSKILLS PRODUCTION CHECK COMPLETE — wallets: ✓ (key safety: ✓)
 
 ## Step 5: Document Release (Post-Ship)
 
-> **Run `prompts/document_release.md` after shipping.** Ensures all documentation is accurate before marking the phase complete.
+> **Run `.foundry/prompts/document_release.md` after shipping.** Ensures all documentation is accurate before marking the phase complete.
 
 ### 5a. Diff Analysis
 - Review what changed in this phase
@@ -827,7 +827,7 @@ If exceeded → document why. Update the roadmap for downstream phases if the ov
 - Gas optimization: planned budget [X Gwei avg] | actual [Y Gwei avg]
 - Contract test coverage: unit [X%] | fork [X functions] | fuzz [X properties] | invariants [X]
 - ERC compliance: standards implemented [list] | deviations [list with justification]
-- Onchain findings: [N critical, N high, N medium from CSO + ethskills/audit/ combined]
+- Onchain findings: [N critical, N high, N medium from CSO + .foundry/ethskills/audit/ combined]
 - Addresses verified on-chain: [N] / [N total used]
 - Testnet deployment: [chain, tx hash] | Issues found: [list]
 ```
@@ -838,12 +838,12 @@ If exceeded → document why. Update the roadmap for downstream phases if the ov
 
 | Change | Re-read |
 |:-------|:--------|
-| Chain selection change | `ethskills/l2s.md`, `ethskills/gas.md`, `ethskills/addresses.md` |
-| New L2 deployment target added | `ethskills/l2s.md`, `ethskills/gas.md`, `ethskills/addresses.md`, `ethskills/building-blocks.md` (chain-specific section) |
-| Token standard change | `ethskills/standards.md`, `ethskills/building-blocks.md` |
-| New external protocol integration | `ethskills/building-blocks.md`, `ethskills/security.md`, `ethskills/addresses.md` |
-| Frontend wallet library change | `ethskills/wallets.md`, `ethskills/orchestration.md` |
-| Upgrade pattern change | `ethskills/standards.md`, `ethskills/security.md` |
+| Chain selection change | `.foundry/ethskills/l2s.md`, `.foundry/ethskills/gas.md`, `.foundry/ethskills/addresses.md` |
+| New L2 deployment target added | `.foundry/ethskills/l2s.md`, `.foundry/ethskills/gas.md`, `.foundry/ethskills/addresses.md`, `.foundry/ethskills/building-blocks.md` (chain-specific section) |
+| Token standard change | `.foundry/ethskills/standards.md`, `.foundry/ethskills/building-blocks.md` |
+| New external protocol integration | `.foundry/ethskills/building-blocks.md`, `.foundry/ethskills/security.md`, `.foundry/ethskills/addresses.md` |
+| Frontend wallet library change | `.foundry/ethskills/wallets.md`, `.foundry/ethskills/orchestration.md` |
+| Upgrade pattern change | `.foundry/ethskills/standards.md`, `.foundry/ethskills/security.md` |
 
 After re-reading, apply the same per-deliverable verification check as Step 2e.
 
@@ -851,7 +851,7 @@ Commit: `git add RETRO_LOG.md && git commit -m "retro: Phase [N] complete"`
 
 ### 6c½. Content Curation (Optional, Post-Retro)
 
-> If the retrospective surfaced surprises, invalidated assumptions, or non-obvious patterns, run `prompts/content_curator.md`.
+> If the retrospective surfaced surprises, invalidated assumptions, or non-obvious patterns, run `.foundry/prompts/content_curator.md`.
 
 1. Ask the client: "The retro surfaced [N] signals. Run content curation? (y/n)"
 2. If yes → Curator reads `RETRO_LOG.md` latest entry + relevant section files
