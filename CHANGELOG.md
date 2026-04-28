@@ -4,6 +4,25 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.7.0] - 2026-04-27 — Namespace Migration & Install Script
+
+### Breaking
+- **All framework files moved into `.foundry/` directory.** `SKILL.md` → `.foundry/SKILL.md`, `prompts/` → `.foundry/prompts/`, `templates/` → `.foundry/templates/`, `scripts/` → `.foundry/scripts/`. This prevents collisions with user projects that already have `SKILL.md`, `prompts/`, or `scripts/` directories. All internal path references updated.
+- **`git clone` is no longer the installation method.** Replaced with a curl-based install script that drops framework files into `.foundry/` and `.agents/workflows/` without touching the user's README, git history, or existing files.
+
+### Added
+- **`install.sh` — curl-based installer.** `bash <(curl -sL .../install.sh)` installs Foundry into any project directory (new or existing). Supports `--update` to pull the latest version. Zero root-level files dropped into the user's project.
+- **Roadmap is the checklist (not a shadow copy).** Step 1 no longer creates an ephemeral deliverable checklist. Agents mark `[x]` directly in `IMPLEMENTATION_ROADMAP.md`. Step 2a.4, Step 2c, and Step 4d all explicitly name the roadmap file. Fixes the "two-list problem" where the roadmap stayed stale while a conversation-scoped checklist evaporated.
+- **Deliverable count in checkpoint.** `.foundry/checkpoint.md` now includes `Deliverables: [completed]/[total]` with a pointer to the roadmap file.
+- **`/curate` arc-first methodology.** New Step 3 (Find the arc, not just the signals) teaches agents to identify the narrative throughline before extracting individual signals. Includes multiplier naming, threshold/unlock framing, and an Arc Test as an additional Gatekeeper pass. Also adds voice internalization (read reviewed drafts for voice, not just dedup) and live session extraction guidance.
+
+### Changed
+- **README rewritten.** Install instructions, file structure, and all path references updated to reflect `.foundry/` layout. Version bumped to v0.7.0.
+- **Plan Completion Audit (Step 4d) now writes back to the roadmap.** Marks DONE items `[x]`, PARTIAL items `[/]` with a note. Previously read-only.
+- **Reset instruction updated.** "Delete `.foundry/checkpoint.md`" instead of "delete the entire `.foundry/` directory" since the directory now contains framework files.
+
+---
+
 ## [0.6.0] - 2026-04-18 — Gstack Sync (Methodology Hardening)
 
 ### Added
