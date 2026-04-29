@@ -173,6 +173,32 @@ If the project does NOT use SE2, ignore this alignment.
 **Re-orientation after ethskills load:**
 ```
 ✅ ETHSKILLS CONTEXT LOADED — [N] skills read for Phase [N].
+Proceeding to Step 0g: Persona Loading.
+```
+
+### 0g. Load Active Personas
+
+> **Every phase has different personas active.** The registry tells you who participates and when.
+
+1. Read `PERSONA_REGISTRY.md` — specifically the **Phase Routing Matrix** row for your current phase
+2. Identify which personas are **PRIMARY** or **ADVISORY** for this phase
+3. For each active persona, read their `PERSONA_[NAME].md` file — both the system prompt and the binding card
+4. Note the **Review Gate Participation** from each active persona's binding card — this tells you which steps they participate in
+5. Log:
+   ```markdown
+   👤 PERSONAS LOADED for Phase [N]:
+   - [Name] — PRIMARY — active at: Steps [list from binding card]
+   - [Name] — ADVISORY — active at: Steps [list from binding card]
+   - [Name] — SKIP (no domain overlap with this phase)
+   ```
+
+If `PERSONA_REGISTRY.md` does not exist or has no Phase Routing Matrix (pre-Phase E), skip this step.
+
+If no personas are active for this phase (all SKIP), log: "No personas active for Phase [N] — proceeding without persona gates."
+
+**Re-orientation:**
+```
+✅ CONTEXT LOADING COMPLETE — section files: ✓, ethskills: [✓/skipped], personas: [✓/skipped].
 Proceeding to Step 1: Planning (Deliverable Checklist).
 ```
 
@@ -217,7 +243,7 @@ This ensures the spec traceability audit (Step 2f) can verify every standard-req
 
 > **Note:** `.foundry/ethskills/security.md` and `.foundry/ethskills/addresses.md` are always loaded at Step 0f for any onchain phase (see minimum rule in Step 0f). The EthSkills column lists skills *in addition to* those minimums.
 
-**Persona routing:** If a persona's domain overlaps with the change, that persona participates in sign-off (Step 3c) even if their review type is skipped for the phase.
+**Persona routing:** Read `PERSONA_REGISTRY.md` Phase Routing Matrix. If a persona is PRIMARY or ADVISORY for this phase, that persona participates in the review gates listed in their binding card — even if the review type would otherwise be skipped for this phase's change type. The registry is the authority on persona activation, not the change type alone.
 
 **Override:** If unsure, run the review. It's better to over-review than to miss something. The client can always say "skip this review for this phase."
 
@@ -243,6 +269,13 @@ This is your engineering manager reviewing the plan for:
 - Upgrade pattern chosen and justified (no proxy assumed without explicit decision)
 
 **STOP after each issue. Present one issue at a time. Do NOT batch.**
+
+**Persona domain input:** For each PRIMARY persona active in this phase (loaded at Step 0g), apply their domain lens to the eng review:
+- What would [Persona] flag as architecturally risky in this plan?
+- Does the plan account for [Persona]'s domain-specific failure modes?
+- Are the deliverables correctly scoped from [Persona]'s perspective?
+
+Log: `👤 ENG REVIEW PERSONA INPUT: [Name] — [key concern or "no issues"]`
 
 ---
 
@@ -336,6 +369,19 @@ Then resume the deliverable exactly where you left off.
    ```
 
 6. **User outcome check:** For each verified spec, answer: "What does the real user see, feel, or experience because of this?" If you can't connect a spec to a user outcome, flag it — it may be over-engineered or missing context.
+
+7. **Persona verification:** For each PRIMARY persona active in this phase (loaded at Step 0g), apply their domain lens:
+   - Re-read the persona's system prompt (ensures domain perspective is fresh in context)
+   - Evaluate the just-written code through the persona's specific verification criteria (listed in their binding card under "Verification Loop")
+   - Log:
+     ```markdown
+     👤 PERSONA VERIFIED: [Name] — [specific domain check]
+     - Checked: [what the persona verified — e.g., "formula accuracy", "security pattern compliance"]
+     - Result: [pass / concern: describe]
+     ```
+   - If a persona raises a concern → treat it like a competing logic conflict. Do NOT proceed past this deliverable until resolved (fix or client override).
+
+   > **ADVISORY personas:** Log their perspective but do not block on their concerns. Only PRIMARY persona concerns are blocking.
 
 **Ethereum/onchain projects — EthSkills verification (Solidity deliverables):**
 - Re-read `.foundry/ethskills/security.md` sections for the specific vulnerability categories relevant to this contract (reentrancy, oracle manipulation, access control, etc.) — re-reading ensures it's the last thing in context, not buried under implementation tokens
@@ -616,7 +662,33 @@ Classify each finding as:
 - Attack vectors identified: [count]
 - Findings: [N] (FIXABLE: X, INVESTIGATE: Y, ACCEPTED RISK: Z)
 - Highest-risk finding: [one sentence]
-✅ ADVERSARIAL REVIEW COMPLETE — proceeding to Step 4: Ship
+✅ ADVERSARIAL REVIEW COMPLETE — proceeding to Step 3.6d: Persona Adversarial Pass
+```
+
+### 3.6d. Persona Adversarial Pass
+
+> **Each active persona attacks the implementation from their domain expertise.** This catches domain-specific vulnerabilities that a generic adversarial review misses.
+
+For each PRIMARY persona active in this phase:
+1. Re-read the persona's system prompt
+2. Answer from their domain perspective:
+   - What is the **single weakest point** in this implementation from [Persona]'s domain?
+   - What **domain-specific failure mode** would [Persona] test for that the standard adversarial review wouldn't catch?
+   - What **implicit assumption** does this code make that [Persona] knows is dangerous in their domain?
+3. Log:
+   ```markdown
+   👤 PERSONA ADVERSARIAL: [Name]
+   - Weakest point: [description]
+   - Domain-specific test: [what to test]
+   - Dangerous assumption: [what the code assumes that domain experts know is risky]
+   - Finding: [FIXABLE / INVESTIGATE / ACCEPTED RISK / CLEAN]
+   ```
+
+If findings are FIXABLE → enter the standard fix-verify cycle. If INVESTIGATE → present to client.
+
+```markdown
+✅ PERSONA ADVERSARIAL COMPLETE — [N] personas reviewed.
+Proceeding to Step 4: Ship (or Step 3.5e if Ethereum project).
 ```
 
 ### 3.5e. EthSkills Audit Supplement (Ethereum Projects)

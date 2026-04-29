@@ -86,7 +86,8 @@ Phase A½: SKILLS ──── Discover existing skills/workflows to integrate
 Phase A¾: DESIGN ──── Design consultation (UI projects only)
     │                  Output: DESIGN.md
     ▼
-Phase B: SCAFFOLD ─── Generate domain-expert personas
+Phase B: SCAFFOLD ─── Generate domain-expert personas + binding cards
+    │                  Output: PERSONA_*.md, PERSONA_REGISTRY.md
     │
     ▼
 Phase C: STRUCTURE ── Extract interview into scoped section files
@@ -97,7 +98,7 @@ Phase D: WORKFLOW ─── Generate PROJECT_WORKFLOW.md
     ▼
 Phase E: ROADMAP ──── Detailed implementation plan
     │                  Context maps, checkpoint questions, interface contracts,
-    │                  complexity budgets, persona assignments, review routing
+    │                  complexity budgets, persona routing (backfill registry), review routing
     │                  Output: IMPLEMENTATION_ROADMAP.md
     ▼
 Phase F: BUILD ────── Execute roadmap phase by phase
@@ -126,7 +127,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | `debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |
 | `ship.md` | Release workflow — sync, test, coverage audit, bisectable commits |
 | `document_release.md` | Post-ship documentation update — keeps all docs current |
-| `crowe_persona_generator.md` | Domain-expert persona generator |
+| `crowe_persona_generator.md` | Domain-expert persona generator + Persona Binding Cards |
 | `simplify_loop.md` | Code simplification specialist (standard-risk projects) |
 | `content_curator.md` | Signal Miner — mines Foundry artifacts for genuine insights, produces X/LinkedIn draft content |
 | `content_editor.md` | Gatekeeper (Chief Editor) — 5-pass editorial review before publication (VC Test, Engineer Test, AI Pattern Sweep, Platform Fit, Credibility) |
@@ -194,6 +195,8 @@ my-project/
 ├── PROJECT_INTERVIEW.md           ← Phase A output (deep specification)
 ├── sections/                      ← Phase C output (context-scoped chunks)
 │   └── _INDEX.md
+├── PERSONA_*.md                   ← Phase B output (specialist personas + binding cards)
+├── PERSONA_REGISTRY.md            ← Phase B output (consolidated persona routing, backfilled at Phase E)
 ├── PROJECT_WORKFLOW.md            ← Phase D output (execution manual)
 ├── IMPLEMENTATION_ROADMAP.md      ← Phase E output (detailed battle plan)
 ├── RETRO_LOG.md                   ← Phase F output (learning loop)

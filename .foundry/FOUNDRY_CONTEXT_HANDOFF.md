@@ -29,7 +29,7 @@ It is NOT a code framework. It is a **process framework** — a set of markdown 
 | `.foundry/prompts/ship.md` | **v2 "Ship With Teeth"** — release workflow with coverage gate (60%/80%), test failure triage, plan completion audit, verification gate, bisectable commits. |
 | `.foundry/prompts/cso.md` | **v2 CSO security audit** — 15-phase security scan. |
 | `.foundry/prompts/production_review.md` | **3-pass production bug audit** — Critical, Informational, Operational. |
-| `.foundry/prompts/crowe_persona_generator.md` | Generates specialist reviewer personas. |
+| `.foundry/prompts/crowe_persona_generator.md` | Generates specialist reviewer personas + Persona Binding Cards for process wiring. |
 | `.foundry/prompts/qa.md` | QA loop. |
 | `.foundry/prompts/design_review.md` | Design audit. |
 | `.foundry/prompts/eng_review.md` | Engineering review. |

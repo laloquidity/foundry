@@ -394,7 +394,13 @@ Execute these phases IN ORDER. Do not skip.
 2. **Generate personas** using the Crowe meta-prompt in `.foundry/prompts/crowe_persona_generator.md`. For each role, prompt Crowe with:
    ```
    Create a persona for [exact role, domain, and specific requirements]
+
+   Project context for binding card:
+   - Section files: [not yet available — backfill at Phase C]
+   - Review gates: [list the review gates configured for this project]
+   - Roadmap phases: [not yet available — backfill at Phase E]
    ```
+   Crowe will output a system prompt AND a **Persona Binding Card** for each persona. The binding card captures domain affinity and review gate participation. Phase routing and section file affinity are marked PENDING — they get backfilled at Phase E after the roadmap is finalized.
 
 3. **Ethereum/onchain projects — refine the onchain seed persona:**
    The onchain seed persona from Phase A MUST be refined into a full Solidity/onchain specialist using the complete interview context:
@@ -406,11 +412,63 @@ Execute these phases IN ORDER. Do not skip.
    ```
    This full persona is **mandatory** for Step 3c blocking sign-off. It cannot be the seed version.
 
-4. **Save persona files** to project root as `PERSONA_[NAME].md`
+4. **Save persona files** to project root as `PERSONA_[NAME].md` — each file includes the system prompt AND the binding card (both are part of the persona document).
 
-5. **Commit:**
+5. **Generate `PERSONA_REGISTRY.md`** — after all personas are created, consolidate their binding cards into a single registry document:
+
+   ```markdown
+   # Persona Registry
+
+   > This document is the operational contract for persona activation during the build process.
+   > It is generated at Phase B and backfilled with phase routing at Phase E.
+
+   ## Roster
+   | Persona | Domain | File | Primary Focus |
+   |:--------|:-------|:-----|:--------------|
+   | [Name] | [domain] | PERSONA_[NAME].md | [one-line focus] |
+
+   ## Domain Coverage Map
+   | Domain Area | Primary Persona | Advisory Persona(s) |
+   |:------------|:----------------|:--------------------|
+   | [area] | [name] | [name(s) or "—"] |
+
+   > Every domain area from the interview should have exactly one PRIMARY persona.
+   > Gaps in coverage = missing persona. Flag to the client.
+
+   ## Review Gate Matrix
+   | Gate | [Persona 1] | [Persona 2] | [Persona 3] |
+   |:-----|:------------|:------------|:------------|
+   | Eng Review (Step 1c) | ✅ [focus] | ⬚ | ✅ [focus] |
+   | Verification Loop (Step 2e) | ✅ [checks] | ✅ [checks] | ⬚ |
+   | Phase Sign-Off (Step 3c) | ✅ [criteria] | ✅ [criteria] | ✅ [criteria] |
+   | Adversarial Review (Step 3.6) | ✅ [angle] | ⬚ | ✅ [angle] |
+   | Production Review (Step 2g) | ✅ [concerns] | ⬚ | ⬚ |
+
+   ## Phase Routing Matrix
+   > PENDING — backfill at Phase E when `IMPLEMENTATION_ROADMAP.md` is finalized.
+   >
+   > Format after backfill:
+   > | Phase | [Persona 1] | [Persona 2] | [Persona 3] |
+   > |:------|:------------|:------------|:------------|
+   > | 1: Core | PRIMARY | ADVISORY | SKIP |
+
+   ## Section File Affinity
+   > PENDING — backfill at Phase C when section files are generated.
+   >
+   > Format after backfill:
+   > | Section File | Primary Persona | Advisory Persona(s) |
+   > |:-------------|:----------------|:--------------------|
+   > | `sections/03_auth.md` | [Name] | [Name(s)] |
+   ```
+
+   **Validation before committing:**
+   - Every persona has exactly one row in the Roster
+   - The Domain Coverage Map has no uncovered areas from the interview
+   - The Review Gate Matrix has at least one persona active per gate (except gates that may not apply to the project)
+
+6. **Commit:**
    ```bash
-   git add PERSONA_*.md && git commit -m "Added specialist personas"
+   git add PERSONA_*.md PERSONA_REGISTRY.md && git commit -m "Added specialist personas and registry"
    ```
 
 ---
@@ -530,8 +588,18 @@ Execute these phases IN ORDER. Do not skip.
     3. What pattern/approach was chosen for [decision]? (answer: from design doc or interview)
     
     ### Personas Involved
-    - [Persona A] — reviews [what]
-    - [Persona B] — reviews [what]
+    > Populated from `PERSONA_REGISTRY.md`. Do not fill manually — read the registry.
+    
+    | Persona | Role | Activation Points | Focus |
+    |:--------|:-----|:------------------|:------|
+    | [Name] | PRIMARY / ADVISORY | Steps [list] | [what they evaluate in this phase] |
+    
+    **Persona activation summary for this phase:**
+    - Step 0g (load): [which persona files to read]
+    - Step 1c (eng review): [which personas provide domain input]
+    - Step 2e (verification): [which personas verify, what they check]
+    - Step 3c (sign-off): [which personas must sign off]
+    - Step 3.6 (adversarial): [which personas attack, from what angle]
     
     ### Skills & Prompts
     - Eng review: ✅ (new feature)
@@ -591,15 +659,36 @@ Execute these phases IN ORDER. Do not skip.
     > "No onchain work in this phase — ethskills minimums skipped: [reason]"
     ```
 
-3.  **Run the Engineering Plan Review** using `.foundry/prompts/eng_review.md` against the full roadmap. This catches:
+3.  **Backfill `PERSONA_REGISTRY.md`** — now that the roadmap exists, complete the PENDING sections:
+
+    a. **Phase Routing Matrix:** For each roadmap phase, read its deliverables and context map. For each persona, determine:
+       - **PRIMARY** — this persona owns domain correctness for deliverables in this phase
+       - **ADVISORY** — this persona has relevant perspective but doesn't block
+       - **SKIP** — no domain overlap with this phase's work
+
+    b. **Section File Affinity:** For each section file generated at Phase C, assign a primary persona (who owns correctness for this section's content) and optional advisory personas.
+
+    c. **Populate each roadmap phase's `### Personas Involved` section** using the completed registry. Copy the relevant rows from the Phase Routing Matrix and expand with activation point details (which steps each persona participates in for that specific phase).
+
+    d. **Validation:** Every roadmap phase must have at least one PRIMARY persona. If a phase has zero personas routed, either:
+       - The phase is purely mechanical (CI/CD, docs) — document why no persona is needed
+       - A persona is missing — flag to the client
+
+    e. **Commit the backfill:**
+    ```bash
+    git add PERSONA_REGISTRY.md IMPLEMENTATION_ROADMAP.md && git commit -m "Backfilled persona routing into registry and roadmap"
+    ```
+
+4.  **Run the Engineering Plan Review** using `.foundry/prompts/eng_review.md` against the full roadmap. This catches:
     -   Phases that are too large (complexity budget too high)
     -   Missing dependencies between phases
     -   Context checkpoint questions that are too vague
     -   Interface contracts that are underspecified
+    -   **Persona routing gaps** — phases with no PRIMARY persona, or personas routed to phases outside their domain
 
-4.  **User sign-off** — the roadmap is the contract. Do NOT proceed to Phase F without explicit approval.
+5.  **User sign-off** — the roadmap is the contract. Do NOT proceed to Phase F without explicit approval.
 
-5.  **Commit:**
+6.  **Commit:**
     ```bash
     git add IMPLEMENTATION_ROADMAP.md && git commit -m "Implementation roadmap finalized"
     ```
@@ -632,10 +721,12 @@ Execute these phases IN ORDER. Do not skip.
 3.  The workflow handles execution from here:
     -   Step 0: Context loading (index, section files, spec registry, retro log)
     -   Step 0f: EthSkills context loading (Ethereum projects — read ethskills files for this phase)
-    -   Step 1: Planning (deliverable checklist from roadmap) + smart review routing + eng review
-    -   Step 2: Implementation (with /debug on-demand + continuous verification + production review)
+    -   Step 0g: Persona loading (read `PERSONA_REGISTRY.md`, load active personas for this phase)
+    -   Step 1: Planning (deliverable checklist from roadmap) + smart review routing + eng review + persona domain input
+    -   Step 2: Implementation (with /debug on-demand + continuous verification + persona verification + production review)
     -   Step 3: Verification (quantitative proof + design audit + full QA loop)
     -   Step 3.5: CSO security audit (if routed for this phase — see security classification) + EthSkills audit supplement (Ethereum projects)
+    -   Step 3.6: Adversarial review + persona adversarial pass
     -   Step 4: Ship (test failure triage, coverage gate ≥60%, plan completion audit, verification gate, bisectable commits, push)
     -   Step 4f: EthSkills production check (Ethereum projects — wallet safety, gas validation, deployment checklist)
     -   Step 5: Document release (post-ship documentation update + onchain docs: contract addresses, ABIs, verified links)
@@ -727,7 +818,7 @@ For additional product surfaces (UI, bots, integrations):
 | `.foundry/TOB-SKILL-GUIDE.md` | Trail of Bits audit skills integration guide — maps 10 ToB skills to Foundry workflow steps |
 | `.foundry/tob-skills/` | Locally pulled Trail of Bits audit skills (10 skills) — run `.foundry/scripts/pull_tob_skills.sh` to populate |
 | `.foundry/scripts/pull_tob_skills.sh` | Script to pull/refresh Trail of Bits skills from GitHub into `.foundry/tob-skills/` |
-| `.foundry/prompts/crowe_persona_generator.md` | Dr. Julian Crowe persona generator meta-prompt |
+| `.foundry/prompts/crowe_persona_generator.md` | Dr. Julian Crowe persona generator — system prompt + Persona Binding Card |
 | `.foundry/prompts/simplify_loop.md` | Code simplification specialist (for standard-risk projects) |
 | `.foundry/prompts/office_hours.md` | Phase 0 product discovery — 6 Forcing Questions, premise challenge, alternatives |
 | `.foundry/prompts/ceo_review.md` | CEO/founder review — scope management, cognitive patterns, 6 deep review sections |
@@ -753,6 +844,7 @@ For additional product surfaces (UI, bots, integrations):
 | `.agents/workflows/qa.md` | `/qa` workflow — run QA test → fix → verify loop against a running application |
 | `.foundry/templates/qa-report-template.md` | Structured QA report format — health score, issue documentation, fix evidence, ship readiness |
 | `.foundry/checkpoint.md` | (project-level) Session checkpoint — current phase, step, artifacts, open items. Written by Checkpoint Protocol, read by `/foundry-start` and `/foundry-resume` |
+| `PERSONA_REGISTRY.md` | (project-level) Consolidated persona binding — roster, domain coverage, review gate matrix, phase routing matrix. Generated at Phase B, backfilled at Phase E |
 | `data-room/` | (project-level) Extended source material — competitive analyses, rate research, investor Q&A, conversation extracts. Mined by content curator alongside standard artifacts |
 
 ## Key Principles
