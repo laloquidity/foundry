@@ -400,6 +400,11 @@ Before pushing, re-verify if code changed during Steps 4-6:
 git push origin HEAD
 ```
 
+If creating a PR:
+- Title format: `<type>: <component> — <what was done>`
+- Match the primary commit message. Don't invent a clever title.
+- If the branch contains multiple components, name the most significant one.
+
 Output the ship report:
 
 ```markdown

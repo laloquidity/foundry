@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.7.0** The framework is complete and ready to use. Feedback and contributions welcome.
+> **Status: v0.7.1** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -117,11 +117,11 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 | Prompt | What It Does |
 |:-------|:-------------|
 | `office_hours.md` | Product discovery — 6 Forcing Questions, premise challenge, alternatives generation |
-| `ceo_review.md` | CEO/founder review — 14 cognitive patterns, 6 deep review sections, scope management |
-| `eng_review.md` | Engineering review — 15 cognitive patterns, 4 review sections, test plans, failure modes |
+| `ceo_review.md` | CEO/founder review — 14 cognitive patterns, 6 deep review sections, Decision Brief Format, scope management |
+| `eng_review.md` | Engineering review — 15 cognitive patterns, 4 review sections, Decision Brief Format, synthesis recommendation, test plans, failure modes |
 | `design_consultation.md` | Design system consultation — typography, color, spacing, motion |
-| `design_review.md` | 80-item visual audit with AI slop detection and A-F scoring |
-| `production_review.md` | Three-pass production bug audit (Critical, Informational, Operational) with fix-first heuristic |
+| `design_review.md` | 80-item visual audit with AI slop detection, A-F scoring, and Decision Brief Format for high/medium findings |
+| `production_review.md` | Three-pass production bug audit (Critical, Informational, Operational) with fix-first heuristic and Decision Brief Format for ASK findings |
 | `cso.md` | CSO security audit: OWASP Top 10, STRIDE, attack surface mapping, zero-noise filtering |
 | `qa.md` | Full QA: test → fix → verify loop, health scoring, regression tests |
 | `debug.md` | Systematic debugging — Iron Law, root cause investigation, 3-strike escalation |

@@ -12,6 +12,23 @@ Passing tests do not mean the code is safe. This review exists because there is 
 
 **Anti-Skip Rule:** You MUST evaluate all three passes (Critical, Informational, Operational). If a pass genuinely has nothing to flag, write "Pass N: No findings — [one sentence why]" and move on. You may NOT skip a pass by claiming it doesn't apply to this change type.
 
+## Decision Brief Format (for ASK findings)
+
+> AUTO-FIX items remain mechanical one-liners. ASK items (which need human judgment) MUST use this format so the user can decide in 10 seconds.
+
+```markdown
+**D[N]: [Finding Title]**
+- **ELI10:** [2-3 sentences a non-expert could understand]
+- **Stakes if we pick wrong:** [concrete consequence]
+- **Recommendation:** [choice] because [specific tradeoff vs the alternative]
+- **Options:**
+  - A) [option] — ✅ [pro] ❌ [con]
+  - B) [option] — ✅ [pro] ❌ [con]
+- **Net:** [one-sentence tradeoff summary]
+```
+
+**Substance rule:** The "because" clause MUST compare against a specific alternative or name a concrete tradeoff. "Because it's safer" is filler. Name what you're trading off against what.
+
 ---
 
 ## Three-Pass Review

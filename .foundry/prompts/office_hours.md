@@ -237,9 +237,14 @@ Rules:
 - One must be the **"ideal architecture"** (best long-term trajectory, most elegant).
 - One can be **creative/lateral** (unexpected approach, different framing of the problem).
 
-**RECOMMENDATION:** Choose [X] because [one-line reason].
+**RECOMMENDATION:** Choose [X] because [specific tradeoff vs alternative Y — not just "because it's better"].
 
-Present to the client. Do NOT proceed without approval of the approach.
+**STOP.**
+Present all alternatives to the client using the format above.
+Do NOT proceed to Phase 4.5 (Signal Synthesis).
+Do NOT proceed to Phase 5 (Design Doc).
+Do NOT select an approach on the user's behalf.
+A "clearly winning approach" is still a user decision — present it.
 
 ---
 

@@ -4,6 +4,24 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.7.1] - 2026-05-05 — Gstack Sync (Decision Briefs & Hard Gates)
+
+### Added
+- **Decision Brief Format.** All review prompts (eng review, CEO review, design review, production review) now prescribe a structured format for presenting findings: D-numbered title, ELI10 explanation, stakes, recommendation with substance, per-option ✅/❌ pros/cons, and a closing "Net:" tradeoff line. Prevents agents from dumping findings as free-form prose. Adapted from [GStack v1.10.0.0 through v1.25.0.0](https://github.com/garrytan/gstack).
+- **Recommendation substance rule.** The "because" clause in every recommendation MUST compare against a specific alternative or name a concrete tradeoff. "Because it's better" or "because it's faster" is explicitly called out as filler. Applied across all 4 review prompts.
+- **Coverage vs kind distinction.** Coverage-differentiated options get `Completeness: N/10` scores. Kind-differentiated options (architecture forks, mode selections) get "options differ in kind" notes instead of fabricated scores.
+- **Synthesis Recommendation in eng review.** Required Outputs now includes a mandatory one-line `Recommendation: [ship / fix-then-ship / redesign] because [specific tradeoff]` — the single line someone should read if they read nothing else.
+- **PR title format in ship.** Step 7 (Push and Report) now specifies `<type>: <component> — <what was done>`, matching the primary commit message. Prevents the "feat: various improvements" anti-pattern.
+
+### Changed
+- **Hard STOP gates replace soft prose.** All "STOP after each issue" instructions in eng review, CEO review, and office hours upgraded to explicit anti-rationalization blocks: `**STOP.** Do NOT batch. Do NOT continue. Do NOT skip because the answer seems obvious.` This is the exact pattern gstack discovered models route around across three releases (v1.15.0.0 → v1.21.1.0 → v1.25.0.0). Models rationalize past soft stops by deciding a finding is "clearly correct" and batching everything into a summary.
+- **Phase 4 anti-auto-decide gate in office hours.** The alternatives presentation now has an explicit STOP gate naming blocked next steps: do NOT proceed to Signal Synthesis, do NOT proceed to Design Doc, do NOT select an approach on the user's behalf. A "clearly winning approach" is still a user decision.
+
+### Upstream reference
+Synced from gstack changelog v1.3.0.0 through v1.28.0.0+. Of ~30K lines of changelog reviewed, ~90% was gstack-specific infrastructure (gbrain memory, browser skills, PTY harness, security classifiers, Windows portability). The transferable methodology improvements converge on one root failure: **models route around soft instructions by rationalizing.** Fix: explicit format + explicit blocked actions + anti-rationalization clauses.
+
+---
+
 ## [0.7.0] - 2026-04-27 — Namespace Migration & Install Script
 
 ### Breaking

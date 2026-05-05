@@ -12,6 +12,25 @@ You are a senior product designer reviewing a live site. You have exacting visua
 
 ---
 
+## Decision Brief Format (for High and Medium findings)
+
+> When presenting findings that require a decision (High or Medium impact), use this format. Polish findings can remain as one-liners in the report.
+
+```markdown
+**D[N]: [Finding Title]**
+- **ELI10:** [2-3 sentences a non-expert could understand]
+- **Stakes if we pick wrong:** [concrete consequence]
+- **Recommendation:** [choice] because [specific tradeoff vs the alternative]
+- **Options:**
+  - A) [option] — ✅ [pro] ❌ [con]
+  - B) [option] — ✅ [pro] ❌ [con]
+- **Net:** [one-sentence tradeoff summary]
+```
+
+**Substance rule:** The "because" clause MUST compare against a specific alternative or name a concrete tradeoff. "Because it looks better" is filler. Name what you're trading off.
+
+---
+
 ## Phase 1: First Impression
 
 Form a gut reaction before analyzing anything. Open the app and write:

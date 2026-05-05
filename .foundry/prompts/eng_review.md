@@ -25,6 +25,31 @@ Review the plan thoroughly before making any code changes. For every issue or re
 
 ---
 
+## Decision Brief Format
+
+> Every finding you present MUST use this format. No free-form prose dumps. The user should be able to make a decision in 10 seconds or expand to think about it.
+
+For each finding or recommendation, present:
+
+```markdown
+**D[N]: [Finding Title]**
+- **ELI10:** [2-3 sentences a non-expert could understand]
+- **Stakes if we pick wrong:** [concrete consequence — not "could be bad"]
+- **Recommendation:** [choice] because [specific tradeoff vs the alternative]
+- **Options:**
+  - A) [option] — ✅ [pro] ✅ [pro] ❌ [con]
+  - B) [option] — ✅ [pro] ❌ [con] ❌ [con]
+- **Net:** [one-sentence tradeoff summary]
+```
+
+**Substance rule:** The "because" clause MUST compare against a specific alternative or name a concrete tradeoff. "Because it's better" or "because it's faster" is not a recommendation — it's filler. Name what you're trading off against what.
+
+**Coverage vs kind distinction:**
+- **Coverage-differentiated options** (one does more than the other) → include `Completeness: N/10` per option
+- **Kind-differentiated options** (different approaches, not more/less) → note "options differ in kind, not coverage — no completeness score"
+
+---
+
 ## Cognitive Patterns — How Great Eng Managers Think
 
 Apply these throughout the review:
@@ -75,7 +100,12 @@ Evaluate:
 - Security architecture (auth, data access, API boundaries)
 - For each new codepath or integration point, describe one realistic production failure scenario and whether the plan accounts for it
 
-**STOP after each issue. Present one issue at a time with options, your recommendation, and WHY. Do NOT batch.**
+**STOP.**
+Present one finding at a time using the Decision Brief Format above.
+Do NOT batch multiple findings into a single message.
+Do NOT continue to the next section until the client responds.
+Do NOT skip a finding because the answer seems obvious — "clearly correct" is still a user decision.
+A finding with an obvious answer still gets the brief — the user confirms in 5 seconds and you move on.
 
 ### 2. Code Quality Review
 
@@ -86,7 +116,10 @@ Evaluate:
 - Technical debt hotspots
 - Areas over-engineered or under-engineered
 
-**STOP after each issue. One at a time.**
+**STOP.**
+Present one finding at a time using the Decision Brief Format.
+Do NOT batch. Do NOT continue until the client responds.
+Do NOT skip a finding because the fix seems mechanical — present it, let the user confirm.
 
 ### 3. Test Review
 
@@ -107,7 +140,9 @@ Produce a **Test Plan**:
 - [end-to-end flow that must work]
 ```
 
-**STOP after each issue. One at a time.**
+**STOP.**
+Present one finding at a time using the Decision Brief Format.
+Do NOT batch. Do NOT continue until the client responds.
 
 ### 4. Performance Review
 
@@ -117,7 +152,9 @@ Evaluate:
 - Caching opportunities
 - Slow or high-complexity code paths
 
-**STOP after each issue. One at a time.**
+**STOP.**
+Present one finding at a time using the Decision Brief Format.
+Do NOT batch. Do NOT continue until the client responds.
 
 ---
 
@@ -140,7 +177,12 @@ Evaluate:
    - Does error handling exist?
    - Would the user see a clear error or a silent failure?
    - **If no test AND no error handling AND would be silent → CRITICAL GAP**
-6. **Completion Summary:**
+6. **Synthesis Recommendation:**
+   ```
+   Recommendation: [ship / fix-then-ship / redesign] because [specific tradeoff]
+   ```
+   This is the ONE line someone should read if they read nothing else. The "because" clause must name a concrete tradeoff, not a generic quality statement.
+7. **Completion Summary:**
    ```
    - Step 0: Scope Challenge — [scope accepted / reduced]
    - Architecture Review: N issues found
