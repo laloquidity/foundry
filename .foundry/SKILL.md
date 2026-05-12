@@ -791,6 +791,34 @@ Execute these phases IN ORDER. Do not skip.
 
      > **Skip condition:** Client says no, or the retro was clean with no surprises or invalidated assumptions.
 
+6¾. **🔌 Integration Smoke Test** (MANDATORY — never skip)
+
+     > **Why this exists:** A common failure mode in multi-package projects is that each package compiles in isolation but the system is disconnected end-to-end. Service A calls endpoints that Service B never registered. Frontend pages use hardcoded mock data instead of real API calls. Tests pass because they're stubs. Infrastructure is never provisioned. Type-checking and build steps won't catch these — they verify syntax, not wiring. This step catches wiring failures before they compound.
+
+     > **Skip condition:** If the phase produced no source code files (Phases 0 through E), skip this step.
+
+     After EVERY phase completion, before committing the "phase complete" message:
+
+     a. **Cross-boundary call audit**: For every file created or modified in this phase, grep for ALL imports, API calls (`fetch`, HTTP client calls, RPC invocations), and function references that cross package/service boundaries. For each one, verify the target exists and exports what the caller expects.
+
+     b. **Placeholder audit**: Search ALL project files touched by this phase for `TODO`, `FIXME`, `PLACEHOLDER`, `placeholder`, `mock`, `stub`, `hardcoded`. Every match must be either:
+        - Resolved with a real implementation, OR
+        - Explicitly documented in the checkpoint with a forward reference: "Known placeholder — resolves in Phase [N], deliverable [X.Y]"
+
+     c. **Wire test**: If the phase creates a route/endpoint, verify it is registered in the application entry point. If the phase creates a service/module, verify at least one consumer imports and calls it. Dead code that nothing invokes is not a deliverable — it's a gap.
+
+     d. **Manual gate identification**: If ANY deliverable requires external credentials, third-party service provisioning, hardware access, DNS configuration, or any action that cannot be performed by the agent alone, it MUST be:
+        - Marked as a 🚪 GATE in the roadmap with explicit step-by-step user instructions
+        - Sequenced so the agent pauses and waits for user confirmation before proceeding
+        - **NEVER** marked as complete until the user confirms the gate is passed
+
+     e. **If any check fails**: DO NOT mark the phase complete. Instead:
+        - Document each gap as a new deliverable in the current or a follow-up phase
+        - Re-run the smoke test after fixes
+        - Only then commit the "phase complete" message
+
+     **Failure to run this smoke test is a Foundry process violation.**
+
 7.  **Run `/interview-update`** whenever the interview document grows with new information.
 
 8.  **Repeat** for the next roadmap phase until all phases are complete.

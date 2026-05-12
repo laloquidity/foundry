@@ -4,6 +4,18 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.7.2] - 2026-05-11 — Integration Smoke Test & Windows Support
+
+### Added
+- **Integration Smoke Test (Phase F, Step 6¾).** Mandatory post-phase check that runs after every Phase F build phase before the "phase complete" commit. Catches four failure modes agents routinely miss: (a) cross-boundary call audit — verifies every import and API call crossing package/service boundaries resolves to a real target; (b) placeholder audit — every `TODO`, `FIXME`, `stub`, `mock`, or `hardcoded` must be resolved or explicitly forward-referenced to a specific phase/deliverable; (c) wire test — routes/endpoints must be registered, modules must have at least one caller (dead code is not a deliverable); (d) manual gate identification — any deliverable requiring user action (credentials, DNS, provisioning) is marked 🚪 GATE and blocks until the user confirms. Skip condition: phases that produce no source code (Phases 0 through E). Failure to run is a process violation.
+- **`install.ps1` — Windows PowerShell installer.** Equivalent of `install.sh` for Windows users. Supports `--update` flag. Requires Windows 10 1803+ (has `tar` built in). Run via: `Invoke-Expression (Invoke-WebRequest -Uri https://raw.githubusercontent.com/laloquidity/foundry/main/install.ps1 -UseBasicParsing).Content`
+
+### Changed
+- **README install/update/setup sections split into Mac/Linux and Windows variants.** The bash process-substitution syntax (`bash <(curl ...)`) doesn't work in PowerShell or CMD. Each code block now shows the correct command per platform.
+- Version bumped to v0.7.2.
+
+---
+
 ## [0.7.1] - 2026-05-05 — Gstack Sync (Decision Briefs & Hard Gates)
 
 ### Added

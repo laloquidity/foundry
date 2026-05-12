@@ -1,6 +1,6 @@
 # Foundry
 
-> **Status: v0.7.1** The framework is complete and ready to use. Feedback and contributions welcome.
+> **Status: v0.7.2** The framework is complete and ready to use. Feedback and contributions welcome.
 
 **An agent-agnostic framework for building software with AI — from idea to production.**
 
@@ -12,9 +12,16 @@ One command: `/foundry-start`. The rest handles itself.
 
 ## Install
 
+**Mac / Linux:**
 ```bash
 # From your project directory (new or existing):
 bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh)
+```
+
+**Windows (PowerShell):**
+```powershell
+# From your project directory (new or existing):
+Invoke-Expression (Invoke-WebRequest -Uri https://raw.githubusercontent.com/laloquidity/foundry/main/install.ps1 -UseBasicParsing).Content
 ```
 
 This installs Foundry into `.foundry/` and `.agents/workflows/`. Your README, git history, existing files — untouched.
@@ -44,8 +51,14 @@ Then tell your agent:
 
 To update to the latest version:
 
+**Mac / Linux:**
 ```bash
 bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh) --update
+```
+
+**Windows (PowerShell):**
+```powershell
+Invoke-Expression (Invoke-WebRequest -Uri https://raw.githubusercontent.com/laloquidity/foundry/main/install.ps1 -UseBasicParsing).Content + ' --update'
 ```
 
 ---
@@ -168,6 +181,7 @@ Every phase has explicit STOP gates where you approve before proceeding. The onl
 
 ### Setup
 
+**Mac / Linux:**
 ```bash
 # New project
 mkdir my-project && cd my-project && git init
@@ -176,6 +190,17 @@ bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/insta
 # Existing project
 cd my-existing-project
 bash <(curl -sL https://raw.githubusercontent.com/laloquidity/foundry/main/install.sh)
+```
+
+**Windows (PowerShell):**
+```powershell
+# New project
+mkdir my-project; cd my-project; git init
+Invoke-Expression (Invoke-WebRequest -Uri https://raw.githubusercontent.com/laloquidity/foundry/main/install.ps1 -UseBasicParsing).Content
+
+# Existing project
+cd my-existing-project
+Invoke-Expression (Invoke-WebRequest -Uri https://raw.githubusercontent.com/laloquidity/foundry/main/install.ps1 -UseBasicParsing).Content
 ```
 
 ### Run It
