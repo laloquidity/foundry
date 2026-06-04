@@ -296,6 +296,41 @@ high level. Draw from the Technical Overview but shorter.]
 
 ---
 
+## Step 2.5: Diataxis Coverage Map
+
+> **Every piece of documentation serves one of four purposes.** The Diataxis framework (https://diataxis.fr/) classifies docs into four quadrants. Mapping coverage across all four ensures gaps are visible, not implicit.
+
+### The Four Quadrants
+
+| Quadrant | Purpose | Reader's State | Example |
+|---|---|---|---|
+| **Tutorial** | Learning-oriented | "I'm new, walk me through it" | Getting Started guide, first-app walkthrough |
+| **How-To** | Task-oriented | "I need to do X" | Recipe for deploying, migrating data, adding a feature |
+| **Reference** | Information-oriented | "What are the exact details?" | API docs, config options, CLI flags |
+| **Explanation** | Understanding-oriented | "Why does it work this way?" | Architecture decisions, design rationale, tradeoffs |
+
+### Coverage Assessment
+
+For each major feature or component in the project, assess coverage:
+
+```markdown
+## Diataxis Coverage Map
+
+| Feature/Component | Tutorial | How-To | Reference | Explanation | Gap Priority |
+|---|---|---|---|---|---|
+| [Core feature] | ✅/❌ | ✅/❌ | ✅/❌ | ✅/❌ | [CRITICAL/COMMON/OK] |
+| [Auth system] | ✅/❌ | ✅/❌ | ✅/❌ | ✅/❌ | [CRITICAL/COMMON/OK] |
+```
+
+**Gap classification:**
+- **CRITICAL** — zero coverage in any quadrant (no docs at all for this feature)
+- **COMMON** — reference-only coverage (has API docs but no tutorial or how-to)
+- **OK** — at least 2 quadrants covered
+
+Present the coverage map to the client. Use it to prioritize which documents to generate in Step 2.
+
+---
+
 ## Step 3: Gap Report
 
 After generating all four documents, produce a gap report:

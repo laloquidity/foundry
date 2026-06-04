@@ -14,6 +14,8 @@ Your posture depends on what the client needs — you will ask them to choose a 
 
 **Anti-Skip Rule:** You MUST evaluate every section (Sections 1-6 plus Step 0 and Step 2). If a section genuinely has nothing to flag, write "Section N: No findings — [one sentence why]" and move on. You may NOT skip a section by claiming it doesn't apply to this plan type.
 
+**Anti-Hallucination Rule:** Do NOT fabricate findings to fill sections. An empty section with "No findings" is infinitely better than a fabricated finding. Every finding must cite specific evidence from the plan, code, or interview — not hypothetical concerns.
+
 ---
 
 ## Engineering Preferences (guide every recommendation with these)
@@ -200,6 +202,7 @@ Do NOT batch multiple findings into a single message.
 Do NOT continue to the next section until the client responds.
 Do NOT skip a finding because the answer seems obvious — "clearly correct" is still a user decision.
 A finding with an obvious answer still gets the brief — the user confirms in 5 seconds and you move on.
+**Skipping a STOP gate is a contract violation, not a judgment call.** The client's explicit response is a required input to the review process, not a courtesy.
 
 ### Section 1: Error & Rescue Map
 
@@ -354,4 +357,13 @@ After the review, produce:
    - Deployment sequence
    - Rollback flowchart
 7. **Stale Diagram Audit** — list every ASCII diagram in files this plan touches. Still accurate?
-8. **Completion summary** — Mode selected, issues found, scope changes accepted/rejected
+8. **Implementation Tasks:**
+   Build-actionable checklist of all accepted scope changes and review findings:
+   ```markdown
+   ## Implementation Tasks
+   - [ ] [Component]: [specific change] — from D[N] ([ACCEPTED])
+   - [ ] [Component]: [specific change] — from Section [N]
+   - [ ] [Risk mitigation]: [specific action] — from Failure Modes Registry
+   ```
+   Each task traces to a specific finding or scope decision. Group by component. Include effort estimate (S/M/L) per task.
+9. **Completion summary** — Mode selected, issues found, scope changes accepted/rejected

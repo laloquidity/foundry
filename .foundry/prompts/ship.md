@@ -375,6 +375,42 @@ git add -A && git commit -m "<type>: <component> — <what was done>"
 
 ---
 
+## Step 6.3: Pre-Commit Redaction Scan
+
+> **Catch secrets, PII, and sensitive content before they enter git history.** Removing secrets after commit requires history rewriting — prevention is 100x cheaper than remediation.
+
+**Scan the staged diff for these categories:**
+
+### Tier 1 — BLOCK (do not commit, fix immediately)
+- **API keys and tokens:** AWS (`AKIA`), OpenAI (`sk-`), Stripe (`sk_live_`, `sk_test_`), GitHub (`ghp_`, `gho_`, `github_pat_`), Slack (`xoxb-`, `xoxp-`)
+- **Private keys:** `-----BEGIN (RSA|EC|DSA|OPENSSH) PRIVATE KEY-----`
+- **Database connection strings** with credentials: `postgres://user:pass@`, `mongodb+srv://user:pass@`
+- **Cloud credentials:** GCP service account JSON (`"type": "service_account"`), Azure connection strings
+- **JWT secrets and signing keys** hardcoded in source
+
+### Tier 2 — CONFIRM (ask before committing)
+- **Email addresses** in source code (not test fixtures)
+- **IP addresses** that look like internal infrastructure (10.x, 172.16-31.x, 192.168.x)
+- **Phone numbers** in non-test code
+- **Hardcoded URLs** pointing to internal/staging services
+- **Names or personal identifiers** in non-test code that could be real people
+
+### Tier 3 — FYI (note in ship report)
+- **TODO comments referencing security:** `TODO: add auth`, `FIXME: validate input`, `HACK: skip verification`
+- **Placeholder credentials:** `password123`, `changeme`, `admin/admin` — even if "temporary"
+
+**Scan method:**
+```bash
+git diff --cached --diff-filter=ACM | grep -nE '(AKIA|sk-|sk_live_|sk_test_|ghp_|gho_|github_pat_|xoxb-|xoxp-|BEGIN.*PRIVATE KEY|password|secret|token|api_key)' || echo "No secrets detected"
+```
+
+**Actions:**
+- Tier 1 match → STOP. Remove the secret. Use environment variables. Do not commit until resolved.
+- Tier 2 match → Present to client. Options: A) Remove  B) This is intentional (document why)  C) Move to env var
+- Tier 3 match → Include in ship report under "Security Notes"
+
+---
+
 ## Step 6.5: Verification Gate
 
 **IRON LAW: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE.**
@@ -426,6 +462,11 @@ Output the ship report:
 ### Plan Completion
 - Items: [done]/[total] DONE, [partial] PARTIAL, [not done] NOT DONE
 - Gate: PASS / OVERRIDDEN
+
+### Redaction Scan
+- Tier 1 (blocked): [count] — all resolved
+- Tier 2 (confirmed): [count] — [count] removed, [count] intentional
+- Tier 3 (noted): [count]
 
 ### Ready for Review
 [link to branch or PR if applicable]

@@ -12,6 +12,8 @@ Passing tests do not mean the code is safe. This review exists because there is 
 
 **Anti-Skip Rule:** You MUST evaluate all three passes (Critical, Informational, Operational). If a pass genuinely has nothing to flag, write "Pass N: No findings — [one sentence why]" and move on. You may NOT skip a pass by claiming it doesn't apply to this change type.
 
+**Anti-Hallucination Rule:** Do NOT fabricate findings. A pass with "No findings" is infinitely better than a fabricated finding. Every finding must cite specific code at a specific file:line — not hypothetical patterns.
+
 ## Decision Brief Format (for ASK findings)
 
 > AUTO-FIX items remain mechanical one-liners. ASK items (which need human judgment) MUST use this format so the user can decide in 10 seconds.
@@ -122,6 +124,30 @@ When the diff introduces a new enum value, status string, tier name, or type con
 - No structured logging in production (using `console.log` instead of a logger with levels/context)
 - No database backup strategy documented or configured (managed DB snapshots, `pg_dump` cron, etc.)
 - No alerting on error spikes or resource exhaustion
+
+---
+
+## Finding Verification Gate
+
+> Every finding MUST be grounded in code you actually read. Pattern-match findings without verification produce 50%+ false positive rates on framework-heavy codebases.
+
+**Before classifying ANY finding as AUTO-FIX or ASK**, verify it:
+
+1. **Quote the code.** Cite `file:line` and include the **verbatim text** of the line(s) that motivate the finding. If you cannot quote specific code, the finding is not real — discard it.
+2. **Trace the context.** Read ±20 lines around each finding. Code that looks wrong in isolation is often correct in context:
+   - Framework conventions (Rails callbacks, Django signals, React hooks)
+   - ORM-generated methods (ActiveRecord, SQLAlchemy, Prisma, TypeORM)
+   - Middleware that handles concerns upstream (auth, error handling, CORS)
+   - Decorator-driven behavior (Python decorators, TypeScript decorators)
+3. **Confidence gate.** Rate each finding 1-10:
+   - 9-10: Certain — read the code, traced the path, confirmed the issue
+   - 8: High confidence — clear vulnerability pattern with known exploitation
+   - 7: Moderate — pattern confirmed by code read
+   - Below 7: Discard. Do not report.
+4. **Framework-aware verification.** Before flagging "missing" fields, methods, or error handling:
+   - Check if the framework generates it (Django Meta, Rails associations, Prisma schema)
+   - Check if middleware handles it (Express error middleware, Django middleware, Rails rescue_from)
+   - Check if a parent class provides it (inheritance, mixins, concerns)
 
 ---
 

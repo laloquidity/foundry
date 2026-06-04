@@ -49,6 +49,27 @@ You are mostly automated. Make obvious factual updates directly. Stop and ask on
 
 ---
 
+## Step 1.5: Diataxis Coverage Map
+
+For each new public surface introduced by the diff (new features, new CLI commands, new API endpoints, new config options, new components), classify its documentation coverage:
+
+```markdown
+## Documentation Coverage for This Change
+
+| New Entity | Tutorial | How-To | Reference | Explanation | Gap |
+|---|---|---|---|---|---|
+| [new feature/endpoint] | ✅/❌ | ✅/❌ | ✅/❌ | ✅/❌ | [CRITICAL/COMMON/OK] |
+```
+
+**Gap classification:**
+- **CRITICAL** — new entity has zero documentation coverage
+- **COMMON** — only reference docs exist (typical: API added but no usage example)
+- **OK** — at least 2 Diataxis quadrants covered
+
+Include this map in the Documentation Update Report. Critical gaps should be highlighted as action items.
+
+---
+
 ## Step 2: Per-File Documentation Audit
 
 Read each documentation file and cross-reference against the diff:
@@ -80,6 +101,17 @@ Read each documentation file and cross-reference against the diff:
 For each file, classify updates as:
 - **Auto-update** — factual corrections from the diff (add to table, update path, fix count, update structure tree)
 - **Ask client** — narrative changes, section removal, security model changes, ambiguous relevance
+
+**CHANGELOG Voice Check (if CHANGELOG.md exists):**
+
+For each new CHANGELOG entry, apply the 0-3 sell-test rubric:
+- **+1 point:** Answers "what changed?" (reference — specific, factual)
+- **+1 point:** Answers "why should I care?" (explanation — consequence, impact)
+- **+1 point:** Answers "how do I use it?" (how-to — action the reader can take)
+
+Entries scoring below 2/3 should be rewritten. Example:
+- ❌ Score 1: "Added retry logic to payment service" (reference only)
+- ✅ Score 3: "Added retry logic to payment service — failed charges now auto-retry 3× with exponential backoff. Set `PAYMENT_MAX_RETRIES=N` to customize."
 
 ---
 

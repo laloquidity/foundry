@@ -155,6 +155,48 @@ done 2>/dev/null
 
 **Diff mode:** Replace `git log -p --all` with `git log -p <base>..HEAD`.
 
+### Phase 2.5: Redaction Taxonomy Scan
+
+Beyond git history archaeology, scan the **current codebase** for sensitive content that should never leave the development environment. This catches secrets that aren't in git history (runtime-injected, config-generated) and PII/legal content that the secrets scan misses.
+
+**33-Pattern, 3-Tier Classification:**
+
+#### Tier 1 — HIGH (block output, must remediate)
+| Pattern | Examples |
+|---|---|
+| Cloud provider credentials | AWS access keys, GCP service accounts, Azure connection strings |
+| API keys with known prefixes | `sk-` (OpenAI), `sk_live_` (Stripe), `ghp_` (GitHub), `xoxb-` (Slack) |
+| Private cryptographic material | RSA/EC/DSA private keys, PEM certificates with private keys |
+| Database credentials in connection strings | `postgres://user:pass@host`, `mongodb+srv://` with embedded credentials |
+| OAuth client secrets | Client secrets for Google, GitHub, Facebook, Auth0 |
+| Webhook signing secrets | Stripe webhook secrets (`whsec_`), GitHub webhook secrets |
+| Session/JWT signing keys | Hardcoded HMAC secrets, JWT `secret` values in source |
+
+#### Tier 2 — MEDIUM (confirm per-finding)
+| Pattern | Examples |
+|---|---|
+| Email addresses in source (non-test) | Real email addresses in config, comments, or error messages |
+| Phone numbers in source (non-test) | Phone numbers that could be real people |
+| Internal IP addresses / hostnames | `10.x.x.x`, `192.168.x.x`, internal DNS names |
+| Internal URLs (staging, admin, VPN) | Staging URLs, admin panel URLs, VPN endpoints |
+| Names + identifiers (non-test) | Real names in comments, PII in seed data |
+| Financial identifiers | Credit card numbers (even test ranges), bank routing numbers |
+
+#### Tier 3 — LOW (note in report)
+| Pattern | Examples |
+|---|---|
+| Placeholder credentials in non-test code | `password123`, `changeme`, `admin/admin`, `test123` |
+| Security-related TODOs | `TODO: add auth`, `FIXME: validate input`, `HACK: skip verification` |
+| Commented-out credential assignments | `// const API_KEY = "..."` |
+| Overly verbose error messages | Stack traces, SQL queries, or internal paths exposed to users |
+
+**Actions per tier:**
+- Tier 1 → Always flag as a finding (CRITICAL severity). Include in Secrets section of the report.
+- Tier 2 → Flag for confirmation. Context matters — a phone number in test fixtures is fine; in production config is a finding.
+- Tier 3 → Note in the report under "Security Hygiene." Not blocking but tracks debt.
+
+**Integration with Phase 12 filtering:** Tier 1 findings bypass the confidence gate — they are CRITICAL by definition. Tier 2 findings go through the normal confidence gate. Tier 3 findings are informational and do not count toward finding totals.
+
 ### Phase 3: Dependency Supply Chain
 Goes beyond `npm audit`. Checks actual supply chain risk.
 
