@@ -4,6 +4,25 @@ All notable changes to Foundry are documented here.
 
 ---
 
+## [0.7.3] - 2026-06-03 — Gstack Sync (Anti-Hallucination & Redaction Hardening)
+
+### Added
+- **Anti-Hallucination Rule across all review prompts.** `eng_review`, `ceo_review`, `production_review`, and `design_review` now all carry an explicit rule forbidding fabricated findings. A section that genuinely has nothing to flag must say "No findings" — not invent one. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Finding Verification Gate in `eng_review` and `production_review`.** Before any finding is presented, the agent must: (1) quote the verbatim code at `file:line`, (2) read ±20 lines of context, (3) check framework conventions (ORM-generated methods, middleware, decorators), and (4) score confidence 1–10 — below 7 means discard, not report. Addresses the root cause of the majority of false positives on framework-heavy codebases. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Phase 4.7: Finding Self-Verification in `design_review`.** Every design finding must cite the specific page/component, the exact CSS/HTML observed, and measured values (not "looks too tight" — "padding is 4px, scale minimum is 8px"). Confidence gate 1–10 mirrors the engineering reviews. AI Slop detection is exempt — slop patterns are binary. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Contract violation framing for STOP gates in `ceo_review`.** STOP blocks now include: "Skipping a STOP gate is a contract violation, not a judgment call." Closes the rationalization loophole where agents decide a finding is "clearly correct" and batch-continue anyway. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Implementation Tasks as a required output in `eng_review` and `ceo_review`.** Reviews now conclude with a build-actionable `## Implementation Tasks` checklist where every item traces to a specific finding (D[N]) or test gap. Eliminates the gap between "review agreed changes" and "what the implementer actually does next." Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Step 6.3: Pre-Commit Redaction Scan in `ship`.** Three-tier scan runs before every commit: Tier 1 (BLOCK) catches API keys, private keys, and DB connection strings with credentials; Tier 2 (CONFIRM) catches emails, internal IPs, and staging URLs; Tier 3 (FYI) notes placeholder credentials and security TODOs. Ship report now includes a Redaction Scan section. Prevents secrets from entering git history — remediation after commit requires history rewriting. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Phase 2.5: Redaction Taxonomy Scan in `cso`.** Adds a live-codebase scan between Secrets Archaeology (Phase 2) and Dependency Supply Chain (Phase 3). 33-pattern, 3-tier classification tables: Tier 1 HIGH (cloud credentials, private keys, OAuth secrets — bypass confidence gate, always CRITICAL), Tier 2 MEDIUM (emails, internal IPs, financial identifiers — normal confidence gate), Tier 3 LOW (placeholder credentials, security TODOs — informational only). Catches runtime-injected secrets that never entered git history. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Step 2.5: Diataxis Coverage Map in `project_docs`.** Documentation generation now maps every major feature/component across the four Diataxis quadrants (Tutorial, How-To, Reference, Explanation) before writing. Gap priority: CRITICAL (zero coverage), COMMON (reference-only), OK (2+ quadrants). Ensures the full documentation suite is balanced, not just technically accurate. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **Step 1.5: Diataxis Coverage Map in `document_release`.** Post-ship documentation updates now classify every new public surface (endpoints, CLI commands, config options) across the four Diataxis quadrants. CRITICAL gaps appear as action items in the Documentation Update Report. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+- **CHANGELOG sell-test rubric in `document_release`.** Each new CHANGELOG entry is scored 0–3: +1 for answering "what changed?", +1 for "why should I care?", +1 for "how do I use it?". Entries below 2/3 are rewritten before commit. Adapted from [GStack v1.55.1](https://github.com/garrytan/gstack).
+
+### Upstream reference
+Synced from gstack v1.28.0.0 → v1.55.1. The transferable improvements this cycle converge on two failure modes: **agents fabricate findings to fill review sections** (anti-hallucination + verification gates), and **secrets reach git history because no pre-commit scan existed** (redaction taxonomy + ship scan). The Diataxis additions address a third: documentation gaps that are invisible until a user hits them.
+
+---
+
 ## [0.7.2] - 2026-05-11 — Integration Smoke Test & Windows Support
 
 ### Added
